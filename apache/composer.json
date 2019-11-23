@@ -1,0 +1,33 @@
+{
+    "name": "mochiwa/apache",
+    "description": "*",
+    "authors": [
+        {
+            "name": "chiappelloni",
+            "email": "chiappelloni.nicolas@gmail.com"
+        }
+    ],
+    "autoload":{
+        "psr-4":{
+            "Framework\\" : "./src/framework",
+            "Framework\\Router\\" : "./src/framework/router"
+        }
+    },
+    
+    "require": {
+        "psr/http-message" : "^1.0",
+        "psr/http-server-middleware": "^1.0",
+        "guzzlehttp/psr7": "^1.6",
+        "altorouter/altorouter": "1.1.0"
+    },
+    
+    
+    "autoload-dev":{
+        "psr-4":{
+            "Test\\Framework\\Router\\" : "framework/router/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.5"
+    }
+}

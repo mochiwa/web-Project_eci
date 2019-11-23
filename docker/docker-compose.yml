@@ -1,0 +1,62 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_container
+    build:
+      context: ./
+      dockerfile: postgres.Dockerfile
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      postgres:
+        aliases:
+         - postgres 
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      postgres:
+        aliases: 
+         - pgadmin
+    restart: unless-stopped
+
+
+  apache-php:
+    container_name: apache-php
+    build:
+      context: .
+      dockerfile: ./apache/Dockerfile
+    volumes: 
+      - ../apache:/var/www/html:Z
+    ports:
+      - "8080:80"
+    networks:
+      postgres:
+        aliases:
+         - apache 
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+    ipam:
+      driver: default
+ 
+ 
+
+volumes:
+    postgres:
+    pgadmin:
+    apache:
