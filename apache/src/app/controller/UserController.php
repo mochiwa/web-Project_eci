@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Controller;
+
+use Framework\Renderer\ViewBuilder;
 use Framework\Router\Router;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -11,25 +14,25 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class UserController {
+    private $viewBuilder;
     
-    
-    public function __construct(Router $router) {
+    public function __construct(Router $router, ViewBuilder $viewBuilder) {
+        $this->viewBuilder=$viewBuilder;
+        $this->viewBuilder->addPath('user', __DIR__.'/../view');
+        
         $router->map('GET', '/signUp', [$this,'signUp'], 'user.signUp');
         $router->map('GET', '/user-[a:name]-[i:id]', [$this,'userInfo'], 'user.info');
     }
     
-    public function signUp(RequestInterface $request):ResponseInterface
+    public function signUp(RequestInterface $request): ResponseInterface
     {
-        $response=new \GuzzleHttp\Psr7\Response(200);
-        $response->getBody()->write("Hello world from User Controller");
+        $response =new Response();
+        $response->getBody()->write($this->viewBuilder->build('@user/signUp'));
         return $response;
     }
     
     public function userInfo(RequestInterface $request):ResponseInterface
     {
-        echo $request->getAttribute('id');
-        echo $request->getAttribute('name');
-        $response=new \GuzzleHttp\Psr7\Response(200);
         return $response;
     }
     

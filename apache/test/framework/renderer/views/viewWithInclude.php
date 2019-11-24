@@ -1,0 +1,1 @@
+<?= $viewBuilder->build('@namespace/viewTest') ?>

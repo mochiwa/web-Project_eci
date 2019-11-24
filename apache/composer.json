@@ -11,6 +11,7 @@
         "psr-4":{
             "Framework\\" : "./src/framework",
             "Framework\\Router\\" : "./src/framework/router",
+            "Framework\\Renderer\\" : "./src/framework/renderer",
             
             "App\\" : "./src/app",
             "App\\Controller\\" : "./src/app/controller"
@@ -21,13 +22,16 @@
         "psr/http-message" : "^1.0",
         "psr/http-server-middleware": "^1.0",
         "guzzlehttp/psr7": "^1.6",
-        "altorouter/altorouter": "^2.0.1"
+        "altorouter/altorouter": "^2.0.1",
+        "http-interop/response-sender": "^1.0"
     },
     
     
     "autoload-dev":{
         "psr-4":{
             "Test\\Framework\\Router\\" : "./test/framework/router/",
+            "Framework\\Renderer\\" : "./test/framework/renderer",
+            
             "Test\\App\\": "./test/app/"
         }
     },

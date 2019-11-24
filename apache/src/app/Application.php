@@ -12,13 +12,16 @@ use Psr\Http\Message\RequestInterface;
 class Application {
     private $router;
     private $modules;
+    private $viewBuilder;
     
     public function __construct() {
         $this->router=new \Framework\Router\Router();
+        $this->viewBuilder=new \Framework\Renderer\ViewBuilder();
+        $this->viewBuilder->addGlobal('router', $this->router);
     }
     
     public function addModule($module): self{
-        $this->modules[]=new $module($this->router);
+        $this->modules[]=new $module($this->router,$this->viewBuilder);
         return $this;
     }
          
