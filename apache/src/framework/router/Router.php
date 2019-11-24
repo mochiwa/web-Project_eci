@@ -10,7 +10,7 @@ use Psr\Http\Message\RequestInterface;
  *
  * @author mochiwa
  */
-class Router {
+class Router implements IRouter{
     
     /**
      * @var AltoRouter 
@@ -23,9 +23,9 @@ class Router {
     }
     
     /**
-     * Try to match a RequestInterface to a know route,
-     * if route match and method are same then return a new route
-     * with data about it @see Route.
+     * Try to match a RequestInterface to a known route,
+     * if URI path match and method are same then return a new route
+     * with data about it, @see Route.
      *
      * @param RequestInterface $request
      * @return \Framework\Router\Route|null
@@ -54,21 +54,22 @@ class Router {
      * @throws InvalidArgumentException when the method is empty
      * @throws InvalidArgumentException when the uri is empty
      */
-    public function map(string $method,string $uri,callable $callback,string $routename=''){
+    public function map(string $method,string $uri,callable $callback,string $routename=''): IRouter {
         if(!$method)
             throw new \InvalidArgumentException("The method cannot be empty");
         else if(!$uri)
             throw new \InvalidArgumentException("The uri cannot be empty");
         
         $this->router->map($method,$uri,$callback,$routename);
+        return $this;
     }
     
     /**
      * Generate an URL for the route name with optionally parameters.
      * when append parameters these must match with the orignal pattern 
      * example :
-     *  original patern : /blog/[a:article]-[i:id]
-     *  params'll look like ['article'=>'blog','id'=>'01']
+     *  original pattern : /blog/[a:article]-[i:id]
+     *  parameters will look like ['article'=>'blog','id'=>'01']
      * 
      * When a route is not found then return #
      * @param string $routeName the route name registered in the map method
