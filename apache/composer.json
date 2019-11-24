@@ -12,6 +12,7 @@
             "Framework\\" : "./src/framework",
             "Framework\\Router\\" : "./src/framework/router",
             "Framework\\Renderer\\" : "./src/framework/renderer",
+            "Framework\\DependencyInjection\\" : "./src/framework/dependencyInjection",
             
             "App\\" : "./src/app",
             "App\\Controller\\" : "./src/app/controller"
@@ -23,7 +24,8 @@
         "psr/http-server-middleware": "^1.0",
         "guzzlehttp/psr7": "^1.6",
         "altorouter/altorouter": "^2.0.1",
-        "http-interop/response-sender": "^1.0"
+        "http-interop/response-sender": "^1.0",
+        "psr/container": "^1.0"
     },
     
     
@@ -31,6 +33,7 @@
         "psr-4":{
             "Test\\Framework\\Router\\" : "./test/framework/router/",
             "Framework\\Renderer\\" : "./test/framework/renderer",
+            
             
             "Test\\App\\": "./test/app/"
         }
