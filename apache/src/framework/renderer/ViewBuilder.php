@@ -5,7 +5,7 @@ namespace Framework\Renderer;
  * class responsible to return the view
  * @author mochiwa
  */
-class ViewBuilder {
+class ViewBuilder implements IViewBuilder {
     
     /**
      * @var array list of directory path
