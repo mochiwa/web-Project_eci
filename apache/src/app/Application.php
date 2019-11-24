@@ -13,15 +13,17 @@ class Application {
     private $router;
     private $modules;
     private $viewBuilder;
+    private $container;
     
-    public function __construct() {
-        $this->router=new \Framework\Router\Router();
-        $this->viewBuilder=new \Framework\Renderer\ViewBuilder();
-        $this->viewBuilder->addGlobal('router', $this->router);
+    public function __construct(\Psr\Container\ContainerInterface $container) {
+        $this->container=$container;
+        
+        $this->router=$this->container->get(\Framework\Router\Router::class);
+        //$this->viewBuilder->addGlobal('router', $this->router);
     }
     
     public function addModule($module): self{
-        $this->modules[]=new $module($this->router,$this->viewBuilder);
+        $this->modules[]=$this->container->get($module);//new $module($this->router,$this->viewBuilder);
         return $this;
     }
          

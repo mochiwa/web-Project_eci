@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use Framework\Renderer\ViewBuilder;
+use Framework\Renderer\IViewBuilder;
 use Framework\Router\Router;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
@@ -16,7 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 class UserController {
     private $viewBuilder;
     
-    public function __construct(Router $router, ViewBuilder $viewBuilder) {
+    public function __construct(Router $router, IViewBuilder $viewBuilder) {
         $this->viewBuilder=$viewBuilder;
         $this->viewBuilder->addPath('user', __DIR__.'/../view');
         
@@ -28,6 +28,7 @@ class UserController {
     {
         $response =new Response();
         $response->getBody()->write($this->viewBuilder->build('@user/signUp'));
+
         return $response;
     }
     
