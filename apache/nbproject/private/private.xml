@@ -3,8 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/Application.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/router/Route.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/controller/UserController.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/public/index.php</file>
             <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/router/Router.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/app/AppTest.php</file>
             <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/framework/router/RouterTest.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/controller/ErrorController.php</file>
         </group>
     </open-files>
 </project-private>

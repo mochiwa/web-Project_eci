@@ -11,7 +11,12 @@ use Psr\Http\Message\RequestInterface;
  * @author mochiwa
  */
 class Router {
+    
+    /**
+     * @var AltoRouter 
+     */
     private $router;
+    
     
     public function __construct() {
         $this->router=new AltoRouter();
@@ -56,5 +61,26 @@ class Router {
             throw new \InvalidArgumentException("The uri cannot be empty");
         
         $this->router->map($method,$uri,$callback,$routename);
+    }
+    
+    /**
+     * Generate an URL for the route name with optionally parameters.
+     * when append parameters these must match with the orignal pattern 
+     * example :
+     *  original patern : /blog/[a:article]-[i:id]
+     *  params'll look like ['article'=>'blog','id'=>'01']
+     * 
+     * When a route is not found then return #
+     * @param string $routeName the route name registered in the map method
+     * @param array $params list of params with key => value
+     * @return string the URL if route name exist , # else
+     */
+    public function generateURL(string $routeName,array $params=[]) : string
+    {
+        try{
+            return $this->router->generate($routeName,$params);
+        } catch (\RuntimeException $ex) {
+            return '#';
+        }
     }
 }

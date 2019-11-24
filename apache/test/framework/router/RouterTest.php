@@ -57,17 +57,7 @@ class RouterTest extends TestCase{
         $route=$this->router->match($request);
         $this->assertNotNull($route);
     }
-    
-    function test_match_shouldReturnRoute_whyArgument()
-    {
-        $request=new Request('GET', '/aRoute/mypost-45');
-        $this->router->map('GET','/aRoute/[a]-[i]',function(\Psr\Http\Message\RequestInterface $arg){return $arg->getMethod();},'myRoute');
-        
-        $route=$this->router->match($request);
-        $this->assertNotNull($route);
-        $this->assertEquals(['teste'], call_user_func_array($route->target(),[$request]));
-    }
-    
+   
     function test_map_shouldThrowException_whenMethodIsEmpty()
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -80,6 +70,22 @@ class RouterTest extends TestCase{
         $this->router->map('GET','',function(){return "hello";},'routename');
     }
     
+    function test_generateURL_shouldReturnHashTag_whenRouteNameNoExist()
+    {
+        $this->assertSame('#',$this->router->generateURL('routeName'));
+    }
+    
+    function test_generateURL_shouldReturnASimpleURL_whenItExist()
+    {
+        $this->router->map('GET','/test',function(){},'myRoute');
+        $this->assertSame('/test', $this->router->generateURL('myRoute'));
+    }
+    
+    function test_generateURL_shouldReturnAComplexURL_whenItExist()
+    {
+        $this->router->map('GET','/test/[a:slug]-[i:id]',function(){},'myRoute');
+        $this->assertSame('/test/page-01', $this->router->generateURL('myRoute',['slug'=>'page','id'=>'01']));
+    }
     
    
 }
