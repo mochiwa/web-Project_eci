@@ -21,7 +21,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase {
         $this->container=new \Framework\DependencyInjection\Container();
     }
     
-    public function test_getShoulResolveClass_whenKeyNotFoundInContainer()
+    public function test_get_ShoulResolveClass_whenKeyNotFoundInContainer()
     {
         $this->assertNotNull($this->container->get(Foo::class));
     }
@@ -40,11 +40,6 @@ class ContainerTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($idExpected,$idActual);
     }
     
-    public function test_make_shoulThrow_whenKeyNotFoundInContainer()
-    {
-        $this->expectException(\Psr\Container\ContainerExceptionInterface::class);
-        $this->container->make('notExisitng');
-    }
     
     public function test_make_shouldReturnANewInstanceEachTime()
     {
@@ -54,13 +49,23 @@ class ContainerTest extends \PHPUnit\Framework\TestCase {
         
         $this->assertNotSame($idExpected,$idActual);
     }
+    public function test_make_shouldResolve_whenKeyNotFoundInContainer()
+    {
+        $this->assertNotNull($this->container->make(Foo::class)->id());
+    }
     
     public function test_appendDefinition_shouldSetEachArgument()
     {
-        echo $this->container->appendDefinition(require('testClasses/config.php'));
+        $this->container->appendDefinition(require('testClasses/config.php'));
         $this->assertNotNull($this->container->get(Foo::class));
         $this->assertNotNull($this->container->get(Faa::class));
         $this->assertNotNull($this->container->get(FaaFoo::class));
+    }
+    
+    public function test_get_ShouldThrow_whenClassNotFound()
+    {
+        $this->expectException(\Exception::class);
+        $this->container->get('notExisting');
     }
    
     

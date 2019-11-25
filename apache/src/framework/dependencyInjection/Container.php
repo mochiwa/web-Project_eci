@@ -8,33 +8,28 @@ use ReflectionClass;
  */
 class Container  implements IContainer{
     /**
-     * @var array 
+     * @var array contain classes reference
      */
     private $container; 
     /**
-     * @var array 
+     * @var array contains all class already instantiated by get
      */
     private $instances;
-    /**
-     * @var array
-     */
-    private $factories;
     
     public function __construct() {
         $this->container=[];
         $this->instances=[];
-        $this->factories=[];
     }
     
     
     
     /**
-     * Append a class
-     * @param string   $key   the key to found class ,(namespace + class name recommended )
-     * @param callable $value a function that call the class with your own parameter
+     * Append a class reference in the container.
+     * @param string   $key   the key to found class ,(recommended to use ::class)
+     * @param callable $value function that call the class with your own parameter
      */
-    public function set(string $key, callable $value) {
-        $this->container[$key] = $value;
+    public function set(string $key, callable $closure) {
+        $this->container[$key] = $closure;
     }
 
     /**
@@ -53,7 +48,6 @@ class Container  implements IContainer{
      * and return always the same instance.
      * @param type $key
      * @return mixed
-     * @throws ContainerException when the container not contain the key
      */
     public function get($key) {
         if(!array_key_exists($key, $this->instances))
@@ -78,18 +72,18 @@ class Container  implements IContainer{
      * Create a new instance
      * @param type $key
      * @return mixed
-     * @throws ContainerException when the container not contain the key
      */
     public function make($key)
     {
-        if(!$this->has($key))       
-            throw new ContainerException("The key :".$key. "not found in container");
-        return $this->container[$key]();
+        if($this->has($key))      
+            return $this->container[$key]();
+        return $this->resolve($key);
+        
     }
 
     /**
      * Try to resolve the class , if class not found throw exception,
-     * if class constructor contain arg try tro resolve if any get a new instance
+     * if class constructor contain arguments try to resolve, if any get a new instance
      * @param string $key
      * @return type
      * @throws DIException
@@ -101,12 +95,16 @@ class Container  implements IContainer{
         if ($reflected_class->isInstantiable()) {
             $constructor = $reflected_class->getConstructor();
             if ($constructor)
-                $instance = $reflected_class->newInstanceArgs($this->buildArguments($constructor));
+            {
+                return $reflected_class->newInstanceArgs($this->buildArguments($constructor));
+            }
             else
-                $instance = $reflected_class->newInstance();
-        } else
-            throw new DIException('The ' . $key . ' is not Instanciable');
-        return $instance;
+            {
+                return $reflected_class->newInstance();
+            }
+        } 
+        throw new ContainerException('The ' . $key . ' is not Instanciable');
+        
     }
     
     /**
@@ -118,11 +116,16 @@ class Container  implements IContainer{
     private function buildArguments($constructor) {
         $parameters = $constructor->getParameters();
         $parametersBuilded = [];
-        foreach ($parameters as $p) {
+        foreach ($parameters as $p) 
+        {
             if ($p->getClass())
+            {
                 $parametersBuilded[] = $this->get($p->getClass()->getName());
+            }
             else
+            {
                 $parametersBuilded[] = $p->getDefaultValue();
+            }
         }
         return $parametersBuilded;
     }
