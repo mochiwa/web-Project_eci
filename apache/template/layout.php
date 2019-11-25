@@ -1,5 +1,3 @@
-<?= $viewBuilder->build('@template/header') ?>
-
-<?= $viewBuilder->buildContent() ?>        
-
-<?= $viewBuilder->build('@template/footer') ?>
+<?= $viewBuilder->query('@template/header') ?>
+    <?= $content?>    
+<?= $viewBuilder->query('@template/footer') ?>

@@ -23,27 +23,45 @@ class ViewBuilder implements IViewBuilder {
      */
     private $layout=null;
     
+    
     /**
-     * Append a path to a view directory
+     * Build a viewBuilder with a default layout
      * @param string $namepsace
-     * @param string $path
-     * @return void
+     * @param string $directoryPath
+     * @param string $viewName
+     * @return \Framework\Renderer\ViewBuilder
+     */
+    public static function buildWithLayout(string $namepsace, string $directoryPath,string $viewName)
+    {
+        $viewBuilder=new ViewBuilder();
+        $viewBuilder->addPath($namepsace, $directoryPath);
+        $viewBuilder->setDefaultLayout('@'.$namepsace.'/'.$viewName);
+        return $viewBuilder;
+    }
+   
+    
+    /**
+     * Link a directory to a namespace.
+     * 
+     * @param string $namepsace the namespace to find the directory
+     * @param string $directoryPath the directory path
+     * @return IViewBuilder
      * 
      * @throws InvalidArgumentException when the namespace is empty
      * @throws InvalidArgumentException when the path is empty
      */
-    public function addPath(string $namepsace , string $path): IViewBuilder
+    public function addPath(string $namepsace , string $directoryPath): IViewBuilder
     {
         if(empty($namepsace))
         {
             throw new InvalidArgumentException ("The namespace cannot be empty");
         }
-        elseif(empty($path))
+        elseif(empty($directoryPath))
         {
             throw new InvalidArgumentException ("The path cannot be empty");
         }
         
-        $this->directoryPaths[$namepsace]=$path;
+        $this->directoryPaths[$namepsace]=$directoryPath;
         return $this;
     }
     
@@ -53,11 +71,8 @@ class ViewBuilder implements IViewBuilder {
      * The content is loaded into the variable 'content' from the layout,
      * else just return the content.
      * 
-     * example of view:
-     *  @mynamespace/header
-     *  @AnOther/Namespace/file
      * 
-     * @param string $view view file name with the namespace like @mynamespace/post
+     * @param string $view file name with the <b>namespace</b> like @mynamespace/post
      * @param array $parameters a list of parameters
      * @return string 
      * 
@@ -72,7 +87,9 @@ class ViewBuilder implements IViewBuilder {
         if($this->layout)
         {
             ob_start();
+            $viewBuilder=$this;
             require $this->findViewPath($this->layout);
+            
             return ob_get_clean();
         }
         return $content;
@@ -143,7 +160,6 @@ class ViewBuilder implements IViewBuilder {
         
         extract($parameters);
         extract($this->globals);
-        $viewBuilder=$this;
         require ($file);
         
         return ob_get_clean();
@@ -165,11 +181,12 @@ class ViewBuilder implements IViewBuilder {
      * append a variable name 'content' in your layout
      * then every content inserted by build will be inserted
      * into the variable 'content'
-     * @param string $filePath
+     * @param string $view the view with the namespace like @template/myLayout
      */
-    public function setDefaultLayout(string $view)
+    public function setDefaultLayout(string $view):self
     {
         $this->layout=$view;
+        return $this;
     }
     private function getNamespace(string $view)
     {

@@ -8,5 +8,5 @@ return [
            
     UserModule::class => function($di){
              return new UserModule($di->get(IRouter::class),$di->get(ViewFactory::class)->__invoke());
-        } 
+    } 
 ];

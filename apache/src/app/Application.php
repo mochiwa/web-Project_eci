@@ -2,11 +2,9 @@
 
 namespace App;
 
-use Exception;
 use Framework\DependencyInjection\IContainer;
-use Framework\Router\IRouter;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
+use Framework\Middleware\IMiddlewareDispatcher;
+
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -17,26 +15,24 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Application {
     /**
-     *
-     * @var IRouter 
-     */
-    private $router;
-    /**
-     *
      * @var array contain all modules 
      */
     private $modules;
+   
+    /**
+     * @var middlewareDispatcher 
+     */
+    private $middlewareDispatcher;
     
     /**
-     *
      * @var IContainer the dependency container
      */
     private $container;
     
+    
     public function __construct(IContainer $container) {
         $this->container=$container;
-        
-        $this->router=$this->container->get(IRouter::class);
+        $this->middlewareDispatcher=$this->container->get(IMiddlewareDispatcher::class);
     }
     
     /**
@@ -55,49 +51,24 @@ class Application {
     }
     
     /**
+     * Pipe a middleware
+     * @param string $middleware
+     * @return \self
+     */
+    public function pipe(string $middleware):self{
+        $this->middlewareDispatcher->addMiddleware($this->container->get($middleware));
+        return $this;
+    }
+    
+    /**
      * Launch the application
      * @param RequestInterface $request
      * @return ResponseInterface
      * @throws Exception
      */
     public function run(RequestInterface $request) : ResponseInterface{
-       $route= $this->router->match($request);
-       if(!$route)
-       {
-           return $this->run(new Request('GET','/404'));
-       }
-       
-       foreach ($route->params() as $key=>$param)
-       {
-           $request=$request->withAttribute($key,$param);
-       }
-           
-       
-       if(is_string($route->target()))
-       {
-          $callback=$this->container->get($route->target());
-       } 
-       else
-       {
-          $callback=$route->target(); 
-       }
-           
-       
-       $response= call_user_func_array($callback, [$request]);
-       
-       if(is_string($response))
-       {
-           return new Response(200,[],$response);
-       }
-       elseif($response instanceof ResponseInterface)
-       {
-           return $response;
-       }
-       else
-       {
-           throw new \RuntimeException("The application cannot deal with this request.");
-       }
-       
+        $response=$this->middlewareDispatcher->handle($request);
+        return $response;
     }
     
    
