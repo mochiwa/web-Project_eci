@@ -21,7 +21,7 @@ class Route {
     private $name;
 
     /**
-     * @var callable The target 
+     * @var string|callable The target 
      */
     private $target;
 
@@ -31,7 +31,13 @@ class Route {
      */
     private $params;
 
-    public function __construct(string $name, callable $target, array $params = []) {
+    /**
+     * 
+     * @param string $name
+     * @param string|callable $target
+     * @param array $params
+     */
+    public function __construct(string $name,  $target, array $params = []) {
         $this->name = $name;
         $this->target = $target;
         $this->params = $params;
@@ -39,9 +45,9 @@ class Route {
 
     /**
      * Return the target
-     * @return ? the target
+     * @return string|callable the target
      */
-    public function target(): callable {
+    public function target()  {
         return $this->target;
     }
 

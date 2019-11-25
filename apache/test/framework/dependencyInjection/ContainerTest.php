@@ -21,10 +21,9 @@ class ContainerTest extends \PHPUnit\Framework\TestCase {
         $this->container=new \Framework\DependencyInjection\Container();
     }
     
-    public function test_getShoulThrow_whenKeyNotFoundInContainer()
+    public function test_getShoulResolveClass_whenKeyNotFoundInContainer()
     {
-        $this->expectException(\Psr\Container\ContainerExceptionInterface::class);
-        $this->container->get('notExisitng');
+        $this->assertNotNull($this->container->get(Foo::class));
     }
     
     public function test_get_shouldReturnAInstanceOfClass_whenClassHasBeenSetted()

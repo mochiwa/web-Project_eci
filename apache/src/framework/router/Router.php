@@ -48,13 +48,13 @@ class Router implements IRouter{
      *
      * @param string $method The method used POST/GET/
      * @param string $uri The uri used in the navigator
-     * @param callable $callback The closure associated with the target
+     * @param string|callable $callback The closure associated with the target
      * @param string $routename the route name
      * 
      * @throws InvalidArgumentException when the method is empty
      * @throws InvalidArgumentException when the uri is empty
      */
-    public function map(string $method,string $uri,callable $callback,string $routename=''): IRouter {
+    public function map(string $method,string $uri, $callback,string $routename=''): IRouter {
         if(!$method)
             throw new \InvalidArgumentException("The method cannot be empty");
         else if(!$uri)

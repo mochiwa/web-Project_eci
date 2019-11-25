@@ -13,9 +13,14 @@
             "Framework\\Router\\" : "./src/framework/router",
             "Framework\\Renderer\\" : "./src/framework/renderer",
             "Framework\\DependencyInjection\\" : "./src/framework/dependencyInjection",
+            "Framework\\Module\\" : "./src/framework/module",
             
             "App\\" : "./src/app",
-            "App\\Controller\\" : "./src/app/controller"
+            "App\\Controller\\" : "./src/app/controller",
+            "App\\User\\": "./src/app/user",
+            "App\\User\\Controller\\": "./src/app/user/controller",
+            
+            "App\\Error\\": "./src/app/errorModule"
         }
     },
     

@@ -18,11 +18,11 @@ interface IRouter {
      * 
      * @param string $method
      * @param string $uri
-     * @param callable $callback
+     * @param string|callable $callback
      * @param string $routename
      * @return \self
      */
-    function map(string $method,string $uri,callable $callback,string $routename=''):self;
+    function map(string $method,string $uri, $callback,string $routename=''):self;
     
     /**
      * 

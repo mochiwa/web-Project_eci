@@ -18,6 +18,7 @@ class RendererFactoryConfig {
     public function __invoke(ContainerInterface $container) {
         $viewBuilder=$container->get(\Framework\Renderer\IViewBuilder::class);
         $viewBuilder->addPath('template', dirname(__DIR__).'/template');
+        $viewBuilder->setDefaultLayout('@template/layout');
         $viewBuilder->addGlobal('router',$container->get(Framework\Router\Router::class));
         return $viewBuilder;
     }

@@ -15,15 +15,17 @@ class Application {
     private $viewBuilder;
     private $container;
     
-    public function __construct(\Psr\Container\ContainerInterface $container) {
+    public function __construct(\Framework\DependencyInjection\IContainer $container) {
         $this->container=$container;
         
         $this->router=$this->container->get(\Framework\Router\Router::class);
         //$this->viewBuilder->addGlobal('router', $this->router);
     }
     
-    public function addModule($module): self{
-        $this->modules[]=$this->container->get($module);//new $module($this->router,$this->viewBuilder);
+    public function addModule( $module): self{
+        if($module::DEFINITION)
+            $this->container->appendDefinition (require_once $module::DEFINITION);
+        $this->modules[]=$this->container->get($module);
         return $this;
     }
          
@@ -35,15 +37,37 @@ class Application {
        }
        
        foreach ($route->params() as $key=>$param)
+       {
            $request=$request->withAttribute($key,$param);
+       }
+           
        
-       $response= call_user_func_array($route->target(), [$request]);
+       if(is_string($route->target()))
+       {
+          $callback=$this->container->get($route->target());
+       } 
+       else
+       {
+          $callback=$route->target(); 
+       }
+           
+       
+       $response= call_user_func_array($callback, [$request]);
+       
        if(is_string($response))
            return new \GuzzleHttp\Psr7\Response(200,[],$response);
        elseif($response instanceof \Psr\Http\Message\ResponseInterface)
            return $response;
        else
-           throw new Exception();
+           throw new \Exception();
        
+    }
+    
+    private function buildRequestWithParameters($request,array $params)
+    {
+        foreach ($route->params() as $key=>$param)
+       {
+           $request=$request->withAttribute($key,$param);
+       }
     }
 }

@@ -70,4 +70,12 @@ class ViewBuilderTest extends \PHPUnit\Framework\TestCase{
         $this->assertSame('hello world', $content);
     }
     
+    
+    function test_build_shouldInsertContentInContent_whenLayoutIsSetted()
+    {
+        $this->viewBuilder->addPath('namespace',__DIR__.'/views');
+        $this->viewBuilder->setDefaultLayout('@namespace/layout');
+        $content=$this->viewBuilder->build('@namespace/viewTest');
+        $this->assertSame('BEFORE hello world AFTER', $content);
+    }
 }

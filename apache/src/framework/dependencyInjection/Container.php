@@ -1,10 +1,12 @@
 <?php
 namespace Framework\DependencyInjection;
+
+use ReflectionClass;
 /**
  * Class Responsible to inject dependencies;
  * @author mochiwa
  */
-class Container  implements \Psr\Container\ContainerInterface{
+class Container  implements IContainer{
     /**
      * @var array 
      */
@@ -54,10 +56,17 @@ class Container  implements \Psr\Container\ContainerInterface{
      * @throws ContainerException when the container not contain the key
      */
     public function get($key) {
-        if(!$this->has($key))      
-          throw new ContainerException("The key :".$key. " not found in container". sizeof($this->container));
         if(!array_key_exists($key, $this->instances))
-            $this->instances[$key]=$this->container[$key]($this);
+        {
+            if($this->has($key))
+            {
+                $this->instances[$key]=$this->container[$key]($this);
+            }
+            else
+            {
+                $this->instances[$key]=($this->resolve($key));
+            }
+        }
         return $this->instances[$key];
     }
 
@@ -78,6 +87,44 @@ class Container  implements \Psr\Container\ContainerInterface{
         return $this->container[$key]();
     }
 
+    /**
+     * Try to resolve the class , if class not found throw exception,
+     * if class constructor contain arg try tro resolve if any get a new instance
+     * @param string $key
+     * @return type
+     * @throws DIException
+     */
+    private function resolve(string $key) {
+        $instance = null;
+        $reflected_class = new ReflectionClass($key);
+        
+        if ($reflected_class->isInstantiable()) {
+            $constructor = $reflected_class->getConstructor();
+            if ($constructor)
+                $instance = $reflected_class->newInstanceArgs($this->buildArguments($constructor));
+            else
+                $instance = $reflected_class->newInstance();
+        } else
+            throw new DIException('The ' . $key . ' is not Instanciable');
+        return $instance;
+    }
     
-    
+    /**
+     * Try to build argument , if the argument is a class the call get method to try to resolve it,
+     * or if the argument is not a class it must have a default value , any else an exception is throw
+     * @param  [type] $constructor [description]
+     * @return [type]              [description]
+     */
+    private function buildArguments($constructor) {
+        $parameters = $constructor->getParameters();
+        $parametersBuilded = [];
+        foreach ($parameters as $p) {
+            if ($p->getClass())
+                $parametersBuilded[] = $this->get($p->getClass()->getName());
+            else
+                $parametersBuilded[] = $p->getDefaultValue();
+        }
+        return $parametersBuilded;
+    }
+
 }

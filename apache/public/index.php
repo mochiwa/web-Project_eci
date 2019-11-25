@@ -1,11 +1,18 @@
 <?php
+
+use App\Application;
+use App\User\UserModule;
+use Framework\DependencyInjection\Container;
+use GuzzleHttp\Psr7\ServerRequest;
+use function Http\Response\send;
 require '../vendor/autoload.php';
 
-$container=new Framework\DependencyInjection\Container();
+$container=new Container();
 $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php'));
 
-$app = new App\Application($container);
-$app->addModule(\App\Controller\UserController::class);
-$response=$app->run(\GuzzleHttp\Psr7\ServerRequest::fromGlobals());
+$app = new Application($container);
 
-\Http\Response\send($response);
+$app->addModule(UserModule::class);
+$app->addModule(\App\Error\ErrorModule::class);
+
+$app->run(ServerRequest::fromGlobals());
