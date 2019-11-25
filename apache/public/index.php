@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Error\ErrorModule;
 use App\User\UserModule;
 use Framework\DependencyInjection\Container;
 use GuzzleHttp\Psr7\ServerRequest;
@@ -13,7 +14,7 @@ $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php')
 $app = new Application($container);
 
 $app->addModule(UserModule::class);
-$app->addModule(\App\Error\ErrorModule::class);
+$app->addModule(ErrorModule::class);
 
 $response=$app->run(ServerRequest::fromGlobals());
 send($response);

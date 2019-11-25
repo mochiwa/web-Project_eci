@@ -1,7 +1,10 @@
 <?php
 namespace App\User;
+
+use App\User\Controller\UserController;
+use Framework\Module\AbstractModule;
 use Framework\Renderer\IViewBuilder;
-use Framework\Router\Router;
+use Framework\Router\IRouter;
 
 /**
  * Description of UserModule
@@ -9,13 +12,13 @@ use Framework\Router\Router;
  *
  * @author mochiwa
  */
-class UserModule extends \Framework\Module\AbstractModule {
+class UserModule extends AbstractModule {
     const DEFINITION = __DIR__ . '/config.php';
     
-    public function __construct(Router $router, IViewBuilder $viewBuilder) {
+    public function __construct(IRouter $router, IViewBuilder $viewBuilder) {
         $viewBuilder->addPath('user', __DIR__.'/view');
         
-        $router->map('GET', '/user', Controller\UserController::class, 'user');
-        $router->map('GET', '/user/register', Controller\UserController::class, 'user.register');
+        $router->map('GET', '/user', UserController::class, 'user');
+        $router->map('GET', '/user/register', UserController::class, 'user.register');
     }
 }

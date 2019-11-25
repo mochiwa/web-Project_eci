@@ -40,7 +40,7 @@ class Container  implements IContainer{
     {
         foreach ($definitions as $key => $value)
         {
-           $this->set($key, $value);
+            $this->set($key, $value);
         }
     }
     /**

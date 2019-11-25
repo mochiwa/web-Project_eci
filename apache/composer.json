@@ -19,6 +19,7 @@
             "App\\Controller\\" : "./src/app/controller",
             "App\\User\\": "./src/app/user",
             "App\\User\\Controller\\": "./src/app/user/controller",
+            "App\\User\\View\\": "./src/app/user/view",
             
             "App\\Error\\": "./src/app/errorModule"
         }

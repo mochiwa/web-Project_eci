@@ -1,6 +1,6 @@
 <?php
 namespace App\Error;
-use Framework\Router\Router;
+use Framework\Router\IRouter;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class ErrorModule extends \Framework\Module\AbstractModule{
-    public function __construct(Router $router) {
+    public function __construct(IRouter $router) {
         $router->map('GET', '/404', [$this,'pageNotFound'],'error.404');
     }
     

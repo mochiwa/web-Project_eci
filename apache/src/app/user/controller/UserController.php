@@ -17,11 +17,8 @@ class UserController {
     public function __invoke(\Psr\Http\Message\RequestInterface $request) {
         $response = null;
         
-        if($request->getRequestTarget())
-        {
-            
-            $response= $this->helloworld();
-        }
+        
+        $response= $this->helloworld();
         return $response;
     }
     
