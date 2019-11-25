@@ -26,7 +26,7 @@ class Container  implements IContainer{
     /**
      * Append a class reference in the container.
      * @param string   $key   the key to found class ,(recommended to use ::class)
-     * @param callable $value function that call the class with your own parameter
+     * @param callable $closure function that call the class with your own parameter
      */
     public function set(string $key, callable $closure) {
         $this->container[$key] = $closure;
@@ -73,7 +73,7 @@ class Container  implements IContainer{
      * @param type $key
      * @return mixed
      */
-    public function make($key)
+    public function make($key) 
     {
         if($this->has($key))      
             return $this->container[$key]();
@@ -89,7 +89,6 @@ class Container  implements IContainer{
      * @throws DIException
      */
     private function resolve(string $key) {
-        $instance = null;
         $reflected_class = new ReflectionClass($key);
         
         if ($reflected_class->isInstantiable()) {

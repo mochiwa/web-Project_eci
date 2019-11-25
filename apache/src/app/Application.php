@@ -2,7 +2,13 @@
 
 namespace App;
 
+use Exception;
+use Framework\DependencyInjection\IContainer;
+use Framework\Router\Router;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Description of Application
@@ -15,11 +21,10 @@ class Application {
     private $viewBuilder;
     private $container;
     
-    public function __construct(\Framework\DependencyInjection\IContainer $container) {
+    public function __construct(IContainer $container) {
         $this->container=$container;
         
-        $this->router=$this->container->get(\Framework\Router\Router::class);
-        //$this->viewBuilder->addGlobal('router', $this->router);
+        $this->router=$this->container->get(Router::class);
     }
     
     public function addModule( $module): self{
@@ -29,11 +34,11 @@ class Application {
         return $this;
     }
          
-    public function run(RequestInterface $request) : \Psr\Http\Message\ResponseInterface{
+    public function run(RequestInterface $request) : ResponseInterface{
        $route= $this->router->match($request);
        if(!$route)
        {
-           return $this->run(new \GuzzleHttp\Psr7\Request('GET','/404'));
+           return $this->run(new Request('GET','/404'));
        }
        
        foreach ($route->params() as $key=>$param)
@@ -55,11 +60,11 @@ class Application {
        $response= call_user_func_array($callback, [$request]);
        
        if(is_string($response))
-           return new \GuzzleHttp\Psr7\Response(200,[],$response);
-       elseif($response instanceof \Psr\Http\Message\ResponseInterface)
+           return new Response(200,[],$response);
+       elseif($response instanceof ResponseInterface)
            return $response;
        else
-           throw new \Exception();
+           throw new Exception();
        
     }
     

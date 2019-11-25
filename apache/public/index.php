@@ -15,4 +15,5 @@ $app = new Application($container);
 $app->addModule(UserModule::class);
 $app->addModule(\App\Error\ErrorModule::class);
 
-$app->run(ServerRequest::fromGlobals());
+$response=$app->run(ServerRequest::fromGlobals());
+send($response);
