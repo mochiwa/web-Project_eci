@@ -63,7 +63,7 @@ class ViewBuilderTest extends \PHPUnit\Framework\TestCase{
         $this->assertSame('hello john doe', $content);
     }
     
-    function test_build_shouldTheViewBuilderIntoTheView()
+    function test_query_shouldAddTheViewBuilderIntoTheView()
     {
         $this->viewBuilder->addPath('namespace',__DIR__.'/views');
         $content=$this->viewBuilder->build('@namespace/viewWithInclude');

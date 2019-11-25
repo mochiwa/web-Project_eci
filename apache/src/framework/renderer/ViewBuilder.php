@@ -32,7 +32,7 @@ class ViewBuilder implements IViewBuilder {
      * @throws InvalidArgumentException when the namespace is empty
      * @throws InvalidArgumentException when the path is empty
      */
-    public function addPath(string $namepsace , string $path):self
+    public function addPath(string $namepsace , string $path): IViewBuilder
     {
         if(empty($namepsace))
         {
@@ -161,11 +161,15 @@ class ViewBuilder implements IViewBuilder {
     }
     
     /**
+     * When a layout is setted then you must
+     * append a variable name 'content' in your layout
+     * then every content inserted by build will be inserted
+     * into the variable 'content'
      * @param string $filePath
      */
     public function setDefaultLayout(string $view)
     {
-        $this->layout=$filePath;
+        $this->layout=$view;
     }
     private function getNamespace(string $view)
     {

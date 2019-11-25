@@ -1,1 +1,1 @@
-<?= $viewBuilder->build('@namespace/viewTest') ?>
+<?= $viewBuilder->query('@namespace/viewTest') ?>
