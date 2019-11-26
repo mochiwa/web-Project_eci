@@ -1,9 +1,16 @@
+<?php
+    
+    $form=new App\htmlBuilder\Form('CreateArticle',$router->generateURL('parking.create'),'POST');
+    $form->addInput(App\htmlBuilder\Input::text('title', 'Type the parking title'))
+            ->addInput(App\htmlBuilder\Input::file('picture','The picture'))
+            ->addInput(App\htmlBuilder\Input::text('city', 'parking location'))
+            ->addInput(App\htmlBuilder\Input::text('name', 'what is the name of the parking'))
+            ->addInput(new Framework\HtmlBuilder\TextArea('description','The parking description'))
+            ->addButton(App\htmlBuilder\Input::submit('submit', 'create'));
+?>
 
-<form action="create" method="POST" name="createArticle">
-    <input type="text" name="title" id="name"  >
-    <input type='file' name='file' />
-    <input type="text" name="ville" id="name"   >
-    <input type="text" name="pays" id="name"   >
-    <textarea type="text" name="description" id="name"></textarea>
-    <input type="submit" name="submit" id="submit" value="Create" />
-</form>
+
+<section class="block form">
+    <h1 class="form__title">Create a parking</h1>
+    <?= $form->toHtml() ?>
+</section>

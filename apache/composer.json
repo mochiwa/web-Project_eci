@@ -11,13 +11,16 @@
         "psr-4":{
             "Framework\\" : "./src/framework",
             "Framework\\Router\\" : "./src/framework/router",
-            "Framework\\Renderer\\" : "./src/framework/renderer",
             "Framework\\DependencyInjection\\" : "./src/framework/dependencyInjection",
+            "Framework\\Renderer\\" : "./src/framework/renderer",
+            "Framework\\HtmlBuilder\\" : "./src/framework/htmlBuilder",
             "Framework\\Module\\" : "./src/framework/module",
             "Framework\\Middleware\\" : "./src/framework/middleware",
             
             "App\\" : "./src/app",
-            "App\\Controller\\" : "./src/app/controller",
+            "App\\htmlBuilder\\" : "./src/app/htmlBuilder/",
+            
+            
             "App\\User\\": "./src/app/user",
             "App\\User\\Controller\\": "./src/app/user/controller",
             "App\\User\\View\\": "./src/app/user/view",
@@ -47,8 +50,11 @@
     
     "autoload-dev":{
         "psr-4":{
-            "Test\\Framework\\Router\\" : "./test/framework/router/",
-            "Framework\\Renderer\\" : "./test/framework/renderer",
+            "Test\\Framework\\Router\\" : "./test/framework/router",
+            "Test\\Framework\\DependencyInjection\\" : "./test/framework/dependencyInjection",
+            "Test\\Framework\\Middleware\\" : "./test/framework/middleware",
+            "Test\\Framework\\Renderer\\" : "./test/framework/renderer",
+            "Test\\Framework\\HtmlBuilder\\" : "./test/framework/htmlBuilder",
             
             
             "Test\\App\\": "./test/app/",

@@ -32,13 +32,12 @@ class AdminArticleController {
     private function createArticle(RequestInterface $request): ResponseInterface
     {
        $response=new Response(200);
-       $data;
        if($request->getMethod()==='POST')
        {
            
        }
        
-       $response->getBody()->write($this->viewBuilder->build('@article/createArticle',$data));
+       $response->getBody()->write($this->viewBuilder->build('@article/createArticle'));
        return $response;
     }
 }
