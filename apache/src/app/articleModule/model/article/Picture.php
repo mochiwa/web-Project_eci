@@ -7,11 +7,15 @@ namespace App\Article\Model\Article;
  * @author mochiwa
  */
 class Picture {
+    /**
+     * @var String path of file
+     */
     private $path;
     
     private function __construct(string $path) {
         $this->path=$path;
     }
+    
     
     public static function of(string $path)
     {

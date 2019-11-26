@@ -3,15 +3,15 @@
 namespace App\Article\Model\Article;
 
 /**
- * Description of ArticleId
- *
+ * Represent an Id for an article.
+ * An id cannot be empty
  * @author mochiwa
  */
 class ArticleId {
     private $id;
     
     private function __construct(string $id) {
-        $this->id=$id;
+        $this->setId($id);
     }
     
     public static function of(string $id)
@@ -19,6 +19,10 @@ class ArticleId {
         return new self($id);
     }
     
+    /**
+     * @param string $id
+     * @throws InvalidArgumentException when the id in parameter is empty
+     */
     private function setId(string $id)
     {
         if(empty($id)){
@@ -27,6 +31,10 @@ class ArticleId {
         $this->id=$id;
     }
     
+    /**
+     * Transform the id to a string
+     * @return string
+     */
     public function idToString(): string
     {
         return $this->id;

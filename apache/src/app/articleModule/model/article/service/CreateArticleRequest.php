@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Article\Model\Article\Service;
 
 use App\Article\Model\Article\Title;
@@ -13,14 +6,32 @@ use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\Picture;
 
 /**
- * Description of CreateArticleRequest
+ * The input DTO responsible to convert
+ * base type to the model value object
+ * for the service CreateArticleService
  *
  * @author mochiwa
  */
 class CreateArticleRequest {
+    /**
+     *
+     * @var string the article title
+     */
     private $title;
+    /**
+     *
+     * @var string the picture path
+     */
     private $picture;
+    /**
+     *
+     * @var array that contain key=>value in string format 
+     */
     private $attributes;
+    /**
+     *
+     * @var string the article description
+     */
     private $description;
     
     function __construct(string $title ,string $picture,Array $attributes,string $description) {
@@ -32,18 +43,32 @@ class CreateArticleRequest {
         $this->description=$description;
     }
     
+    /**
+     * 
+     * @return Title
+     */
     function getTitle() : Title {
         return $this->title;
     }
-
+    
+    /**
+     * 
+     * @return Picture
+     */
     function getPicture() : Picture{
         return $this->picture;
     }
-
+    /**
+     * 
+     * @return array of attribute
+     */
     function getAttributes() : array{
         return $this->attributes;
     }
-
+    /**
+     * 
+     * @return string
+     */
     function getDescription() : string{
         return $this->description;
     }

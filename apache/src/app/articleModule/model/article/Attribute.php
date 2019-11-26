@@ -3,7 +3,8 @@
 namespace App\Article\Model\Article;
 
 /**
- * Description of Attribute
+ * Description an attribute with a value
+ * like city : Belgium 
  *
  * @author mochiwa
  */
@@ -11,18 +12,28 @@ class Attribute {
    private $key;
    private $value;
    
-   public function __construct(string $key,string $value)
+   private function __construct(string $key,string $value)
    {
        $this->setKey($key);
        $this->setValue($value);
    }
    
+   /**
+    * Return a new attribute
+    * @param string $key
+    * @param string $value
+    * @return \self
+    */
    public static function of(string $key,string $value)
    {
        return new self($key,$value);
    }
 
-
+   /**
+    * 
+    * @param string $key
+    * @throws \InvalidArgumentException when the length of the key is less than 3
+    */
    private function setKey(string $key)
    {
        if(strlen($key)<3){

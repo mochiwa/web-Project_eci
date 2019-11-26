@@ -2,7 +2,8 @@
 namespace App\Article\Model\Article;
 
 /**
- * Description of EntityNotFoundException
+ * This exception must be raise
+ * when entity not found in a repository
  *
  * @author mochiwa
  */

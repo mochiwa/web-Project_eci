@@ -4,7 +4,7 @@
 namespace App\Article\Model\Article;
 
 /**
- * Description of ArticleRepository
+ * The interface for article repository
  *
  * @author mochiwa
  */

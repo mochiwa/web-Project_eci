@@ -5,27 +5,35 @@ use App\Article\Model\Article\Article;
 use App\Article\Model\Article\IArticleRepository;
 
 /**
- * Description of CreateArticleService
+ * Service domain for the creation of an article
  *
  * @author mochiwa
  */
 class CreateArticleService {
-    private $articleRepository;
+    
+    /**
+     * @var IArticleRepository  
+     */
+    private $repository;
+    
     public function __construct(IArticleRepository $articleRepository) {
-        $this->articleRepository=$articleRepository;
+        $this->repository=$articleRepository;
     }
    
-    
-    public function execute(CreateArticleRequest $request)
+    /**
+     * Take a CreateArticleRequest to create a new article
+     * @param CreateArticleRequest $request
+     * @return Article
+     */
+    public function execute(CreateArticleRequest $request): Article
     {
-        
-        $article= Article::newArticle($this->articleRepository->nextId(),
+        $article= Article::newArticle($this->repository->nextId(),
                 $request->getTitle(),
                 $request->getPicture(),
                 $request->getAttributes(),
                 $request->getDescription());
         
-        $this->articleRepository->addArticle($article);
+        $this->repository->addArticle($article);
         return $article;
     }
 }

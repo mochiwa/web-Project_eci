@@ -14,7 +14,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Description of AdminArticleController
+ * A controller for administration
  *
  * @author mochiwa
  */
@@ -34,7 +34,9 @@ class AdminArticleController {
        $response=new Response(200);
        $data;
        if($request->getMethod()==='POST')
-           $data['text']="hello world";
+       {
+           
+       }
        
        $response->getBody()->write($this->viewBuilder->build('@article/createArticle',$data));
        return $response;
