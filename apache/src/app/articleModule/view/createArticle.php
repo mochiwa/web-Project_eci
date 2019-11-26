@@ -1,7 +1,4 @@
-<?php
-    var_dump ($parameters['text']);
-    
-    ?>
+
 <form action="create" method="POST" name="createArticle">
     <input type="text" name="title" id="name"  >
     <input type='file' name='file' />

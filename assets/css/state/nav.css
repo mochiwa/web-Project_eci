@@ -1,0 +1,14 @@
+.nav-top{}
+	.nav__item--selected{
+		color: var(--hover) !important;	
+	}
+
+	.nav-top .nav__item--last{
+		border: none;
+
+		margin-bottom: 10px;
+	}
+
+@media only screen and (min-width: 700px) {
+	.nav-top .nav__item--last{margin-bottom: auto;}
+}

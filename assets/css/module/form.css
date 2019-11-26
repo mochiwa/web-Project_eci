@@ -1,0 +1,93 @@
+.form{}
+	.form__title{
+		padding: 10px 0;
+		margin-bottom: 10px;
+
+		background-color: var(--black);
+
+		text-align: center;
+		font-size: 1.6em;
+		color: var(--white);
+	}
+	.form__item{
+		margin: 15px 0;
+	}
+	.form__input{
+		border:  none;
+		border-bottom: 1px solid var(--hover);
+
+		text-align: center;
+		font-size: 1.3em;
+	}
+	.form__input:focus{
+		border-color: var(--black);	
+	}
+	.form__button{
+		width: 100%;
+		padding: 5px;
+		font-size: 1.1em;
+		margin: 0;
+	}
+	.form__cancel{
+		
+	}
+
+	.form-section-links{
+		text-align: center;
+		
+	}
+	.form-section-links .nav__item{
+		font-size: 1em;
+		margin: 0;
+		line-height: 1.2em;
+
+		color: #2b66c4;
+	}
+	.form-section-links .nav__item:hover{
+		color:#3879e0
+	}
+	.form-section-links p{
+		color: black !important;
+	}
+	.form-section-links p:hover{
+		color: inherit;
+	}
+
+.form-section-errors{
+	border: 1px solid var(--red_error);
+	border-radius: 5px;
+}
+	.form-field-error{
+
+	}
+	.form-field-error>ul{
+		list-style: none;
+		padding: 0;
+	}
+	.form-field-error-message{
+		font-size: 0.9em;
+		text-align: left;
+		color: var(--red_error);
+		margin: 5px 0;
+		margin-left: 10px;
+	}
+	.form-field-error-message:before{content: "# ";}
+
+@media only screen and (min-width: 1000px){
+	.form__button{
+		width: auto;
+	}
+
+	.form__cancel{
+	}
+
+	.form-section-links .nav__item{
+		line-height: 1.2em;
+		width: auto;
+	}
+	.form-section-links .nav__item:hover{
+		color:#3879e0
+	}
+
+	
+}

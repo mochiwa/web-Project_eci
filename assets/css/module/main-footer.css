@@ -1,0 +1,12 @@
+.main-footer{
+	padding: 10px;
+	height: 50px;
+	
+	background-color: var(--black);
+}
+	.main-footer__text{
+		margin: 0;
+
+		text-align: center;
+		color: var(--white);
+	}
