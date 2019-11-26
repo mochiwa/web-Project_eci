@@ -26,4 +26,9 @@ class ArticleId {
         }
         $this->id=$id;
     }
+    
+    public function idToString(): string
+    {
+        return $this->id;
+    }
 }

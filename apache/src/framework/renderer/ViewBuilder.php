@@ -88,6 +88,7 @@ class ViewBuilder implements IViewBuilder {
         {
             ob_start();
             $viewBuilder=$this;
+            
             require $this->findViewPath($this->layout);
             
             return ob_get_clean();

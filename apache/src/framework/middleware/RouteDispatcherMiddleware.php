@@ -8,7 +8,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Swoole\Http\Response;
-use UI\Exception\RuntimeException;
 
 /**
  * This middleware is responsible to make the
@@ -66,7 +65,7 @@ class RouteDispatcherMiddleware implements MiddlewareInterface {
         } 
         else
         {
-            throw new RuntimeException("The application cannot deal with this request.");
+            throw new \RuntimeException("The application cannot deal with this request.");
         }
     }
 

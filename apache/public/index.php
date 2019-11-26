@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Article\ArticleModule;
 use App\User\UserModule;
 use Framework\DependencyInjection\Container;
 use Framework\Middleware\ErrorMiddleware;
@@ -16,7 +17,8 @@ $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php')
 
 $app = new Application($container);
 
-$app->addModule(UserModule::class);
+$app->addModule(UserModule::class)
+        ->addModule(ArticleModule::class);
         
 $app->pipe(LastSlashRemoverMiddleware::class)
     ->pipe(RouterMiddleware::class)
