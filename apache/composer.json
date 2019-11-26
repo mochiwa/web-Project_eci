@@ -22,7 +22,16 @@
             "App\\User\\Controller\\": "./src/app/user/controller",
             "App\\User\\View\\": "./src/app/user/view",
             
-            "App\\Error\\": "./src/app/errorModule"
+            
+            "App\\Article\\" : "./src/app/articleModule",
+            "App\\Article\\Controller\\" : "./src/app/articleModule/controller",
+            "App\\Article\\Model\\" : "./src/app/articleModule/model",
+            "App\\Article\\Model\\Article\\" : "./src/app/articleModule/model/article",
+            "App\\Article\\Model\\Article\\Service\\" : "./src/app/articleModule/model/article/service",
+            "App\\Article\\View\\" : "./src/app/articleModule/view",
+            "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory"
+            
+            
         }
     },
     
@@ -42,7 +51,10 @@
             "Framework\\Renderer\\" : "./test/framework/renderer",
             
             
-            "Test\\App\\": "./test/app/"
+            "Test\\App\\": "./test/app/",
+            "Test\\App\\Article\\Model\\Article\\" : "./test/app/articleModule/model/article",
+            "Test\\App\\Article\\Infrastructure\\Persistance\\" : "./test/app/articleModule/infrastructure/persistance"
+
         }
     },
     "require-dev": {
