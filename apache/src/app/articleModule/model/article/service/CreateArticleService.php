@@ -2,10 +2,13 @@
 namespace App\Article\Model\Article\Service;
 
 use App\Article\Model\Article\Article;
+use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\IArticleRepository;
+use App\Article\Model\Article\Picture;
+use App\Article\Model\Article\Title;
 
 /**
- * Service domain for the creation of an article
+ * Domain service for the creation of an article
  *
  * @author mochiwa
  */
@@ -27,11 +30,16 @@ class CreateArticleService {
      */
     public function execute(CreateArticleRequest $request): Article
     {
+        $title= Title::of($request->getTitle());
+        $picture=Picture::of($request->getPicture());
+        $attributes=[];
+        foreach ($request->getAttributes() as $key=>$value) {
+            $attributes[]= Attribute::of($key,$value);
+        }
+        $description=$request->getDescription();
+        
         $article= Article::newArticle($this->repository->nextId(),
-                $request->getTitle(),
-                $request->getPicture(),
-                $request->getAttributes(),
-                $request->getDescription());
+                $title,$picture,$attributes,$description);
         
         $this->repository->addArticle($article);
         return $article;

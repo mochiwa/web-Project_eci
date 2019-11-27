@@ -12,8 +12,10 @@ use GuzzleHttp\Psr7\ServerRequest;
 use function Http\Response\send;
 require '../vendor/autoload.php';
 
+
 $container=new Container();
 $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php'));
+
 
 $app = new Application($container);
 

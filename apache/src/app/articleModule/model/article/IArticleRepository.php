@@ -26,4 +26,10 @@ interface IArticleRepository {
      * @param \App\Article\Model\Article\Article $article
      */
     public function addArticle(Article $article);
+    
+    /**
+     * Return all contain from the repository
+     * @return array
+     */
+    public function all(): array;
 }

@@ -1,9 +1,6 @@
 <?php
 namespace App\Article\Model\Article\Service;
 
-use App\Article\Model\Article\Title;
-use App\Article\Model\Article\Attribute;
-use App\Article\Model\Article\Picture;
 
 /**
  * The input DTO responsible to convert
@@ -35,27 +32,27 @@ class CreateArticleRequest {
     private $description;
     
     function __construct(string $title ,string $picture,Array $attributes,string $description) {
-        $this->title=Title::of($title);
-        $this->picture=Picture::of($picture);
+        $this->title=$title;
+        $this->picture=$picture;
         foreach ($attributes as $key=>$value) {
-            $this->attributes[]= Attribute::of($key,$value);
+            $this->attributes[$key]= $value;
         }
         $this->description=$description;
     }
     
     /**
      * 
-     * @return Title
+     * @return string
      */
-    function getTitle() : Title {
+    function getTitle() : string {
         return $this->title;
     }
     
     /**
      * 
-     * @return Picture
+     * @return string
      */
-    function getPicture() : Picture{
+    function getPicture() : string{
         return $this->picture;
     }
     /**

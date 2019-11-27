@@ -69,12 +69,8 @@ class Article {
      * @param string $description
      * @return \self
      */
-    public static function newArticle(
-            ArticleId $id, 
-            Title $title,
-            Picture $picture,
-            array $attributes,
-            string $description)
+    public static function newArticle( ArticleId $id, Title $title,
+            Picture $picture,array $attributes, string $description)
     {
         $currentTime=Date::fromTimeStamp(time());
         return new self($id,$title,$picture,$attributes,$description, $currentTime,$currentTime);

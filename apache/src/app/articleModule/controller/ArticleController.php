@@ -12,4 +12,12 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ArticleController {
     
+    public function __invoke(RequestInterface $request) {
+        return $this->index();
+    }
+    
+    public function index() : ResponseInterface
+    {
+        return new Response();
+    }
 }

@@ -1,6 +1,4 @@
 <?php use \App\htmlBuilder\Link;?>
-
-
 <!DOCTYPE html>
 <html lang="en">
     <head>

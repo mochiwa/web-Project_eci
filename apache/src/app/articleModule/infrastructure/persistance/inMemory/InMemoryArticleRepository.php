@@ -13,6 +13,9 @@ use App\Article\Model\Article\IArticleRepository;
  */
 class InMemoryArticleRepository implements IArticleRepository {
     private $articles=[];
+    
+    
+    
     /**
      * Return a random ArticleId
      * @return ArticleId
@@ -42,6 +45,14 @@ class InMemoryArticleRepository implements IArticleRepository {
      */
     public function addArticle(Article $article) {
         $this->articles[]=$article;
+    }
+
+    /**
+     * Return all article
+     * @return array
+     */
+    public function all(): array {
+        return $this->articles;
     }
 
 }

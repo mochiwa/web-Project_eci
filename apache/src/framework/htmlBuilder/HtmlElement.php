@@ -38,10 +38,10 @@ class HtmlElement {
 
     function __construct(string $tagName, bool $inLineElement = false) {
         $this->tagName = $this->removeSpecialCharacter($tagName);
+        $this->inLineElement = $inLineElement;
         $this->attributes = array();
         $this->content = "";
         $this->children = array();
-        $this->inLineElement = $inLineElement;
     }
 
     public static function inLine(string $name): self {
@@ -58,12 +58,14 @@ class HtmlElement {
             $output .= $attribute->toHtml() . ' ';
         }
         
-        if($this->inLineElement)
+        if($this->inLineElement){
             return rtrim($output).'>';
+        }
 
         $output[-1] = '>';
-        foreach ($this->children as $child)
+        foreach ($this->children as $child){
             $output .= $child->toHtml();
+        }
         $output .= $this->content;
         $output .= '</' . $this->tagName . '>';
         return $output;
@@ -75,8 +77,9 @@ class HtmlElement {
      * @return self
      */
     public function addAttribute(Attribute $attribute): self {
-        if (!$this->hasAttribute($attribute->name()))
+        if (!$this->hasAttribute($attribute->name())){
             $this->attributes[$attribute->name()] = $attribute;
+        }
         return $this;
     }
 
@@ -88,8 +91,9 @@ class HtmlElement {
      * @param string $isActive the argument to enable/disable value, can be closure
      */
     public function addStyle(string $class,$isActive=null ): self {
-        if (!$this->hasAttribute('class'))
+        if (!$this->hasAttribute('class')){
             $this->addAttribute(Attribute::of('class'));
+        }
         $this->attributes['class']->addContent($class, $isActive ?? true);
         return $this;
     }
@@ -101,10 +105,12 @@ class HtmlElement {
      * @param bool $isActive the argument to enable/disable value, can be closure
      */
     public function setId(string $id) {
-        if(empty(trim($id)))
-            return;
-        if (!$this->hasAttribute('id'))
+        if(empty(trim($id))){
+            return $this;
+        }
+        if (!$this->hasAttribute('id')){
             $this->addAttribute(Attribute::of('id'));
+        }
         $this->attributes['id']->setContent($id);
         return $this;
     }
