@@ -8,11 +8,11 @@
 
 namespace App\Article\Controller;
 
+use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
 use App\Article\Validation\ParkingFormValidator;
-use Exception;
 use Framework\Renderer\IViewBuilder;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
@@ -51,32 +51,38 @@ class AdminArticleController {
     {
        $response=new Response(200);
        
-           
        if($request->getMethod()==='POST')
        {
            $postData=$request->getParsedBody();
            $validator=new ParkingFormValidator($postData);
-           if(!$validator->isValid())
-           {
+           if(!$validator->isValid()){
                return $this->responseWithErrors('@article/createArticle', $validator->getErrors());
            }
            
-           //disable auto commit
+           //disable auto commit pdo
            try{
                $request=CreateArticleRequest::fromArray($postData);
                
                $service = new CreateArticleService($this->repository);
                $service->execute($request);
                return $response->withHeader('Location', '/parking/admin');
-           } catch (Exception $error) {
-               return $this->responseWithErrors('@article/createArticle', ['title'=>[$error->getMessage()]]);
+           } catch (ArticleException $error) {
+               return $this->responseWithErrors('@article/createArticle', [$error->field() =>[$error->getMessage()]]);
            }
+           //enable auto commit pdo
        }
        $response->getBody()->write($this->viewBuilder->build('@article/createArticle'));
        return $response;
     }
     
     
+    /**
+     * Return a response with one or many errors
+     * @param string $view
+     * @param type $errors
+     * @param int $status
+     * @return Response
+     */
     private function responseWithErrors(string $view,$errors,int $status=406)
     {
         $response=new Response($status);

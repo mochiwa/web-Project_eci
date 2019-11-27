@@ -32,7 +32,7 @@ class CreateArticleService {
      * 
      * @throws ArticleException when an article with the same title already exist
      */
-    public function execute(CreateArticleRequest $request): Article
+    public function execute(CreateArticleRequest $request)
     {
         $title= Title::of($request->getTitle());
         $picture=Picture::of($request->getPicture());
@@ -43,12 +43,11 @@ class CreateArticleService {
         $description=$request->getDescription();
         
         if($this->repository->isArticleTitleExist($title)){
-            throw new ArticleException("An article with this title already exist");
+            throw new ArticleException('title',"An article with this title already exist");
         }
         
         $article=Article::newArticle($this->repository->nextId(),$title,$picture,$attributes,$description);
         
         $this->repository->addArticle($article);
-        return $article;
     }
 }
