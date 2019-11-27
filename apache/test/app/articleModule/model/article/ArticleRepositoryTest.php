@@ -46,12 +46,41 @@ abstract class ArticleRepositoryTest extends TestCase{
         $this->assertFalse($this->repository->isArticleTitleExist(Title::of('ATitle')));
     }
     
-    
-    
     function test_isArticleTitleExist_shouldReturnTrue_whenArticleTitleIsAlreadyUsed()
     {
         $this->repository->addArticle(TestHelper::get()->makeArticle('aaa','ATitle'));
         $this->assertTrue($this->repository->isArticleTitleExist(Title::of('ATitle')));
     }
+    
+    function test_isArticleIdExist_shouldReturnFalse_whenArticleIdisFree()
+    {
+        $this->assertFalse($this->repository->isArticleIdExist(ArticleId::of('aaa')));
+    }
+    
+    function test_isArticleTitleExist_shouldReturnTrue_whenArticleTitleIdAlreadyUsed()
+    {
+        $this->repository->addArticle(TestHelper::get()->makeArticle('aaa'));
+        $this->assertTrue($this->repository->isArticleIdExist(ArticleId::of('aaa')));
+    }
+    
+    function test_removeArticle_shouldThrowEntityNotFoundException_whenRepositoryNotContainsTheArticle()
+    {
+        $this->expectException(EntityNotFoundException::class);
+        $this->repository->removeArticle(ArticleId::of("anId"));
+    }
+
+    
+    function test_removeArticle_shouldRemoveTheArticleFromTheRepository_whenItHasBeenfound()
+    {
+        $article= TestHelper::get()->makeArticle('aaa');
+        $this->repository->addArticle($article);
+        $this->repository->removeArticle(ArticleId::of("aaa"));
+        
+        $this->expectException(EntityNotFoundException::class);
+        $this->repository->findById(ArticleId::of('aaa'));
+    }
             
+    
+    
+    
 }

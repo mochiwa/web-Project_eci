@@ -19,8 +19,13 @@ class ArticleModule extends AbstractModule {
         $router->map('GET', '/parking', ArticleController::class, 'parking.home');
         
         $router->map('GET', '/parking/admin', AdminArticleController::class, 'parking.admin.index');
+        
         $router->map('GET', '/parking/admin/create', AdminArticleController::class, 'parking.admin.create');
-        $router->map('POST', '/parking/admin/create', AdminArticleController::class, 'parking.admin.create-process');
+        $router->map('POST', '/parking/admin/create', AdminArticleController::class, 'parking.admin.create.process');
+        
+        $router->map('GET', '/parking/admin/edit-[a:id]', AdminArticleController::class, 'parking.admin.edit');
+        
+        $router->map('GET', '/parking/admin/delete-[a:id]', AdminArticleController::class, 'parking.admin.delete');
         
         $viewBuilder->addPath('article', __DIR__.'/view');
     }

@@ -39,5 +39,19 @@ interface IArticleRepository {
      * @return bool
      */
     public function isArticleTitleExist(Title $title):bool;
+    
+    /**
+     * Return true if an article with this id exist
+     * @param Title $title
+     * @return bool
+     */
+    public function isArticleIdExist(ArticleId $id):bool;
+    
+    /**
+     * Remove an article from the repository
+     * @param \App\Article\Model\Article\ArticleId $id
+     * @return void
+     */
+    public function removeArticle(ArticleId $id):void ;
 
 }

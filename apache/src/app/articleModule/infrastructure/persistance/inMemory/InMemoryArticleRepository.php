@@ -50,8 +50,8 @@ class InMemoryArticleRepository extends AbstractInMemoryFactory implements IArti
      * @param Article $article
      */
     public function addArticle(Article $article) {
-        $this->data[]=$article;
-         $this->commit();//file_put_contents('data.txt', serialize($this->articles) );
+        $this->data[$article->id()->idToString()]=$article;
+         $this->commit();
     }
 
     /**
@@ -75,6 +75,27 @@ class InMemoryArticleRepository extends AbstractInMemoryFactory implements IArti
             }
         }
         return false;
+    }
+    
+    /**
+     * 
+     * @param ArticleId $id
+     * @return bool
+     */
+    public function isArticleIdExist(ArticleId $id): bool {
+        foreach ($this->data as $article) {
+            if ($article->id() == $id){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function removeArticle(ArticleId $id): void {
+        if(!$this->isArticleIdExist($id))
+            throw new EntityNotFoundException("Cannot remove the article with id=" . $id->idToString() . " not found in repository");
+        unset($this->data[$id->idToString()]);
+        $this->commit();
     }
 
 }

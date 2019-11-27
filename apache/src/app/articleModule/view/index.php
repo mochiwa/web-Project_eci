@@ -1,6 +1,7 @@
 
 <section class="block">
     <h1 class=""> Article management </h1>
+    
 <table>
     <tr>
        <th>Article</th>
@@ -14,10 +15,11 @@
         <td><?= $article->getCreationDate() ?></td>
         <td><?= $article->getLastUpdateDate() ?></td>
         <td>
-            <a class="button" href="<?= $router->generateURL('parking.admin.edit-'.$article->getId()) ?>">Edit</a>
-            <a class="button" href="">Delete</a>
+            <a class="button" href="<?= $router->generateURL('parking.admin.edit',['id'=>$article->getId()]) ?>">Edit</a>
+            <a class="button" href="<?= $router->generateURL('parking.admin.delete',['id'=>$article->getId()]) ?>">Delete</a>
         </td>
     </tr>
     <?php } ?>
 </table>
+    
 </section>
