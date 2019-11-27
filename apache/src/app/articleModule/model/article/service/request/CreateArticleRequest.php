@@ -1,5 +1,5 @@
 <?php
-namespace App\Article\Model\Article\Service;
+namespace App\Article\Model\Article\Service\Request;
 
 
 /**
@@ -38,6 +38,14 @@ class CreateArticleRequest {
             $this->attributes[$key]= $value;
         }
         $this->description=$description;
+    }
+    
+    public static function fromArray(array $postData)
+    {
+        return new self($postData['title'],
+                $postData['picture'],
+                ['city'=>$postData['city'],'name'=>$postData['name']],
+                $postData['description']);
     }
     
     /**

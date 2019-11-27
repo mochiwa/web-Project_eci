@@ -143,6 +143,8 @@ class Form extends HtmlElement {
      * @param array $errors list of errors like [name => []]
      */
     public function setErrors(Array $errors = []) {
+        if(empty($errors))
+            return;
         foreach ($this->fields as $field)
             if (isset($errors[$field->name()]))
                  $this->sectionErrors->addChild($this->getErrorDiv($field, $errors[$field->name()]));
@@ -155,7 +157,7 @@ class Form extends HtmlElement {
      * @param array $errors list of errors
      * @return \Core\HtmlElementBuilder\HtmlElement the div
      */
-    protected function getErrorDiv(Input $field,array $errors) : HtmlElement
+    protected function getErrorDiv(HtmlElement $field,array $errors) : HtmlElement
     {
         $div=new HtmlElement('div');
         $div->setId($field->id().'-errors');

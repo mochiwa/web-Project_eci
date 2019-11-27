@@ -11,19 +11,19 @@ namespace App\Article\Model\Article;
 interface IArticleRepository {
     /**
      * Return the next id available
-     * @return \App\Article\Model\Article\ArticleId
+     * @return ArticleId
      */
     public function nextId(): ArticleId;
     
     /**
      * Return the article that id match
-     * @return \App\Article\Model\Article\Article
+     * @return Article
      */
     public function findById(ArticleId $id): Article;
     
     /**
      * Append an article to the repository
-     * @param \App\Article\Model\Article\Article $article
+     * @param Article $article
      */
     public function addArticle(Article $article);
     
@@ -32,4 +32,12 @@ interface IArticleRepository {
      * @return array
      */
     public function all(): array;
+    
+    /**
+     * Return true if an article with this title already exist
+     * @param Title $title
+     * @return bool
+     */
+    public function isArticleTitleExist(Title $title):bool;
+
 }

@@ -2,7 +2,8 @@
 namespace Test\Article\Model\Article\Service;
 
 use App\Article\Infrastructure\Persistance\InMemory\InMemoryArticleRepository;
-use App\Article\Model\Article\Service\CreateArticleRequest;
+use App\Article\Model\Article\ArticleException;
+use App\Article\Model\Article\Service\Request\CreateArticleRequest;
 use App\Article\Model\Article\Service\CreateArticleService;
 use PHPUnit\Framework\TestCase;
 /**
@@ -15,7 +16,7 @@ class CreateArticleServiceTest extends TestCase{
     private $service;
     public function setUp()
     {
-        $this->articleRepository=new InMemoryArticleRepository();//$this->createMock(InMemoryArticleRepository::class);
+        $this->articleRepository=$this->createMock(InMemoryArticleRepository::class);
         $this->service=new CreateArticleService($this->articleRepository);
     }
     
@@ -31,6 +32,17 @@ class CreateArticleServiceTest extends TestCase{
         $request=new CreateArticleRequest('ArticleTitle','picture',['att'=>"value"],"Description");
         $article=$this->service->execute($request);
         $this->assertNotNull($this->articleRepository->findById($article->id()));
+    }
+    
+    function test_execute_shouldThrowArticleException_whenArticleTitleAlreadyUsed()
+    {
+        $this->articleRepository->method('isArticleTitleExist')->willReturn(true);
+        
+        $request=new CreateArticleRequest('ArticleTitle','picture',['att'=>"value"],"Description");
+        
+        $this->expectException(ArticleException::class);
+        $article=$this->service->execute($request);
+        
     }
     
 }

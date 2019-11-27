@@ -45,7 +45,7 @@ class Form extends FrameworkForm{
     
     
     
-    protected function getErrorDiv(Input $field, array $errors): HtmlElement {
+    protected function getErrorDiv(HtmlElement $field, array $errors): HtmlElement {
         $div=new HtmlElement('div');
         $div->setId($field->id().'-errors');
         $div->addStyle('form-field-error');

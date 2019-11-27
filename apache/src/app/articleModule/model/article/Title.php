@@ -30,4 +30,9 @@ class Title {
         $this->title=$title;
     }
     
+    public function valueToString()
+    {
+        return $this->title;
+    }
+    
 }

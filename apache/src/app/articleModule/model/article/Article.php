@@ -85,4 +85,9 @@ class Article {
         return $this->id;
     }
     
+    public function title() : Title
+    {
+        return $this->title;
+    }
+    
 }

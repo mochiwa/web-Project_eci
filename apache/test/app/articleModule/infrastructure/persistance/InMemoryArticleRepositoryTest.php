@@ -2,13 +2,21 @@
 
 namespace Test\App\Article\Infrastructure\Persistance;
 
+use App\Article\Infrastructure\Persistance\InMemory\InMemoryArticleRepository;
+use Test\App\Article\Model\Article\ArticleRepositoryTest;
+
 /**
  * Dont launch this test , run the test in the model !
  *
  * @author mochiwa
  */
-class InMemoryArticleRepositoryTest extends \Test\App\Article\Model\Article\ArticleRepositoryTest{
+class InMemoryArticleRepositoryTest extends ArticleRepositoryTest{
     public function setUp() {
-        $this->repository=new \App\Article\Infrastructure\Persistance\InMemory\InMemoryArticleRepository();
+        $this->repository=new InMemoryArticleRepository();
+        
+    }
+    
+       function tearDown() {
+        $this->repository->clear();
     }
 }

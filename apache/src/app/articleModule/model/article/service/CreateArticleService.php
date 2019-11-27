@@ -2,9 +2,11 @@
 namespace App\Article\Model\Article\Service;
 
 use App\Article\Model\Article\Article;
+use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Picture;
+use App\Article\Model\Article\Service\Request\CreateArticleRequest;
 use App\Article\Model\Article\Title;
 
 /**
@@ -27,6 +29,8 @@ class CreateArticleService {
      * Take a CreateArticleRequest to create a new article
      * @param CreateArticleRequest $request
      * @return Article
+     * 
+     * @throws ArticleException when an article with the same title already exist
      */
     public function execute(CreateArticleRequest $request): Article
     {
@@ -34,12 +38,15 @@ class CreateArticleService {
         $picture=Picture::of($request->getPicture());
         $attributes=[];
         foreach ($request->getAttributes() as $key=>$value) {
-            $attributes[]= Attribute::of($key,$value);
+            $attributes[]=Attribute::of($key,$value);
         }
         $description=$request->getDescription();
         
-        $article= Article::newArticle($this->repository->nextId(),
-                $title,$picture,$attributes,$description);
+        if($this->repository->isArticleTitleExist($title)){
+            throw new ArticleException("An article with this title already exist");
+        }
+        
+        $article=Article::newArticle($this->repository->nextId(),$title,$picture,$attributes,$description);
         
         $this->repository->addArticle($article);
         return $article;

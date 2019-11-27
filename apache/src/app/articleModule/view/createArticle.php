@@ -4,10 +4,12 @@
     $form->addInput(App\htmlBuilder\Input::text('title', 'Type the parking title'))
             ->addInput(App\htmlBuilder\Input::file('picture','The picture'))
             ->addInput(App\htmlBuilder\Input::text('city', 'parking location'))
+            ->addInput(App\htmlBuilder\Input::text('place', 'parking location'))
             ->addInput(App\htmlBuilder\Input::text('name', 'what is the name of the parking'))
             ->addInput(new Framework\HtmlBuilder\TextArea('description','The parking description'))
             ->addButton(App\htmlBuilder\Input::submit('submit', 'create'));
 
+    $form->setErrors($errors ?? []);
 ?>
 
 

@@ -3,6 +3,7 @@ namespace Test\App\Article\Model\Article;
 
 use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\EntityNotFoundException;
+use App\Article\Model\Article\Title;
 use PHPUnit\Framework\TestCase;
 use Test\App\TestHelper;
 /*
@@ -30,7 +31,7 @@ abstract class ArticleRepositoryTest extends TestCase{
     {
         $article= TestHelper::get()->makeArticle();
         $this->repository->addArticle($article);
-        $this->assertEquals($article, $this->repository->findById($article->id()));
+        $this->assertEquals($article->id(), $this->repository->findById($article->id())->id());
         
     }
     
@@ -38,6 +39,19 @@ abstract class ArticleRepositoryTest extends TestCase{
     {
         $this->expectException(EntityNotFoundException::class);
         $this->repository->findById(ArticleId::of('aaa'));
-        
     }
+    
+    function test_isArticleTitleExist_shouldReturnFalse_whenArticleTitleIsNotUsed()
+    {
+        $this->assertFalse($this->repository->isArticleTitleExist(Title::of('ATitle')));
+    }
+    
+    
+    
+    function test_isArticleTitleExist_shouldReturnTrue_whenArticleTitleIsAlreadyUsed()
+    {
+        $this->repository->addArticle(TestHelper::get()->makeArticle('aaa','ATitle'));
+        $this->assertTrue($this->repository->isArticleTitleExist(Title::of('ATitle')));
+    }
+            
 }
