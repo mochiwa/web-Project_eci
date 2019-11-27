@@ -90,4 +90,26 @@ class Article {
         return $this->title;
     }
     
+    
+    public function picture(): Picture {
+        return $this->picture;
+    }
+
+    public function attributes(): Array {
+        return $this->attributes;
+    }
+
+    public function description() {
+        return $this->description;
+    }
+
+    public function creationDate(): Date {
+        return $this->creationDate;
+    }
+
+    public function lastUpdateDate(): Date {
+        return $this->lastUpdateDate;
+    }
+
+
 }

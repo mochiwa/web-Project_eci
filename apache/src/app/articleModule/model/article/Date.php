@@ -23,4 +23,13 @@ class Date{
         return new self($timestamp);
     }
     
+    public function toHumainReadable(): string
+    {
+        return date('d F Y \a\t H:m',$this->timestamp);
+    }
+    public function toHumainReadableShort(): string
+    {
+        return date('d\/m\/Y \a\t H:m',$this->timestamp);
+    }
+    
 }

@@ -1,21 +1,23 @@
 
-<h1> Article management </h1>
-
+<section class="block">
+    <h1 class=""> Article management </h1>
 <table>
     <tr>
        <th>Article</th>
-       <th>Id</th>
+       <th>Publish date</th>
+       <th>Last update</th>
        <th>Command</th>
     </tr>
     <?php foreach($data as $article) {?>
     <tr>
-        <td><?= $article->title()->valueToString() ?></td>
-        <td><?= $article->title()->valueToString() ?></td>
+        <td><?= $article->getTitle() ?></td>
+        <td><?= $article->getCreationDate() ?></td>
+        <td><?= $article->getLastUpdateDate() ?></td>
         <td>
-            button 1
-            
+            <a class="button" href="<?= $router->generateURL('parking.admin.edit-'.$article->getId()) ?>">Edit</a>
+            <a class="button" href="">Delete</a>
         </td>
     </tr>
     <?php } ?>
 </table>
-
+</section>

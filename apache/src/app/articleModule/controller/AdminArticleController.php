@@ -12,6 +12,7 @@ use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
+use App\Article\Model\Article\Service\Response\ArticleView;
 use App\Article\Validation\ParkingFormValidator;
 use Framework\Renderer\IViewBuilder;
 use GuzzleHttp\Psr7\Response;
@@ -42,7 +43,10 @@ class AdminArticleController {
     
     private function index(){
        $response=new Response(200);
-       $data =$this->repository->All();
+       $data =[];
+       foreach ($this->repository->All() as $article) {
+           $data[]=new ArticleView($article);
+       }
        $response->getBody()->write($this->viewBuilder->build('@article/index',['data'=>$data]));
        return $response;
     }

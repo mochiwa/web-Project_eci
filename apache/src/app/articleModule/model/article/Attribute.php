@@ -45,5 +45,14 @@ class Attribute {
    {
       $this->value=$value; 
    }
+   
+   public function keyToString():string
+   {
+       return $this->key;
+   }
+   public function valueToString():string
+   {
+       return $this->value;
+   }
   
 }

@@ -16,5 +16,4 @@
 <section class="block form">
     <h1 class="form__title">Create a parking</h1>
     <?= $form->toHtml() ?>
-    
 </section>

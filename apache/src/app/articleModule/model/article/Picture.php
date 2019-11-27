@@ -21,4 +21,9 @@ class Picture {
     {
         return new self($path);
     }
+    
+    public function path() : string
+    {
+        return $this->path;
+    }
 }
