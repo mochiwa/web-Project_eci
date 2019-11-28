@@ -5,12 +5,15 @@ use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\DeleteArticleService;
+use App\Article\Model\Article\Service\GettingArticleService;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
 use App\Article\Model\Article\Service\Request\DeleteArticleRequest;
+use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
 use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingFormValidator;
 use Framework\Renderer\IViewBuilder;
 use Framework\Session\SessionManager;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -39,7 +42,7 @@ class AdminArticleController {
         }
         else if(strpos($request->getRequestTarget(), 'edit'))
         {
-            return $this->editArticle($request->getAttribute('id'));
+            return $this->editArticle($request);
         }
         else if(strpos($request->getRequestTarget(), 'delete'))
         {
@@ -106,9 +109,26 @@ class AdminArticleController {
         return $this->responseWithErrors('@article/createArticle', $errors);
     }
 
-    private function editArticle(string $articleId)
+    private function editArticle(Request $request)
     {
-        
+        $response=new Response();
+        if($request->getMethod()==='POST')
+        {
+            
+        }
+        else
+        {
+            try{
+                $request=new GettingSingleArticleByIdRequest($request->getAttribute('id'));
+                $service=new GettingArticleService($this->repository);
+                $article=$service->execute($request);
+                $response->getBody()->write($this->viewBuilder->build('@article/createArticle', compact('article')));
+            } catch (\Exception $e) {
+                $this->session->set('flashMessage',['isError'=>true,'message'=>$e->getMessage()]);
+                return (new Response(400))->withHeader('Location', '/parking/admin');
+            }
+        }
+        return $response;
     }
     
     /**

@@ -7,7 +7,7 @@
             ->addInput(App\htmlBuilder\Input::text('place', 'parking location'))
             ->addInput(App\htmlBuilder\Input::text('name', 'what is the name of the parking'))
             ->addInput(new Framework\HtmlBuilder\TextArea('description','The parking description'))
-            ->addButton(App\htmlBuilder\Input::submit('submit', 'create'));
+            ->addButton(App\htmlBuilder\Input::submit('submit', isset($article) ? 'update' : 'create'));
 
     $form->setErrors($errors ?? []);
     
