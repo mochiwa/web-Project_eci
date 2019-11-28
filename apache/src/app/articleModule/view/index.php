@@ -1,5 +1,11 @@
 
 <section class="block">
+    
+    <div class="flashMessage-box">
+        <p class="flashMessage-box__message"><?= $session->get('flashMessage')['message']?></p>
+    </div>
+    
+    
     <h1 class=""> Article management </h1>
     
 <table>
