@@ -8,9 +8,10 @@ use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\DeleteArticleService;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
 use App\Article\Model\Article\Service\Request\DeleteArticleRequest;
-use App\Article\Model\Article\Service\Response\ArticleView;
+use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingFormValidator;
 use Framework\Renderer\IViewBuilder;
+use Framework\Session\SessionManager;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -23,10 +24,13 @@ use Psr\Http\Message\ResponseInterface;
 class AdminArticleController {
     private $viewBuilder;
     private $repository;
+    private $session;
     
-    function __construct(IViewBuilder $viewBuilder, IArticleRepository $repository) {
+    function __construct(IViewBuilder $viewBuilder, IArticleRepository $repository, SessionManager $session) {
         $this->viewBuilder=$viewBuilder;
         $this->repository=$repository;
+        $this->session=$session;
+        $this->viewBuilder->addGlobal('session', $this->session);
     }
     
     public function __invoke(RequestInterface $request) {
@@ -42,6 +46,7 @@ class AdminArticleController {
         {
             return $this->deleteArticle($request->getAttribute('id'));
         }
+        
         return $this->index();
     }
     
@@ -53,7 +58,7 @@ class AdminArticleController {
        $response=new Response(200);
        $data =[];
        foreach ($this->repository->All() as $article) {
-           $data[]=new ArticleView($article);
+           $data[]=new ArticleViewResponse($article);
        }
        $response->getBody()->write($this->viewBuilder->build('@article/index',['data'=>$data]));
        return $response;
@@ -86,6 +91,7 @@ class AdminArticleController {
                 $request = CreateArticleRequest::fromArray($post);
                 $service = new CreateArticleService($this->repository);
                 $service->execute($request);
+                $this->session->set('flashMessage',['isError'=>false,'message'=>"One article has been appended !"]);
                 $response=$response->withHeader('Location', '/parking/admin');
             } catch (ArticleException $e) {
                 $errors[$e->field()]=[$e->getMessage()];
@@ -103,15 +109,22 @@ class AdminArticleController {
 
     private function editArticle(string $articleId)
     {
-        var_dump($this->repository->findById(ArticleId::of($articleId)));die();
+        
     }
     
-    private function deleteArticle(string $articleId)
+    /**
+     * Delete an article
+     * @param string $articleId
+     * @return ResponseInterface
+     */
+    private function deleteArticle(string $articleId) : ResponseInterface
     {
         try {
             $service=new DeleteArticleService($this->repository);
             $service->execute(new DeleteArticleRequest($articleId));
-        } catch (Exception $ex) {
+            $this->session->set('flashMessage',['isError'=>false,'message'=>"One article has been deleted !"]);
+        } catch (\Exception $ex) {
+            $this->session->set('flashMessage',['isError'=>true,'message'=>"This article has been already deleted"]);
             return (new Response(400))->withHeader('Location', '/parking/admin');
         }
         return (new Response(200))->withHeader('Location', '/parking/admin');

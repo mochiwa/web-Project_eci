@@ -17,6 +17,7 @@
             "Framework\\Module\\" : "./src/framework/module",
             "Framework\\Middleware\\" : "./src/framework/middleware",
             "Framework\\Validator\\" : "./src/framework/validator",
+            "Framework\\Session\\" : "./src/framework/session",
             
             "App\\" : "./src/app",
             "App\\htmlBuilder\\" : "./src/app/htmlBuilder/",
