@@ -42,12 +42,16 @@ class CreateArticleService {
         }
         $description=$request->getDescription();
         
+        
+        
         if($this->repository->isArticleTitleExist($title)){
-            throw new ArticleException('title',"An article with this title already exist");
+            throw new ArticleException('title','An article with the title "'.$title->valueToString().'" already exist');
         }
         
         $article=Article::newArticle($this->repository->nextId(),$title,$picture,$attributes,$description);
         
         $this->repository->addArticle($article);
     }
+    
+    
 }

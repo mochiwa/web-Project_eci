@@ -49,9 +49,22 @@ interface IArticleRepository {
     
     /**
      * Remove an article from the repository
-     * @param \App\Article\Model\Article\ArticleId $id
+     * @param ArticleId $id
      * @return void
      */
     public function removeArticle(ArticleId $id):void ;
+    
+    /**
+     * Return the article that title match
+     * @param Title $articleTitle
+     * @return Article
+     */
+    public function findByTitle(Title $articleTitle): Article;
 
+    /**
+     * Update data of an article from the repository
+     * @param Article $article
+     * @return void
+     */
+    public function update(Article $article): void;
 }

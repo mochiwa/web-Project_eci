@@ -2,7 +2,6 @@
 namespace App\Article\Controller;
 
 use App\Article\Model\Article\ArticleException;
-use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\DeleteArticleService;
