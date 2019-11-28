@@ -8,7 +8,7 @@ use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\DeleteArticleService;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
 use App\Article\Model\Article\Service\Request\DeleteArticleRequest;
-use App\Article\Model\Article\Service\Response\ArticleView;
+use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingFormValidator;
 use Framework\Renderer\IViewBuilder;
 use Framework\Session\SessionManager;
@@ -58,7 +58,7 @@ class AdminArticleController {
        $response=new Response(200);
        $data =[];
        foreach ($this->repository->All() as $article) {
-           $data[]=new ArticleView($article);
+           $data[]=new ArticleViewResponse($article);
        }
        $response->getBody()->write($this->viewBuilder->build('@article/index',['data'=>$data]));
        return $response;
@@ -109,7 +109,7 @@ class AdminArticleController {
 
     private function editArticle(string $articleId)
     {
-        var_dump($this->repository->findById(ArticleId::of($articleId)));die();
+        
     }
     
     /**

@@ -18,7 +18,7 @@ use App\Article\Model\Article\Title;
  *
  * @author mochiwa
  */
-class ArticleView {
+class ArticleViewResponse {
     /**
      *
      * @var ArticleId the article id
