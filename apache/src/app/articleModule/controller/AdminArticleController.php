@@ -13,6 +13,7 @@ use App\Article\Model\Article\Service\Request\EditArticleRequest;
 use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
 use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingFormValidator;
+use Framework\FileManager\FileUploader;
 use Framework\Renderer\IViewBuilder;
 use Framework\Session\SessionManager;
 use GuzzleHttp\Psr7\Request;
@@ -29,11 +30,13 @@ class AdminArticleController {
     private $viewBuilder;
     private $repository;
     private $session;
+    private $uploader;
     
-    function __construct(IViewBuilder $viewBuilder, IArticleRepository $repository, SessionManager $session) {
+    function __construct(IViewBuilder $viewBuilder, IArticleRepository $repository, SessionManager $session, FileUploader $uploader) {
         $this->viewBuilder=$viewBuilder;
         $this->repository=$repository;
         $this->session=$session;
+        $this->uploader=$uploader;
         $this->viewBuilder->addGlobal('session', $this->session);
     }
     
@@ -50,7 +53,6 @@ class AdminArticleController {
         {
             return $this->deleteArticle($request->getAttribute('id'));
         }
-        
         return $this->index();
     }
     
@@ -59,7 +61,7 @@ class AdminArticleController {
      * @return Response
      */
     private function index(){
-       $response=new Response(200);
+       $response=new Response();
        $data =[];
        foreach ($this->repository->All() as $article) {
            $data[]=new ArticleViewResponse($article);
@@ -73,12 +75,6 @@ class AdminArticleController {
        $response=new Response(200);
        if($request->getMethod()==='POST')
        {
-          /* $tab=$request->getUploadedFiles()['picture'];
-           $file=new \Framework\FileManager\FileUploaded($tab->getClientFilename(),$tab->getClientMediaType(),$tab->getStream(),$tab->getSize());
-           $dest=getcwd().DIRECTORY_SEPARATOR;
-           $target_path = $dest . basename( $_FILES["picture"]["name"]);
-           move_uploaded_file($tab->getStream()->getMetadata('uri'),$target_path);die();*/
-           
            $post=$request->getParsedBody();
            $post['picture']=$request->getUploadedFiles()['picture']->getStream()->getMetadata('uri');
            return $this->createArticleProcess($post);
@@ -98,11 +94,17 @@ class AdminArticleController {
         $response=new Response();
         $validator = new ParkingFormValidator($post);
         $errors=[];
+        
+        $applicationService = new Service\CreateArticleService;
+        $applicationService($post);
+        
         if($validator->isValid()){
             try {
                 $request = CreateArticleRequest::fromArray($post);
                 $service = new CreateArticleService($this->repository);
-                $service->execute($request);
+                $article=$service->execute($request);
+                $this->uploader->uploadToDefault($post['picture'], $article->picture()->path());
+                
                 $this->session->set('flashMessage',['isError'=>false,'message'=>"One article has been appended !"]);
                 $response=$response->withHeader('Location', '/parking/admin');
             } catch (ArticleException $e) {
@@ -118,6 +120,11 @@ class AdminArticleController {
         }
         return $this->responseWithErrors('@article/createArticle', $errors);
     }
+    
+    
+    
+    
+    
 
     private function editArticle(Request $request)
     {
@@ -125,18 +132,6 @@ class AdminArticleController {
         if($request->getMethod()==='POST')
         {
             return $this->editArticleProcess($request);
-            /*try{
-                $post=$request->getParsedBody();
-                $post['id']=$request->getAttribute('id');
-                $request= EditArticleRequest::fromArray($post);
-                $service=new EditArticleService($this->repository);
-                $service->exectue($request);
-                return (new Response(200))->withHeader('Location', '/parking/admin');
-            } catch (\Exception $e)
-            {
-                $this->session->set('flashMessage',['isError'=>true,'message'=>$e->getMessage()]);
-                return $response->getBody()->write($this->viewBuilder->build('@article/editArticle', ['errors'=>$e->getMessage()]));
-            }*/
         }
         else
         {

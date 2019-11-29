@@ -9,8 +9,10 @@ namespace Framework\FileManager;
  */
 class PostUploader implements IUploader{
     
-    public function upload($file,$path){
-        move_uploaded_file($file,  $path);
-    }
     
+    
+    public function upload(string $src, string $dest) {
+        move_uploaded_file($src,  $dest);
+    }
+
 }

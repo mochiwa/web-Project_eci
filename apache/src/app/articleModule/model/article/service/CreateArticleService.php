@@ -3,6 +3,7 @@ namespace App\Article\Model\Article\Service;
 
 use App\Article\Model\Article\Article;
 use App\Article\Model\Article\ArticleException;
+use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Picture;
@@ -47,7 +48,7 @@ class CreateArticleService {
         }
         
         $articleId=$this->repository->nextId();
-        $picture=$this->generatePictureName($articleId);
+        $picture=$this->generatePictureName($articleId,$title);
         
         $article=Article::newArticle($articleId,$title,$picture,$attributes,$description);
         
@@ -55,9 +56,9 @@ class CreateArticleService {
         return $article;
     }
     
-    private function generatePictureName(ArticleId $articleId):Picture
+    private function generatePictureName(ArticleId $articleId,Title $title):Picture
     {
-        Picture::of('/upload/article-'.$title->valueToString().'-'.$articleId->idToString());
+        return Picture::of('article-'.$title->valueToString().'-'.$articleId->idToString());
     }
     
 }

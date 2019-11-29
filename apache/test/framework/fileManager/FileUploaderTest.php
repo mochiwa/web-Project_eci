@@ -84,7 +84,7 @@ class FileUploaderTest extends TestCase{
     function test_constructor_shouldThrowRUntimeException_whenDefaultDirectoryIsEmpty()
     {
         $this->expectException(\RuntimeException::class);
-        $uploader=new FileUploader(new LocalUploader,'');
+        new FileUploader(new LocalUploader,'');
     }
     
 
