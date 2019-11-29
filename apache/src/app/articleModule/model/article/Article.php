@@ -77,6 +77,24 @@ class Article {
     }
     
     /**
+     * Create an article with a specified date creation but where
+     * the lastUpdateTime is updated to system now
+     * @param ArticleId $id
+     * @param Title $title
+     * @param Picture $picture
+     * @param array $attributes
+     * @param string $description
+     * @param Date $creationDate
+     * @return \self
+     */
+    public static function fromUpdate( ArticleId $id, Title $title,
+            Picture $picture,array $attributes, string $description,Date $creationDate)
+    {
+        $updateTime=Date::fromTimeStamp(time());
+        return new self($id,$title,$picture,$attributes,$description, $creationDate,$updateTime);
+    }
+    
+    /**
      * Return the article Id
      * @return ArticleId
      */

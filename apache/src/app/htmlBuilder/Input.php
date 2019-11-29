@@ -14,19 +14,19 @@ class Input extends FrameworkInput{
         $this->addStyle('form__item');
     }
 
-    public static function text(string $name, string $placeHolder, bool $required = false) {
-        $input = new Input($name, 'text', '', '', $placeHolder, $required);
+    public static function text(string $name, string $placeHolder, bool $required = false,string $value='') {
+        $input = new Input($name, 'text', '', $value, $placeHolder, $required);
         $input->addStyle('form__input');
         return $input;
     }
 
-    public static function email(string $name, string $placeHolder, bool $required = false) {
+    public static function email(string $name, string $placeHolder, bool $required = false,string $value='') {
         $input = new Input($name, 'email', '', '', $placeHolder, $required);
         $input->addStyle('form__input');
         return $input;
     }
 
-    public static function password(string $name, string $placeHolder, bool $required = false) {
+    public static function password(string $name, string $placeHolder, bool $required = false,string $value='') {
         $input = new Input($name, 'password', '', '', $placeHolder, $required);
         $input->addStyle('form__input');
         return $input;
@@ -39,10 +39,9 @@ class Input extends FrameworkInput{
         return $input;
     }
     
-    public static function file(string $name, string $placeHolder, bool $required = false) {
-        $input = new Input($name, 'file', '', '', $placeHolder, $required);
-        $input->addStyle('form__input');
-        $input->addStyle('form__input_file');
+    public static function file(string $name, string $placeHolder, bool $required = false,string $value='') {
+        $input = new Input($name, 'file', '', $value, $placeHolder, $required);
+       
         return $input;
     }
 

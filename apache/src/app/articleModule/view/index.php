@@ -2,11 +2,12 @@
 <section class="block">
     
     <div class="flashMessage-box">
-        <p class="flashMessage-box__message"><?= $session->get('flashMessage')['message']?></p>
+        <p class="flashMessage-box__message"><?= $session->flash('flashMessage')['message']?></p>
     </div>
     
     
     <h1 class=""> Article management </h1>
+    <a class="button" href="<?= $router->generateURL('parking.admin.create')?>">Create a new article</a>
     
 <table>
     <tr>

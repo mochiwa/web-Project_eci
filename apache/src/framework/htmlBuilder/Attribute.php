@@ -98,7 +98,6 @@ class Attribute {
             $isActive ? $output.=$value.' ' : null;
         return rtrim($output);
     }
-
 }
 
 ?>

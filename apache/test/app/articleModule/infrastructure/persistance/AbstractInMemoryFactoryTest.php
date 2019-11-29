@@ -21,11 +21,9 @@ class AbstractInMemoryFactoryTest extends TestCase{
     
     
     function tearDown() {
-        if(file_exists(AbstractInMemoryFactory::DIR)){
-            if(file_exists(AbstractInMemoryFactory::DIR.'file'))
-                unlink (AbstractInMemoryFactory::DIR.'file');
-            rmdir(AbstractInMemoryFactory::DIR);
-        }
+          
+        $this->factory->clear();
+        
     }
     
     function test_constructor_shouldCreateDirectory_inMemory_whenDirectoryNotExist()

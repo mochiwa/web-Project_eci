@@ -18,6 +18,7 @@
             "Framework\\Middleware\\" : "./src/framework/middleware",
             "Framework\\Validator\\" : "./src/framework/validator",
             "Framework\\Session\\" : "./src/framework/session",
+            "Framework\\FileManager\\" : "./src/framework/fileManager",
             
             "App\\" : "./src/app",
             "App\\htmlBuilder\\" : "./src/app/htmlBuilder/",
@@ -63,6 +64,7 @@
             "Test\\Framework\\Middleware\\" : "./test/framework/middleware",
             "Test\\Framework\\Renderer\\" : "./test/framework/renderer",
             "Test\\Framework\\HtmlBuilder\\" : "./test/framework/htmlBuilder",
+            "Test\\Framework\\FileManager\\" : "./test/framework/fileManager",
             
             
             "Test\\App\\": "./test/app/",

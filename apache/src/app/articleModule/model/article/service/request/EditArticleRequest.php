@@ -1,15 +1,19 @@
 <?php
+
 namespace App\Article\Model\Article\Service\Request;
 
-
 /**
- * The input DTO responsible to convert
- * base type to the model value object
- * for the service CreateArticleService
+ * Description of EditArticleRequest
  *
  * @author mochiwa
  */
-class CreateArticleRequest {
+class EditArticleRequest {
+    /**
+     *
+     * @var string the article Id 
+     */
+    private $articleId;
+    
     /**
      *
      * @var string the article title
@@ -31,7 +35,8 @@ class CreateArticleRequest {
      */
     private $description;
     
-    function __construct(string $title ,string $picture,Array $attributes,string $description) {
+    function __construct(string $articleId,string $title ,Array $attributes,string $description,string $picture='') {
+        $this->articleId=$articleId;
         $this->title=$title;
         $this->picture=$picture;
         foreach ($attributes as $key=>$value) {
@@ -40,45 +45,34 @@ class CreateArticleRequest {
         $this->description=$description;
     }
     
-    public static function fromArray(array $postData)
+    public static function fromArray(array $postData) : self
     {
-        return new self($postData['title'],
-                $postData['picture'],
+        return new self($postData['id'],$postData['title'],
                 ['city'=>$postData['city'],'name'=>$postData['name'],'place'=>$postData['place']],
                 $postData['description']);
     }
+ 
     
-    /**
-     * 
-     * @return string
-     */
-    function getTitle() : string {
+    public function getArticleId() {
+        return $this->articleId;
+    }
+
+    public function getTitle() {
         return $this->title;
     }
-    
-    /**
-     * 
-     * @return string
-     */
-    function getPicture() : string{
+
+    public function getPicture() {
         return $this->picture;
     }
-    /**
-     * 
-     * @return array of attribute
-     */
-    function getAttributes() : array{
+
+    public function getAttributes() {
         return $this->attributes;
     }
-    /**
-     * 
-     * @return string
-     */
-    function getDescription() : string{
+
+    public function getDescription() {
         return $this->description;
     }
 
 
-    
     
 }

@@ -91,10 +91,42 @@ class InMemoryArticleRepository extends AbstractInMemoryFactory implements IArti
         return false;
     }
 
+    /**
+     * Remove article and commit changement
+     * @param ArticleId $id
+     * @return void
+     * @throws EntityNotFoundException
+     */
     public function removeArticle(ArticleId $id): void {
         if(!$this->isArticleIdExist($id))
             throw new EntityNotFoundException("Cannot remove the article with id=" . $id->idToString() . " not found in repository");
         unset($this->data[$id->idToString()]);
+        $this->commit();
+    }
+    /**
+     * Find article by its title
+     * @param Title $articleTitle
+     * @return Article
+     * @throws EntityNotFoundException
+     */
+    public function findByTitle(Title $articleTitle): Article {
+        foreach ($this->data as $article) {
+            if($article->title()==$articleTitle)
+                return $article;
+        }
+        throw new EntityNotFoundException("Any Article with title=".$articleTitle->valueToString()." found in repository");
+    }
+
+    /**
+     * Update the article with id
+     * @param Article $article
+     * @return void
+     */
+    public function update(Article $article): void {
+        if(!$this->isArticleIdExist($article->id())){
+            throw new EntityNotFoundException('The Article with id='.$article->id()->idToString().'not updatable cause it is not found in reposity');
+        }
+        $this->data[$article->id()->idToString()]=$article;
         $this->commit();
     }
 

@@ -3,6 +3,7 @@ namespace App\Article\Model\Article\Service;
 
 use App\Article\Model\Article\Article;
 use App\Article\Model\Article\ArticleException;
+use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Picture;
@@ -35,19 +36,29 @@ class CreateArticleService {
     public function execute(CreateArticleRequest $request)
     {
         $title= Title::of($request->getTitle());
-        $picture=Picture::of($request->getPicture());
         $attributes=[];
         foreach ($request->getAttributes() as $key=>$value) {
             $attributes[]=Attribute::of($key,$value);
         }
         $description=$request->getDescription();
         
+        
         if($this->repository->isArticleTitleExist($title)){
-            throw new ArticleException('title',"An article with this title already exist");
+            throw new ArticleException('title','An article with the title "'.$title->valueToString().'" already exist');
         }
         
-        $article=Article::newArticle($this->repository->nextId(),$title,$picture,$attributes,$description);
+        $articleId=$this->repository->nextId();
+        $picture=$this->generatePictureName($articleId,$title);
+        
+        $article=Article::newArticle($articleId,$title,$picture,$attributes,$description);
         
         $this->repository->addArticle($article);
+        return $article;
     }
+    
+    private function generatePictureName(ArticleId $articleId,Title $title):Picture
+    {
+        return Picture::of('article-'.$title->valueToString().'-'.$articleId->idToString());
+    }
+    
 }

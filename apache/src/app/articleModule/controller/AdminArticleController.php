@@ -2,16 +2,21 @@
 namespace App\Article\Controller;
 
 use App\Article\Model\Article\ArticleException;
-use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\DeleteArticleService;
+use App\Article\Model\Article\Service\EditArticleService;
+use App\Article\Model\Article\Service\GettingArticleService;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
 use App\Article\Model\Article\Service\Request\DeleteArticleRequest;
+use App\Article\Model\Article\Service\Request\EditArticleRequest;
+use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
 use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingFormValidator;
+use Framework\FileManager\FileUploader;
 use Framework\Renderer\IViewBuilder;
 use Framework\Session\SessionManager;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,11 +30,13 @@ class AdminArticleController {
     private $viewBuilder;
     private $repository;
     private $session;
+    private $uploader;
     
-    function __construct(IViewBuilder $viewBuilder, IArticleRepository $repository, SessionManager $session) {
+    function __construct(IViewBuilder $viewBuilder, IArticleRepository $repository, SessionManager $session, FileUploader $uploader) {
         $this->viewBuilder=$viewBuilder;
         $this->repository=$repository;
         $this->session=$session;
+        $this->uploader=$uploader;
         $this->viewBuilder->addGlobal('session', $this->session);
     }
     
@@ -40,13 +47,12 @@ class AdminArticleController {
         }
         else if(strpos($request->getRequestTarget(), 'edit'))
         {
-            return $this->editArticle($request->getAttribute('id'));
+            return $this->editArticle($request);
         }
         else if(strpos($request->getRequestTarget(), 'delete'))
         {
             return $this->deleteArticle($request->getAttribute('id'));
         }
-        
         return $this->index();
     }
     
@@ -55,7 +61,7 @@ class AdminArticleController {
      * @return Response
      */
     private function index(){
-       $response=new Response(200);
+       $response=new Response();
        $data =[];
        foreach ($this->repository->All() as $article) {
            $data[]=new ArticleViewResponse($article);
@@ -69,7 +75,9 @@ class AdminArticleController {
        $response=new Response(200);
        if($request->getMethod()==='POST')
        {
-           return $this->createArticleProcess($request->getParsedBody());
+           $post=$request->getParsedBody();
+           $post['picture']=$request->getUploadedFiles()['picture']->getStream()->getMetadata('uri');
+           return $this->createArticleProcess($post);
        }
        $response->getBody()->write($this->viewBuilder->build('@article/createArticle'));
        return $response;
@@ -86,11 +94,17 @@ class AdminArticleController {
         $response=new Response();
         $validator = new ParkingFormValidator($post);
         $errors=[];
+        
+        $applicationService = new Service\CreateArticleService;
+        $applicationService($post);
+        
         if($validator->isValid()){
             try {
                 $request = CreateArticleRequest::fromArray($post);
                 $service = new CreateArticleService($this->repository);
-                $service->execute($request);
+                $article=$service->execute($request);
+                $this->uploader->uploadToDefault($post['picture'], $article->picture()->path());
+                
                 $this->session->set('flashMessage',['isError'=>false,'message'=>"One article has been appended !"]);
                 $response=$response->withHeader('Location', '/parking/admin');
             } catch (ArticleException $e) {
@@ -106,12 +120,51 @@ class AdminArticleController {
         }
         return $this->responseWithErrors('@article/createArticle', $errors);
     }
+    
+    
+    
+    
+    
 
-    private function editArticle(string $articleId)
+    private function editArticle(Request $request)
     {
-        
+        $response=new Response();
+        if($request->getMethod()==='POST')
+        {
+            return $this->editArticleProcess($request);
+        }
+        else
+        {
+            try{
+                $request=new GettingSingleArticleByIdRequest($request->getAttribute('id'));
+                $service=new GettingArticleService($this->repository);
+                $article=$service->execute($request);
+                $response->getBody()->write($this->viewBuilder->build('@article/editArticle', compact('article')));
+            } catch (\Exception $e) {
+                $this->session->set('flashMessage',['isError'=>true,'message'=>$e->getMessage()]);
+                return (new Response(400))->withHeader('Location', '/parking/admin');
+            }
+        }
+        return $response;
     }
     
+    private function editArticleProcess(RequestInterface $request) {
+        $post=$request->getParsedBody();
+        $post['id']=$request->getAttribute('id');
+        try {
+            $post = $request->getParsedBody();
+            $post['id'] = $request->getAttribute('id');
+            $request = EditArticleRequest::fromArray($post);
+            $service = new EditArticleService($this->repository);
+            $service->exectue($request);
+            $this->session->set('flashMessage', ['isError' => false, 'message' => 'The article has been updated !']);
+            return (new Response(200))->withHeader('Location', '/parking/admin');
+        } catch (\Exception $e) {
+            $this->session->set('flashMessage', ['isError' => true, 'message' => $e->getMessage()]);
+            return $response->getBody()->write($this->viewBuilder->build('@article/editArticle', ['errors' => $e->getMessage()]));
+        }
+    }
+
     /**
      * Delete an article
      * @param string $articleId
