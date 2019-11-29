@@ -10,7 +10,7 @@ namespace Framework\FileManager;
 class LocalUploader implements IUploader {
     
     public function upload(string $src, string $dest) {
-        copy($dest, $src);
+        copy($src, $dest);
     }
 
 }
