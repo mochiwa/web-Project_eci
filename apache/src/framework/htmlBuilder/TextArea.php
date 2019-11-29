@@ -15,7 +15,7 @@ namespace Framework\HtmlBuilder;
  */
 class TextArea extends HtmlElement{
     
-    function __construct(string $name,string $placeHolder = '',bool $required = false)
+    function __construct(string $name,string $placeHolder = '',bool $required = false,string $value='')
     {
         parent::__construct('textArea');
         $this->setName($name);
@@ -25,6 +25,7 @@ class TextArea extends HtmlElement{
         if ($required){
             $this->addAttribute(Attribute::of('required')->setContent('true'));
         }
+        $this->setContent($value);
     }
     
      public function setName(string $name): self {
@@ -38,4 +39,5 @@ class TextArea extends HtmlElement{
     public function name(): string {
         return $this->name->value();
     }
+  
 }

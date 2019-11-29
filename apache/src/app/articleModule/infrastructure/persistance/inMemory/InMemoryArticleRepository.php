@@ -127,6 +127,7 @@ class InMemoryArticleRepository extends AbstractInMemoryFactory implements IArti
             throw new EntityNotFoundException('The Article with id='.$article->id()->idToString().'not updatable cause it is not found in reposity');
         }
         $this->data[$article->id()->idToString()]=$article;
+        $this->commit();
     }
 
 }

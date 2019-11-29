@@ -5,9 +5,11 @@ use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\DeleteArticleService;
+use App\Article\Model\Article\Service\EditArticleService;
 use App\Article\Model\Article\Service\GettingArticleService;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
 use App\Article\Model\Article\Service\Request\DeleteArticleRequest;
+use App\Article\Model\Article\Service\Request\EditArticleRequest;
 use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
 use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingFormValidator;
@@ -114,7 +116,19 @@ class AdminArticleController {
         $response=new Response();
         if($request->getMethod()==='POST')
         {
-            
+            return $this->editArticleProcess($request);
+            /*try{
+                $post=$request->getParsedBody();
+                $post['id']=$request->getAttribute('id');
+                $request= EditArticleRequest::fromArray($post);
+                $service=new EditArticleService($this->repository);
+                $service->exectue($request);
+                return (new Response(200))->withHeader('Location', '/parking/admin');
+            } catch (\Exception $e)
+            {
+                $this->session->set('flashMessage',['isError'=>true,'message'=>$e->getMessage()]);
+                return $response->getBody()->write($this->viewBuilder->build('@article/editArticle', ['errors'=>$e->getMessage()]));
+            }*/
         }
         else
         {
@@ -122,7 +136,7 @@ class AdminArticleController {
                 $request=new GettingSingleArticleByIdRequest($request->getAttribute('id'));
                 $service=new GettingArticleService($this->repository);
                 $article=$service->execute($request);
-                $response->getBody()->write($this->viewBuilder->build('@article/createArticle', compact('article')));
+                $response->getBody()->write($this->viewBuilder->build('@article/editArticle', compact('article')));
             } catch (\Exception $e) {
                 $this->session->set('flashMessage',['isError'=>true,'message'=>$e->getMessage()]);
                 return (new Response(400))->withHeader('Location', '/parking/admin');
@@ -131,6 +145,23 @@ class AdminArticleController {
         return $response;
     }
     
+    private function editArticleProcess(RequestInterface $request) {
+        $post=$request->getParsedBody();
+        $post['id']=$request->getAttribute('id');
+        try {
+            $post = $request->getParsedBody();
+            $post['id'] = $request->getAttribute('id');
+            $request = EditArticleRequest::fromArray($post);
+            $service = new EditArticleService($this->repository);
+            $service->exectue($request);
+            $this->session->set('flashMessage', ['isError' => false, 'message' => 'The article has been updated !']);
+            return (new Response(200))->withHeader('Location', '/parking/admin');
+        } catch (\Exception $e) {
+            $this->session->set('flashMessage', ['isError' => true, 'message' => $e->getMessage()]);
+            return $response->getBody()->write($this->viewBuilder->build('@article/editArticle', ['errors' => $e->getMessage()]));
+        }
+    }
+
     /**
      * Delete an article
      * @param string $articleId

@@ -65,20 +65,22 @@ class EditArticleService {
     }
     /**
      * Build the article updated
+     * If the picture is empty then use the original picture
      * @param EditArticleRequest $request
      * @return Article
      */    
     private function builEditedArticle(EditArticleRequest $request): Article
     {
         $articleId= ArticleId::of($request->getArticleId());
+        $orignal=$this->repository->findById($articleId);
+        
         $title= Title::of($request->getTitle());
-        $picture=Picture::of($request->getPicture());
+        $picture= $request->getPicture() === '' ? $orignal->picture() :Picture::of($request->getPicture() ); 
         $attributes=[];
         foreach ($request->getAttributes() as $key=>$value) {
             $attributes[]= Attribute::of($key,$value);
         }
         $description=$request->getDescription();
-        $orignal=$this->repository->findById($articleId);
         return Article::fromUpdate($articleId, $title, $picture, $attributes, $description, $orignal->creationDate());
     }
     

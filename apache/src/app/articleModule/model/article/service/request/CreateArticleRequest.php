@@ -44,7 +44,7 @@ class CreateArticleRequest {
     {
         return new self($postData['title'],
                 $postData['picture'],
-                ['city'=>$postData['city'],'name'=>$postData['name']],
+                ['city'=>$postData['city'],'name'=>$postData['name'],'place'=>$postData['place']],
                 $postData['description']);
     }
     

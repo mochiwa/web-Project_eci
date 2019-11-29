@@ -35,7 +35,7 @@ class EditArticleRequest {
      */
     private $description;
     
-    function __construct(string $articleId,string $title ,string $picture,Array $attributes,string $description) {
+    function __construct(string $articleId,string $title ,Array $attributes,string $description,string $picture='') {
         $this->articleId=$articleId;
         $this->title=$title;
         $this->picture=$picture;
@@ -43,6 +43,13 @@ class EditArticleRequest {
             $this->attributes[$key]= $value;
         }
         $this->description=$description;
+    }
+    
+    public static function fromArray(array $postData) : self
+    {
+        return new self($postData['id'],$postData['title'],
+                ['city'=>$postData['city'],'name'=>$postData['name'],'place'=>$postData['place']],
+                $postData['description']);
     }
  
     

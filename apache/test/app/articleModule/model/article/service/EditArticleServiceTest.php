@@ -24,7 +24,7 @@ class EditArticleServiceTest extends TestCase{
     {
         $this->repository=$this->createMock(IArticleRepository::class);
         $this->service=new EditArticleService($this->repository);
-        $this->request=new EditArticleRequest('aaa','ArticleTitle','picture',['att'=>"value"],"Description");
+        $this->request=new EditArticleRequest('aaa','ArticleTitle',['att'=>"value"],"Description");
         
     }
     
@@ -68,6 +68,30 @@ class EditArticleServiceTest extends TestCase{
         $this->repository->method('isArticleTitleExist')->willReturn(false);
         
         $this->repository->expects($this->once())->method('update');
+        $this->service->exectue($this->request);
+    }
+    
+    function test_execute_shouldNotUpdateThePicture_whenItIsEmpty()
+    {
+        $original= TestHelper::get()->makeArticle('aaa','ArticleTitle','my/picture');
+        $this->repository->method('isArticleIdExist')->willReturn(true);
+        $this->repository->method('findById')->willReturn($original);
+        $this->repository->method('isArticleTitleExist')->willReturn(false);
+        
+        $this->repository->expects($this->once())->method('update')->
+                with($this->callback(function($article) use($original) {return $article->picture()==$original->picture();}));
+        $this->service->exectue($this->request);
+    }
+    
+    function test_execute_shouldUpdateThePicture_whenItIsNotEmpty()
+    {
+        $original= TestHelper::get()->makeArticle('aaa','ArticleTitle','my/picture');
+        $this->repository->method('isArticleIdExist')->willReturn(true);
+        $this->repository->method('findById')->willReturn($original);
+        $this->repository->method('isArticleTitleExist')->willReturn(false);
+        
+        $this->repository->expects($this->once())->method('update')->
+                with($this->callback(function($article) use($original) {return $article->picture()==$original->picture();}));
         $this->service->exectue($this->request);
     }
 }
