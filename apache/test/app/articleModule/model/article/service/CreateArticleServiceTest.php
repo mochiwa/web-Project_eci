@@ -2,6 +2,7 @@
 namespace Test\Article\Model\Article\Service;
 
 use App\Article\Model\Article\ArticleException;
+use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
@@ -34,7 +35,15 @@ class CreateArticleServiceTest extends TestCase{
         
         $this->expectException(ArticleException::class);
         $this->service->execute($this->request);
-        
+    }
+    
+    function test_execute_shouldNameThePictureLike_artile_titleArticleId()
+    {
+        $this->repository->expects($this->once())->method('nextId')->willReturn(ArticleId::of('01'));
+        $this->repository->expects($this->once())->method('isArticleTitleExist')->willReturn(false);
+
+        $article=$this->service->execute($this->request);
+        $this->assertequals('/upload/article-ArticleTitle-01',$article->picture()->path());
     }
     
 }

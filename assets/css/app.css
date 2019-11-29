@@ -10,6 +10,7 @@
 @import url("layout/l-container.css");
 @import url("layout/l-nav.css");
 @import url("layout/l-form.css");
+@import url("layout/l-table.css");
 
 /***********************************\
 			   Module
@@ -22,8 +23,10 @@
 @import url("module/main-footer.css");
 @import url('module/form.css');
 
+@import url('module/table.css');
 
 /***********************************\
 			   State
 \***********************************/
 @import url("state/nav.css");
+@import url("state/table.css");

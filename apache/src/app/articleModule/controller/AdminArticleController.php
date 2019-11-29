@@ -73,7 +73,15 @@ class AdminArticleController {
        $response=new Response(200);
        if($request->getMethod()==='POST')
        {
-           return $this->createArticleProcess($request->getParsedBody());
+          /* $tab=$request->getUploadedFiles()['picture'];
+           $file=new \Framework\FileManager\FileUploaded($tab->getClientFilename(),$tab->getClientMediaType(),$tab->getStream(),$tab->getSize());
+           $dest=getcwd().DIRECTORY_SEPARATOR;
+           $target_path = $dest . basename( $_FILES["picture"]["name"]);
+           move_uploaded_file($tab->getStream()->getMetadata('uri'),$target_path);die();*/
+           
+           $post=$request->getParsedBody();
+           $post['picture']=$request->getUploadedFiles()['picture']->getStream()->getMetadata('uri');
+           return $this->createArticleProcess($post);
        }
        $response->getBody()->write($this->viewBuilder->build('@article/createArticle'));
        return $response;

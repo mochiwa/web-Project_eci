@@ -35,7 +35,6 @@ class CreateArticleService {
     public function execute(CreateArticleRequest $request)
     {
         $title= Title::of($request->getTitle());
-        $picture=Picture::of($request->getPicture());
         $attributes=[];
         foreach ($request->getAttributes() as $key=>$value) {
             $attributes[]=Attribute::of($key,$value);
@@ -43,15 +42,22 @@ class CreateArticleService {
         $description=$request->getDescription();
         
         
-        
         if($this->repository->isArticleTitleExist($title)){
             throw new ArticleException('title','An article with the title "'.$title->valueToString().'" already exist');
         }
         
-        $article=Article::newArticle($this->repository->nextId(),$title,$picture,$attributes,$description);
+        $articleId=$this->repository->nextId();
+        $picture=$this->generatePictureName($articleId);
+        
+        $article=Article::newArticle($articleId,$title,$picture,$attributes,$description);
         
         $this->repository->addArticle($article);
+        return $article;
     }
     
+    private function generatePictureName(ArticleId $articleId):Picture
+    {
+        Picture::of('/upload/article-'.$title->valueToString().'-'.$articleId->idToString());
+    }
     
 }
