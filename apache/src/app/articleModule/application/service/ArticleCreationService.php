@@ -27,19 +27,21 @@ class ArticleCreationService {
     }
     
     
-    public function execute(array $post): array {
+    public function execute(array $post): Response\ApplicationResponse {
+        $response = new Response\ApplicationResponse();
         if (!$this->validator->validate($post)) {
-            return $this->validator->getErrors();
+            return $response->withErrors($this->validator->getErrors());
+            //return $this->validator->getErrors();
         }
         try
         {
             $service=new CreateArticleService($this->repository);
-            $response=$service->execute(CreateArticleRequest::fromArray($post));
-            $this->uploader->uploadToDefault($post['picture'], $response->getPicture());
+            $articleResponse=$service->execute(CreateArticleRequest::fromArray($post));
+            $this->uploader->uploadToDefault($post['picture'], $articleResponse->getPicture());
         } catch (ArticleException $ex) {
-            return [$ex->field()=>[$ex->getMessage()]];
+            return $response->withErrors([$ex->field()=>[$ex->getMessage()]]);
         }
-        return ['success'=>['flash'=>'The article "'.$response->getTitle().'" has been created !']];
+        return $response->withFlashMessage('The article "'.$articleResponse->getTitle().'" has been created !');
     }
 
 

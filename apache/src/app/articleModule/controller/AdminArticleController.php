@@ -15,8 +15,8 @@ use App\Article\Validation\ParkingFormValidator;
 use Exception;
 use Framework\FileManager\FileUploader;
 use Framework\Renderer\IViewBuilder;
+use Framework\Session\FlashMessage;
 use Framework\Session\SessionManager;
-use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -98,13 +98,12 @@ class AdminArticleController {
         $post['picture'] = $this->extractPictureFromRequest($request,'picture');
          
         $service = new ArticleCreationService($this->repository, new ParkingFormValidator(), $this->uploader);
+        $applicationResponse = $service->execute($post);
 
-        $status = $service->execute($post);
-
-        if (!isset($status['success'])) {
-            return $this->responseWithErrors('@article/createArticle', $status);
+        if ($applicationResponse->isError()) {
+            return $this->responseWithErrors('@article/createArticle', $applicationResponse->getErrors());
         }
-        $this->session->setFlash(['isError' => false, 'message'=>$status['success']['flash']]);
+        $this->session->setFlash(FlashMessage::success($applicationResponse->getFlashMessage()));
         return $this->redirectToIndex();
     }
     
@@ -121,6 +120,7 @@ class AdminArticleController {
         }
         return '';
     }
+    
     
     /**
      * Return a response that redirect to the admin index
@@ -159,12 +159,12 @@ class AdminArticleController {
         $post['id'] = $request->getAttribute('id');
         
         $service = new ArticleEditionService($this->repository, new ParkingEditFormValidator());
-        $status = $service->execute($post);
+        $applicationResponse = $service->execute($post);
         
-        if (!isset($status['success'])) {
-            return $this->responseWithErrors('@article/editArticle', $status);
+        if ($applicationResponse->isError()) {
+            return $this->responseWithErrors('@article/editArticle', [$applicationResponse->getErrors(),'article'=>$applicationResponse->getArticle()]);
         }
-        $this->session->setFlash(['isError' => false, 'message'=>$status['success']['flash']]);
+        $this->session->setFlash(FlashMessage::success($applicationResponse->getFlashMessage()));
         return $this->redirectToIndex();
     }
 

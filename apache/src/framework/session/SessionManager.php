@@ -69,18 +69,18 @@ class SessionManager {
      * @param string $key
      * @return type
      */
-    public function flash(string $key= self::FLASH_KEY)
+    public function flash(string $key= self::FLASH_KEY) : FlashMessage
     {
         $data=$this->get($key);
         $this->delete($key);
-        return $data;
+        return $data ?? FlashMessage::null();
     }
     
     /**
      * Set flash message to the default flash key
      * @param string $message
      */
-    public function setFlash(array $message)
+    public function setFlash(FlashMessage $message)
     {
         $this->set(self::FLASH_KEY, $message);
     }

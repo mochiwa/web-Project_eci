@@ -25,19 +25,22 @@ class ArticleEditionService {
     }
     
     
-    public function execute(array $post): array {
+    public function execute(array $post): Response\ApplicationResponse {
+        $response=new Response\ApplicationResponse();
+        $article=$this->repository->findById(ArticleId::of($post['id']));
+        
         if (!$this->validator->validate($post)) {
-            $article=$this->repository->findById(ArticleId::of($post['id']));
-            $status=['article'=>new ArticleViewResponse($article),'errors'=>$this->validator->getErrors()];
-            return $status;
+            return $response->withArticle(new ArticleViewResponse($article))
+                    ->withErrors($this->validator->getErrors());
         }
         try
         {
             $service=new EditArticleService($this->repository);
-            $response=$service->execute(EditArticleRequest::fromArray($post));
+            $articleResposne=$service->execute(EditArticleRequest::fromArray($post));
         } catch (ArticleException $ex) {
-            return [$ex->field()=>[$ex->getMessage()]];
+            return $response->withErrors([$ex->field()=>[$ex->getMessage()]])
+                    ->withArticle(new ArticleViewResponse($article));
         }
-        return ['success'=>['flash'=>'The article "'.$response->getTitle().'" has been updated !']];
+        return $response->withFlashMessage('The article "'.$articleResposne->getTitle().'" has been updated !');
     }
 }
