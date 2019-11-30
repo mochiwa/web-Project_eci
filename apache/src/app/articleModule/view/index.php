@@ -2,7 +2,7 @@
 <section class="block">
     
     <div class="flashMessage-box">
-        <p class="flashMessage-box__message"><?= $session->flash('flashMessage')['message']?></p>
+        <p class="flashMessage-box__message"><?= $session->flash()['message']?></p>
     </div>
     
     

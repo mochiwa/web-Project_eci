@@ -1,22 +1,23 @@
 <?php
+
 namespace App\Article\Validation;
 
+use Framework\Validator\AbstractFormValidator;
+
 /**
- * Description of CreateParkingValidator
+ * Description of ParkingEditFormValidator
  *
  * @author mochiwa
  */
-class ParkingFormValidator extends \Framework\Validator\AbstractFormValidator {
-    
+class ParkingEditFormValidator extends AbstractFormValidator {
     public function __construct(array $formData=[]) {
         parent::__construct($formData);
     }
     
     public function initRules() {
-        $this->validator->rule('required',['title','picture','city','place','description']);
+        $this->validator->rule('required',['title','city','place','description']);
         
         $this->validator->rule('lengthBetween','title',3,50);
         $this->validator->rule('integer','place');
     }
-
 }

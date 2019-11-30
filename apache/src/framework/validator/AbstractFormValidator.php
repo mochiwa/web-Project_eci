@@ -30,7 +30,7 @@ abstract class AbstractFormValidator implements IValidator{
      * Form data like field => value
      * @param type $data
      */
-    function __construct(array $data)
+    function __construct(array $data=[])
     {
         $this->validator=new \Valitron\Validator($data);
         $this->errors=[];
@@ -55,6 +55,13 @@ abstract class AbstractFormValidator implements IValidator{
      */
     public function isValid(): bool {
         return $this->validator->validate();
+    }
+    
+    public function validate(array $data):bool
+    {
+        $this->validator=new \Valitron\Validator($data);
+        $this->initRules();
+        return $this->isValid();
     }
     
     /**

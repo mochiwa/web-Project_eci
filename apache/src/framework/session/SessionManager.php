@@ -6,6 +6,7 @@ namespace Framework\Session;
  * @author mochiwa
  */
 class SessionManager {
+    const FLASH_KEY='flash';
     private $session;
     
     function __construct(ISession $session)
@@ -64,15 +65,24 @@ class SessionManager {
     }
     /**
      * Get the value from the session then delete it and remove
-     * the key value from the session
+     * By default a flash keyword is used
      * @param string $key
      * @return type
      */
-    public function flash(string $key)
+    public function flash(string $key= self::FLASH_KEY)
     {
         $data=$this->get($key);
         $this->delete($key);
         return $data;
+    }
+    
+    /**
+     * Set flash message to the default flash key
+     * @param string $message
+     */
+    public function setFlash(array $message)
+    {
+        $this->set(self::FLASH_KEY, $message);
     }
     
 }

@@ -10,6 +10,7 @@ use App\Article\Model\Article\EntityNotFoundException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Picture;
 use App\Article\Model\Article\Service\Request\EditArticleRequest;
+use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Model\Article\Title;
 
 /**
@@ -30,7 +31,7 @@ class EditArticleService {
      * @throws EntityNotFoundException
      * @throws ArticleException
      */
-    public function exectue(EditArticleRequest $request)
+    public function execute(EditArticleRequest $request) : ArticleViewResponse
     {
         $articleId=ArticleId::of($request->getArticleId());
         if(!$this->repository->isArticleIdExist($articleId)){
@@ -44,6 +45,7 @@ class EditArticleService {
         }
         
         $this->repository->update($editedArticle);
+        return new ArticleViewResponse($editedArticle);
     }
     
     /**

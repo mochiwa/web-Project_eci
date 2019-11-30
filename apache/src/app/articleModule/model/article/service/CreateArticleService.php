@@ -8,6 +8,7 @@ use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Picture;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
+use App\Article\Model\Article\Service\Response\ArticleCreatedResponse;
 use App\Article\Model\Article\Title;
 
 /**
@@ -33,7 +34,7 @@ class CreateArticleService {
      * 
      * @throws ArticleException when an article with the same title already exist
      */
-    public function execute(CreateArticleRequest $request)
+    public function execute(CreateArticleRequest $request) : ArticleCreatedResponse
     {
         $title= Title::of($request->getTitle());
         $attributes=[];
@@ -53,7 +54,7 @@ class CreateArticleService {
         $article=Article::newArticle($articleId,$title,$picture,$attributes,$description);
         
         $this->repository->addArticle($article);
-        return $article;
+        return new ArticleCreatedResponse($picture->path(),$title->valueToString());
     }
     
     private function generatePictureName(ArticleId $articleId,Title $title):Picture

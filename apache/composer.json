@@ -31,6 +31,10 @@
             
             "App\\Article\\" : "./src/app/articleModule",
             "App\\Article\\Controller\\" : "./src/app/articleModule/controller",
+            
+            "App\\Article\\Application\\" : "./src/app/articleModule/application",
+            "App\\Article\\Application\\Service\\" : "./src/app/articleModule/application/service",
+            
             "App\\Article\\Model\\" : "./src/app/articleModule/model",
             
             "App\\Article\\Model\\Article\\" : "./src/app/articleModule/model/article",

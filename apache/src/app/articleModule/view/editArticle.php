@@ -1,4 +1,6 @@
 <?php
+
+    $article=$article ?? $errors['article'];
     $attributes=$article->getAttributes();
     $form=new App\htmlBuilder\Form('CreateArticle',$router->generateURL('parking.admin.edit',['id'=>$article->getId()]),'POST');
     $form->addInput(App\htmlBuilder\Input::text('title', '',true, $article->getTitle()))
@@ -9,7 +11,8 @@
             ->addButton(App\htmlBuilder\Input::submit('submit','update'))
             ->addCancelButton($router->generateURL('parking.admin.index'));
 
-    $form->setErrors($errors ?? []);
+    $form->setErrors($errors['errors'] ?? []);
+
     
 ?>
 
