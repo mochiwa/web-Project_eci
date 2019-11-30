@@ -28,7 +28,7 @@ class ApplicationResponse {
         return $this->errors;
     }
 
-    public function getFlashMessage() :string {
+    public function getInformation() :string {
         return $this->flashMessage;
     }
 

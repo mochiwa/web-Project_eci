@@ -15,7 +15,7 @@ use Framework\Validator\AbstractFormValidator;
  *
  * @author mochiwa
  */
-class ArticleCreationService {
+class CreateArticleApplication {
     private $repository;
     private $validator;
     private $uploader;
@@ -31,7 +31,6 @@ class ArticleCreationService {
         $response = new Response\ApplicationResponse();
         if (!$this->validator->validate($post)) {
             return $response->withErrors($this->validator->getErrors());
-            //return $this->validator->getErrors();
         }
         try
         {

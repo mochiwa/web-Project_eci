@@ -1,7 +1,7 @@
 <?php
 namespace Test\App\Article\Application\Service;
 
-use App\Article\Application\Service\ArticleCreationService;
+use App\Article\Application\Service\CreateArticleApplication;
 use App\Article\Model\Article\IArticleRepository;
 use Framework\FileManager\FileUploader;
 use Framework\Validator\AbstractFormValidator;
@@ -22,7 +22,7 @@ class ArticleCreationServiceTest extends TestCase{
         $this->repository=$this->createMock(IArticleRepository::class);
         $this->validator=$this->createMock(AbstractFormValidator::class);
         $this->uploader=$this->createMock(FileUploader::class);
-        $this->service=new ArticleCreationService($this->repository,$this->validator,$this->uploader);
+        $this->service=new CreateArticleApplication($this->repository,$this->validator,$this->uploader);
     $this->post=['title'=>'test','picture'=>'aPicture','city'=>'aCity','name'=>'aName','place'=>'45','description'=>'lorem ipsum'];
     }
     

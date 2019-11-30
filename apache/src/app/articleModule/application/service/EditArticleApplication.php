@@ -15,7 +15,7 @@ use Framework\Validator\AbstractFormValidator;
  *
  * @author mochiwa
  */
-class ArticleEditionService {
+class EditArticleApplication {
     private $repository;
     private $validator;
     

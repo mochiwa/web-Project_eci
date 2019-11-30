@@ -2,12 +2,12 @@
 
 namespace App\Article\Controller;
 
-use App\Article\Application\Service\ArticleCreationService;
-use App\Article\Application\Service\ArticleEditionService;
+use App\Article\Application\Service\CreateArticleApplication;
+use App\Article\Application\Service\DeleteArticleApplication;
+use App\Article\Application\Service\EditArticleApplication;
+use App\Article\Application\Service\FindArticleApplication;
 use App\Article\Model\Article\IArticleRepository;
-use App\Article\Model\Article\Service\DeleteArticleService;
 use App\Article\Model\Article\Service\GettingArticleService;
-use App\Article\Model\Article\Service\Request\DeleteArticleRequest;
 use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
 use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingEditFormValidator;
@@ -97,13 +97,13 @@ class AdminArticleController {
         $post = $request->getParsedBody();
         $post['picture'] = $this->extractPictureFromRequest($request,'picture');
          
-        $service = new ArticleCreationService($this->repository, new ParkingFormValidator(), $this->uploader);
-        $applicationResponse = $service->execute($post);
+        $service = new CreateArticleApplication($this->repository, new ParkingFormValidator(), $this->uploader);
+        $response = $service->execute($post);
 
-        if ($applicationResponse->isError()) {
-            return $this->responseWithErrors('@article/createArticle', $applicationResponse->getErrors());
+        if ($response->isError()) {
+            return $this->responseWithErrors('@article/createArticle', ['errors'=> $response->getErrors()]);
         }
-        $this->session->setFlash(FlashMessage::success($applicationResponse->getFlashMessage()));
+        $this->session->setFlash(FlashMessage::success($response->getInformation()));
         return $this->redirectToIndex();
     }
     
@@ -139,32 +139,28 @@ class AdminArticleController {
     
 
     private function editArticle(string $id) {
-        $response = new Response();
-
-        try {
-            $request = new GettingSingleArticleByIdRequest($id);
-            $service = new GettingArticleService($this->repository);
-            $article = $service->execute($request);
-            $response->getBody()->write($this->viewBuilder->build('@article/editArticle', compact('article')));
-        } catch (Exception $e) {
-            $this->session->set('flashMessage', ['isError' => true, 'message' => $e->getMessage()]);
-            $this->redirectToIndex(400);
+        
+        $service=new FindArticleApplication($this->repository);
+        $response=$service->execute($id);
+        if($response->isError())
+        {
+            $this->session->setFlash(FlashMessage::error($response->getInformation()));
+            return $this->redirectToIndex(400);
         }
-
-        return $response;
+        return new Response(200, [], $this->viewBuilder->build('@article/editArticle', ['article'=>$response->getArticle()]));
     }
 
     private function editArticleProcess(RequestInterface $request) {
         $post = $request->getParsedBody();
         $post['id'] = $request->getAttribute('id');
         
-        $service = new ArticleEditionService($this->repository, new ParkingEditFormValidator());
-        $applicationResponse = $service->execute($post);
+        $service = new EditArticleApplication($this->repository, new ParkingEditFormValidator());
+        $response = $service->execute($post);
         
-        if ($applicationResponse->isError()) {
-            return $this->responseWithErrors('@article/editArticle', [$applicationResponse->getErrors(),'article'=>$applicationResponse->getArticle()]);
+        if ($response->isError()) {
+            return $this->responseWithErrors('@article/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);
         }
-        $this->session->setFlash(FlashMessage::success($applicationResponse->getFlashMessage()));
+        $this->session->setFlash(FlashMessage::success($response->getInformation()));
         return $this->redirectToIndex();
     }
 
@@ -174,15 +170,16 @@ class AdminArticleController {
      * @return ResponseInterface
      */
     private function deleteArticle(string $articleId): ResponseInterface {
-        try {
-            $service = new DeleteArticleService($this->repository);
-            $service->execute(new DeleteArticleRequest($articleId));
-            $this->session->set('flashMessage', ['isError' => false, 'message' => "One article has been deleted !"]);
-        } catch (Exception $ex) {
-            $this->session->set('flashMessage', ['isError' => true, 'message' => "This article has been already deleted"]);
-            return (new Response(400))->withHeader('Location', '/parking/admin');
+        
+        $service=new DeleteArticleApplication($this->repository);
+        $response=$service->execute($articleId);
+        if($response->isError())
+        {
+            $this->session->setFlash(FlashMessage::error($response->getInformation()));
+            return $this->redirectToIndex(400);
         }
-        return (new Response(200))->withHeader('Location', '/parking/admin');
+        $this->session->setFlash(FlashMessage::success($response->getInformation()));
+        return $this->redirectToIndex();
     }
 
     /**
@@ -194,7 +191,7 @@ class AdminArticleController {
      */
     private function responseWithErrors(string $view, $errors, int $status = 400) {
         $response = new Response($status);
-        $response->getBody()->write($this->viewBuilder->build($view, ['errors' => $errors]));
+        $response->getBody()->write($this->viewBuilder->build($view,  $errors ));
         return $response;
     }
 
