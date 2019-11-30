@@ -8,6 +8,7 @@ use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\EditArticleService;
 use App\Article\Model\Article\Service\Request\EditArticleRequest;
 use App\Article\Model\Article\Service\Response\ArticleViewResponse;
+use Framework\Session\SessionManager;
 use Framework\Validator\AbstractFormValidator;
 
 /**
@@ -18,10 +19,12 @@ use Framework\Validator\AbstractFormValidator;
 class EditArticleApplication {
     private $repository;
     private $validator;
+    private $session;
     
-    public function __construct(IArticleRepository $repository , AbstractFormValidator $validator) {
+    public function __construct(IArticleRepository $repository , AbstractFormValidator $validator, SessionManager $session) {
         $this->repository=$repository;
         $this->validator=$validator;
+        $this->session=$session;
     }
     
     
@@ -41,6 +44,7 @@ class EditArticleApplication {
             return $response->withErrors([$ex->field()=>[$ex->getMessage()]])
                     ->withArticle(new ArticleViewResponse($article));
         }
+        $this->session->setFlash(\Framework\Session\FlashMessage::success('The article "'.$articleResposne->getTitle().'" has been updated !'));
         return $response->withFlashMessage('The article "'.$articleResposne->getTitle().'" has been updated !');
     }
 }

@@ -15,7 +15,6 @@ use App\Article\Validation\ParkingFormValidator;
 use Exception;
 use Framework\FileManager\FileUploader;
 use Framework\Renderer\IViewBuilder;
-use Framework\Session\FlashMessage;
 use Framework\Session\SessionManager;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
@@ -97,13 +96,12 @@ class AdminArticleController {
         $post = $request->getParsedBody();
         $post['picture'] = $this->extractPictureFromRequest($request,'picture');
          
-        $service = new CreateArticleApplication($this->repository, new ParkingFormValidator(), $this->uploader);
+        $service = new CreateArticleApplication($this->repository, new ParkingFormValidator(), $this->uploader,$this->session);
         $response = $service->execute($post);
 
         if ($response->isError()) {
             return $this->responseWithErrors('@article/createArticle', ['errors'=> $response->getErrors()]);
         }
-        $this->session->setFlash(FlashMessage::success($response->getInformation()));
         return $this->redirectToIndex();
     }
     
@@ -140,11 +138,10 @@ class AdminArticleController {
 
     private function editArticle(string $id) {
         
-        $service=new FindArticleApplication($this->repository);
+        $service=new FindArticleApplication($this->repository,$this->session);
         $response=$service->execute($id);
         if($response->isError())
         {
-            $this->session->setFlash(FlashMessage::error($response->getInformation()));
             return $this->redirectToIndex(400);
         }
         return new Response(200, [], $this->viewBuilder->build('@article/editArticle', ['article'=>$response->getArticle()]));
@@ -154,13 +151,12 @@ class AdminArticleController {
         $post = $request->getParsedBody();
         $post['id'] = $request->getAttribute('id');
         
-        $service = new EditArticleApplication($this->repository, new ParkingEditFormValidator());
+        $service = new EditArticleApplication($this->repository, new ParkingEditFormValidator(),$this->session);
         $response = $service->execute($post);
         
         if ($response->isError()) {
             return $this->responseWithErrors('@article/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);
         }
-        $this->session->setFlash(FlashMessage::success($response->getInformation()));
         return $this->redirectToIndex();
     }
 
@@ -171,14 +167,12 @@ class AdminArticleController {
      */
     private function deleteArticle(string $articleId): ResponseInterface {
         
-        $service=new DeleteArticleApplication($this->repository);
+        $service=new DeleteArticleApplication($this->repository,$this->session);
         $response=$service->execute($articleId);
         if($response->isError())
         {
-            $this->session->setFlash(FlashMessage::error($response->getInformation()));
             return $this->redirectToIndex(400);
         }
-        $this->session->setFlash(FlashMessage::success($response->getInformation()));
         return $this->redirectToIndex();
     }
 

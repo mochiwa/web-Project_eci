@@ -1,10 +1,12 @@
 
 <section class="block">
     
-    <div class="flashMessage-box">
-        <p class="flashMessage-box__message"><?= $session->flash()->getMessage() ?></p>
-    </div>
+    <?php
+        $box = new \App\htmlBuilder\FlashBox($session->flash());
+        echo $box->toHtml();
+    ?>
     
+   
     
     <h1 class=""> Article management </h1>
     <a class="button" href="<?= $router->generateURL('parking.admin.create')?>">Create a new article</a>
