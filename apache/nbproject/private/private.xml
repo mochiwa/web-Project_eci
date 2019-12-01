@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/Application.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/config/RendererFactoryConfig.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/renderer/ViewBuilder.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/config/config.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/public/index.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/framework/renderer/views/layout.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/framework/renderer/ViewBuilderTest.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/controller/AdminArticleController.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/controller/service/ArticleCreationService.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/model/article/service/CreateArticleService.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/model/article/service/request/CreateArticleRequest.php</file>
         </group>
     </open-files>
 </project-private>

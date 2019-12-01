@@ -1,2 +1,5 @@
 apache/vendor/*
-
+node_modules/
+apache/public/dist/
+apache/vendor/
+nbproject/
