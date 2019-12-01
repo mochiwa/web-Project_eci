@@ -3,7 +3,8 @@
 
 namespace App\Article\Model\Article;
 
-use App\Shared\IPaginable;
+use Framework\Paginator\IPaginable;
+
 
 /**
  * The interface for article repository

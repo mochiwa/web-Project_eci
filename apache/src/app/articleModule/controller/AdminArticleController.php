@@ -8,7 +8,6 @@ use App\Article\Application\Service\EditArticleApplication;
 use App\Article\Application\Service\FindArticleApplication;
 use App\Article\Application\Service\IndexArticleApplication;
 use App\Article\Model\Article\IArticleRepository;
-use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingEditFormValidator;
 use App\Article\Validation\ParkingFormValidator;
 use Exception;

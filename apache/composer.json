@@ -19,6 +19,7 @@
             "Framework\\Validator\\" : "./src/framework/validator",
             "Framework\\Session\\" : "./src/framework/session",
             "Framework\\FileManager\\" : "./src/framework/fileManager",
+            "Framework\\Paginator\\" : "./src/framework/paginator",
             
             "App\\" : "./src/app",
             "App\\Shared\\" : "./src/app/shared",

@@ -5,7 +5,7 @@ namespace App\Article\Application\Service;
 use App\Article\Application\Service\Response\ApplicationResponse;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\Response\ArticleViewResponse;
-use App\Shared\Paginator;
+use Framework\Paginator\Paginator;
 
 /**
  * Description of IndexArticleApplication

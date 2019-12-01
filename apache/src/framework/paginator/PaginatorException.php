@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Shared;
+namespace Framework\Paginator;
 
 use InvalidArgumentException;
 

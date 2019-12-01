@@ -6,7 +6,6 @@ use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\EntityNotFoundException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Title;
-use App\Shared\IPaginable;
 
 /**
  * Description of InMemoryArticleRepository

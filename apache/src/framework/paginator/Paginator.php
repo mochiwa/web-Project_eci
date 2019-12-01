@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Shared;
+namespace Framework\Paginator;
 
 /**
  * Description of Paginator
