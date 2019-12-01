@@ -112,8 +112,6 @@ class AdminArticleController {
      */
     private function extractPictureFromRequest(RequestInterface $request,string $field): string {
         try {
-            phpinfo();
-            var_dump($request->getUploadedFiles()[$field]);die();
             return $request->getUploadedFiles()[$field]->getStream()->getMetadata('uri');
         } catch (Exception $ex) {
             
@@ -137,7 +135,12 @@ class AdminArticleController {
     
    
     
-
+    /**
+     * Return the form with the data from the article
+     * when error occur it's return to the index
+     * @param string $id
+     * @return Response
+     */
     private function editArticle(string $id) {
         
         $service=new FindArticleApplication($this->repository,$this->session);
