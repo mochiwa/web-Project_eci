@@ -151,7 +151,7 @@ class AdminArticleController {
         }
         return new Response(200, [], $this->viewBuilder->build('@article/editArticle', ['article'=>$response->getArticle()]));
     }
-
+    
     private function editArticleProcess(RequestInterface $request) {
         $post = $request->getParsedBody();
         $post['id'] = $request->getAttribute('id');

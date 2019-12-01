@@ -21,6 +21,7 @@
             "Framework\\FileManager\\" : "./src/framework/fileManager",
             
             "App\\" : "./src/app",
+            "App\\Shared\\" : "./src/app/shared",
             "App\\htmlBuilder\\" : "./src/app/htmlBuilder/",
             
             
@@ -73,6 +74,7 @@
             
             
             "Test\\App\\": "./test/app/",
+            "Test\\App\\Shared\\" : "./test/app/shared",
             "Test\\App\\Article\\Model\\Article\\" : "./test/app/articleModule/model/article",
             "Test\\App\\Article\\Infrastructure\\Persistance\\" : "./test/app/articleModule/infrastructure/persistance"
 
