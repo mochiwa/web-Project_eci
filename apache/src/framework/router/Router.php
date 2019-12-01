@@ -33,6 +33,7 @@ class Router implements IRouter{
     public function match(RequestInterface $request) : ?Route
     {
         $match=$this->router->match($request->getUri()->getPath(),$request->getMethod());
+        
         if($match){
             return new Route($match['name'],$match['target'],$match['params']);
         }

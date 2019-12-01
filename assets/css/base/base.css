@@ -1,0 +1,28 @@
+:root{
+	--black: #141313;
+	--white: white;
+	--red_error: #cc0000 ;
+	--hover: #888888;
+}
+
+*{
+	margin: 0;
+}
+
+body{
+	min-height: 100%;
+	margin: 0;
+	padding: 0;
+
+	display: flex;
+	flex-direction: column;
+}
+
+a{
+	text-decoration: none;
+	color: black;
+}
+a:hover{
+	color: var(--hover)
+}
+

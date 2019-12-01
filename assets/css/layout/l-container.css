@@ -1,0 +1,37 @@
+.container{
+	position: relative;
+}
+	.container-main{
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.container-header{
+
+		width: 100%;
+	}
+
+	.container-content{
+		height: 100%;
+		padding: 10px 5%;
+	}
+
+	.container-footer{
+	}
+
+.block{
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+	-webkit-box-shadow:0 0 24px 0 rgba(0,0,0,0.2);
+	-moz-box-shadow: 0 0 24px 0 rgba(0,0,0,0.2);
+	box-shadow: 0 0 24px 0 rgba(0,0,0,0.2);
+}
+
+@media only screen and (min-width: 1000px){
+	.container-content {
+		padding: 0 10%;
+	}
+}

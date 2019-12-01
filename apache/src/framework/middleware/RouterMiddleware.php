@@ -31,6 +31,7 @@ class RouterMiddleware implements MiddlewareInterface{
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $route= $this->router->match($request);
+        
         if(!$route)
         {
            return $handler->handle($request);

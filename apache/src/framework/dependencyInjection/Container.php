@@ -128,5 +128,4 @@ class Container  implements IContainer{
         }
         return $parametersBuilded;
     }
-
 }

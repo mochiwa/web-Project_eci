@@ -1,0 +1,30 @@
+.burger{
+	display: block;
+	width: 40px;
+	height: 100%;
+	margin: auto 10px;
+
+	cursor: pointer;
+}
+	.burger-line{
+		display: block;
+		width: 40px;
+		padding: 5px;
+
+		border-bottom: 5px solid var(--white);
+		transition: 300ms;
+	}
+	.burger--open .burger-line-0{
+			transform: rotate(-45deg) translate(-10px, 10px);
+		}
+	.burger--open .burger-line-1{
+			display: none;
+		}
+	.burger--open .burger-line-2{
+			transform: rotate(45deg) translate(5px, -6px);
+		}
+
+.burger__hiddenItem{
+	transition: 3000ms;
+	display: none;
+}

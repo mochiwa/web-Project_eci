@@ -3,12 +3,12 @@ namespace Framework\Middleware;
 
 use Framework\DependencyInjection\IContainer;
 use Framework\Router\Route;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Swoole\Http\Response;
-use UI\Exception\RuntimeException;
+use RuntimeException;
 
 /**
  * This middleware is responsible to make the

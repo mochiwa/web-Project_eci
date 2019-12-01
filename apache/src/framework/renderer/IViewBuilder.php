@@ -33,8 +33,9 @@ interface IViewBuilder {
      * Add variable accessible anywhere 
      * @param string name to use to find variable
      * @param type $data
+     * @return self
      */
-    function addGlobal(string $key,$data);
+    function addGlobal(string $key,$data):self;
     
     /**
      * Set a path for the defaultLayout

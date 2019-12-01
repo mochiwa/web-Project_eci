@@ -1,0 +1,44 @@
+.form{
+}
+
+	.form-section{
+		display: flex; 
+
+		flex-direction: column;
+		padding: 0 5px;
+	}
+		.form-section-fields{
+			padding: 0 15px;
+		}
+		.form-section-buttons{
+		
+			
+			padding: 5px 15px;
+		}
+		.form-section-links{
+		
+			padding: 0px 5px ;
+			padding-bottom: 5px;
+		}
+		.form-section-errors{
+			
+			padding: 10px 0;
+			margin: 15px 10px;
+		}
+
+
+@media only screen and (min-width: 700px){
+	.form{
+		max-width: 700px;
+		margin: 30px auto;
+	}
+	.form-section-links{
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.form-section-buttons{
+		flex-direction: row-reverse;
+			
+		padding: 5px 15px;
+	}
+} 

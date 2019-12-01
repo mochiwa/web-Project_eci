@@ -1,0 +1,16 @@
+.button{
+	display: inline-block;
+	padding: 5px 30px;
+	margin: 10px 0;
+
+	border: 1px solid var(--black);
+	border-radius: 2px;
+
+	cursor: pointer;
+	
+	background-color: transparent;
+	color: var(--black);
+}
+.button:hover{
+	color: var(--black);
+}
