@@ -19,14 +19,14 @@ class IndexArticleApplication {
     }
     
     
-    public function execute($page,int $articlePerPage=10): ApplicationResponse {
+    public function execute($page,int $articlePerPage=2): ApplicationResponse {
         $response = new ApplicationResponse();
         $paginator=new Paginator($this->repository,$articlePerPage);
         $data=[];
-        foreach ($paginator->getDataForPage(intval($page)===0 ? 1 : $page) as $article) {
+        foreach ($paginator->getDataForPage(intval($page)) as $article) {
             $data[] = new ArticleViewResponse($article);
         }
         
-        return $response->withArticle($data);
+        return $response->withArticle($data)->withPageCount($paginator->pageCount());
     }
 }

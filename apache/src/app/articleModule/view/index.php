@@ -31,4 +31,11 @@
     <?php } ?>
 </table>
     
+    <div>
+        <?php for($i=1;$i<=$pageCount;$i++){
+            echo '<a href="'.$router->generateURL('parking.admin.index-page',['page'=>$i]).'">'.$i.'</a>';
+            
+        } ?>
+    </div>
+    
 </section>

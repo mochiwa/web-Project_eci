@@ -1,7 +1,8 @@
 <?php
 
-use App\Shared\IPaginable;
-use App\Shared\Paginator;
+use Framework\Paginator\IPaginable;
+use Framework\Paginator\Paginator;
+use Framework\Paginator\PaginatorException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,12 +21,12 @@ class PaginatorTest extends TestCase{
     
     function test_setMaxDataPerPage_shouldThrowPaginatorException_whenCountIsEquals_0()
     {
-        $this->expectException(App\Shared\PaginatorException::class);
+        $this->expectException(PaginatorException::class);
         $this->paginator->setMaxDataPerPage(0);
     }
     function test_setMaxDataPerPage_shouldThrowPaginatorException_whenCountLessThan_0()
     {
-        $this->expectException(App\Shared\PaginatorException::class);
+        $this->expectException(PaginatorException::class);
         $this->paginator->setMaxDataPerPage(-10);
     }
     
@@ -109,5 +110,17 @@ class PaginatorTest extends TestCase{
     {
         $this->paginable->expects($this->never())->method('getForPagination');
         $this->assertSame([], $this->paginator->getDataForPage(0));
+    }
+    
+    function test_getDataForPage_shouldReturnLastArticle_whenNoMoreArticleCanBeDisplayed()
+    {
+        $this->paginable->expects($this->once())->method('getForPagination')->will($this->returnCallback(function($current,$max){
+            $data=[1,2,3,4,5];
+            return array_slice($data,$current, $max);
+        }));
+        $this->paginable->expects($this->once())->method('dataCount')->willReturn(5);
+        $this->paginator->setMaxDataPerPage(2);
+        
+        $this->assertSame([5], $this->paginator->getDataForPage(3));
     }
 }

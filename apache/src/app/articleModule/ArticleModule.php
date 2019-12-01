@@ -19,6 +19,7 @@ class ArticleModule extends AbstractModule {
         $router->map('GET', '/parking', ArticleController::class, 'parking.home');
         
         $router->map('GET', '/parking/admin', AdminArticleController::class, 'parking.admin.index');
+        $router->map('GET', '/parking/admin/page-[i:page]', AdminArticleController::class, 'parking.admin.index-page');
         
         $router->map('GET', '/parking/admin/create', AdminArticleController::class, 'parking.admin.create');
         $router->map('POST', '/parking/admin/create', AdminArticleController::class, 'parking.admin.create.process');

@@ -10,6 +10,7 @@ namespace App\Article\Application\Service\Response;
 class ApplicationResponse {
     private $errors=[];
     private $article=null;
+    private $pageCount=0;
     
     
     public function __construct($errors=[], $article=null) {
@@ -25,12 +26,13 @@ class ApplicationResponse {
         return $this->errors;
     }
 
-
-
     public function getArticle() {
         return $this->article;
     }
-
+    
+    public function getPageCount(){
+        return $this->pageCount;
+    }
 
 
     public function withErrors($errors) {
@@ -40,6 +42,12 @@ class ApplicationResponse {
 
     public function withArticle($article) {
         $this->article = $article;
+        return $this;
+    }
+    
+    public function withPageCount(int $page)
+    {
+        $this->pageCount=$page;
         return $this;
     }
 

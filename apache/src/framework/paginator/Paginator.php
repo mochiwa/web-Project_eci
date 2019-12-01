@@ -72,9 +72,11 @@ class Paginator {
     public function getDataForPage(int $page):array
     {
         if($page > $this->pageCount() || $page <= 0){
+            
             return [];
         }
-        $current=$page===1 ? 0 : ($page-1 * $this->maxDataPerPage)-1;
+        
+        $current= $page===1 ? 0 : (($page-1) * $this->maxDataPerPage);
         return $this->paginable->getForPagination($current,$this->maxDataPerPage);
     }
 }

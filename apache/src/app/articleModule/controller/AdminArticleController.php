@@ -55,7 +55,7 @@ class AdminArticleController {
         } else if (strpos($request->getRequestTarget(), 'delete')) {
             return $this->deleteArticle($request->getAttribute('id'));
         }
-        return $this->index($request->getQueryParams()['page']);
+        return $this->index($request->getAttribute('page'));
     }
 
     /**
@@ -67,7 +67,7 @@ class AdminArticleController {
         $service=new IndexArticleApplication($this->repository);
         $response=$service->execute($page);
       
-        $httpResponse->getBody()->write($this->viewBuilder->build('@article/index', ['data' => $response->getArticle()]));
+        $httpResponse->getBody()->write($this->viewBuilder->build('@article/index', ['data' => $response->getArticle(),'pageCount'=>$response->getPageCount()]));
         return $httpResponse;
     }
 
