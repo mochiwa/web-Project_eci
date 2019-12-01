@@ -10,17 +10,15 @@ use App\Article\Model\Article\Article;
  */
 class ApplicationResponse {
     private $errors=[];
-    private $flashMessage='';
     private $article=null;
     
     
-    public function __construct($errors=[], $flashMessage='', Article $article=null) {
+    public function __construct($errors=[], Article $article=null) {
         $this->errors = $errors;
-        $this->flashMessage = $flashMessage;
         $this->article = $article;
     }
     
-    public function isError() {
+    public function hasErrors() {
         return  !empty($this->errors);
     }
 
@@ -28,9 +26,7 @@ class ApplicationResponse {
         return $this->errors;
     }
 
-    public function getInformation() :string {
-        return $this->flashMessage;
-    }
+
 
     public function getArticle() {
         return $this->article;
@@ -40,11 +36,6 @@ class ApplicationResponse {
 
     public function withErrors($errors) {
         $this->errors = $errors;
-        return $this;
-    }
-
-    public function withFlashMessage($flashMessage) {
-        $this->flashMessage = $flashMessage;
         return $this;
     }
 

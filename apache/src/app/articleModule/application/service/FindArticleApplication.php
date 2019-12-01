@@ -32,7 +32,7 @@ class FindArticleApplication {
            $response->withArticle($article);
         } catch (Exception $ex) {
             $this->session->setFlash(FlashMessage::error($ex->getMessage()));
-            return $response->withErrors([$ex])->withFlashMessage($ex->getMessage());
+            return $response->withErrors([$ex]);
         }
         return $response;
     }

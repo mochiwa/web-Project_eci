@@ -45,6 +45,6 @@ class EditArticleApplication {
                     ->withArticle(new ArticleViewResponse($article));
         }
         $this->session->setFlash(\Framework\Session\FlashMessage::success('The article "'.$articleResposne->getTitle().'" has been updated !'));
-        return $response->withFlashMessage('The article "'.$articleResposne->getTitle().'" has been updated !');
+        return $response;
     }
 }

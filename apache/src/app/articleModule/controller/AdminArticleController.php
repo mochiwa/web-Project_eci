@@ -99,7 +99,7 @@ class AdminArticleController {
         $service = new CreateArticleApplication($this->repository, new ParkingFormValidator(), $this->uploader,$this->session);
         $response = $service->execute($post);
 
-        if ($response->isError()) {
+        if ($response->hasErrors()) {
             return $this->responseWithErrors('@article/createArticle', ['errors'=> $response->getErrors()]);
         }
         return $this->redirectToIndex();
@@ -112,6 +112,8 @@ class AdminArticleController {
      */
     private function extractPictureFromRequest(RequestInterface $request,string $field): string {
         try {
+            phpinfo();
+            var_dump($request->getUploadedFiles()[$field]);die();
             return $request->getUploadedFiles()[$field]->getStream()->getMetadata('uri');
         } catch (Exception $ex) {
             
@@ -140,7 +142,7 @@ class AdminArticleController {
         
         $service=new FindArticleApplication($this->repository,$this->session);
         $response=$service->execute($id);
-        if($response->isError())
+        if($response->hasErrors())
         {
             return $this->redirectToIndex(400);
         }
@@ -154,7 +156,7 @@ class AdminArticleController {
         $service = new EditArticleApplication($this->repository, new ParkingEditFormValidator(),$this->session);
         $response = $service->execute($post);
         
-        if ($response->isError()) {
+        if ($response->hasErrors()) {
             return $this->responseWithErrors('@article/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);
         }
         return $this->redirectToIndex();
@@ -169,7 +171,7 @@ class AdminArticleController {
         
         $service=new DeleteArticleApplication($this->repository,$this->session);
         $response=$service->execute($articleId);
-        if($response->isError())
+        if($response->hasErrors())
         {
             return $this->redirectToIndex(400);
         }

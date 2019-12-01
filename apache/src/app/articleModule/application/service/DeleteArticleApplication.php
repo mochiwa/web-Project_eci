@@ -31,9 +31,9 @@ class DeleteArticleApplication {
             $service->execute(new DeleteArticleRequest($articleId));
         } catch (Exception $ex) {
             $this->sesion->setFlash(FlashMessage::error('This article has been already deleted'));
-            return $response->withFlashMessage('This article has been already deleted');
+            return $response->withErrors($ex);
         }
         $this->sesion->setFlash(FlashMessage::error('This article has been deleted'));
-        return $response->withFlashMessage('The article has been deleted !');
+        return $response;
     }
 }

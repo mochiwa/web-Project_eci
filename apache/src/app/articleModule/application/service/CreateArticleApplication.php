@@ -46,7 +46,7 @@ class CreateArticleApplication {
             return $response->withErrors([$ex->field()=>[$ex->getMessage()]]);
         }
         $this->session->setFlash(FlashMessage::success('The article "'.$articleResponse->getTitle().'" has been created !'));
-        return $response->withFlashMessage('The article "'.$articleResponse->getTitle().'" has been created !');
+        return $response;
     }
 
 
