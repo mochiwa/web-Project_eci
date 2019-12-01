@@ -1,7 +1,6 @@
 <?php
 namespace App\Article\Application\Service\Response;
 
-use App\Article\Model\Article\Article;
 
 /**
  * Description of ApplicationResponse
@@ -13,7 +12,7 @@ class ApplicationResponse {
     private $article=null;
     
     
-    public function __construct($errors=[], Article $article=null) {
+    public function __construct($errors=[], $article=null) {
         $this->errors = $errors;
         $this->article = $article;
     }

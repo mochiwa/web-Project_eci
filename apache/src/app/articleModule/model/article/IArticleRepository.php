@@ -3,12 +3,14 @@
 
 namespace App\Article\Model\Article;
 
+use App\Shared\IPaginable;
+
 /**
  * The interface for article repository
  *
  * @author mochiwa
  */
-interface IArticleRepository {
+interface IArticleRepository extends IPaginable {
     /**
      * Return the next id available
      * @return ArticleId

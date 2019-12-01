@@ -6,9 +6,8 @@ use App\Article\Application\Service\CreateArticleApplication;
 use App\Article\Application\Service\DeleteArticleApplication;
 use App\Article\Application\Service\EditArticleApplication;
 use App\Article\Application\Service\FindArticleApplication;
+use App\Article\Application\Service\IndexArticleApplication;
 use App\Article\Model\Article\IArticleRepository;
-use App\Article\Model\Article\Service\GettingArticleService;
-use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
 use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingEditFormValidator;
 use App\Article\Validation\ParkingFormValidator;
@@ -57,21 +56,20 @@ class AdminArticleController {
         } else if (strpos($request->getRequestTarget(), 'delete')) {
             return $this->deleteArticle($request->getAttribute('id'));
         }
-        return $this->index();
+        return $this->index($request->getQueryParams()['page']);
     }
 
     /**
      * The main page to manage all article
      * @return Response
      */
-    private function index() {
-        $response = new Response();
-        $data = [];
-        foreach ($this->repository->All() as $article) {
-            $data[] = new ArticleViewResponse($article);
-        }
-        $response->getBody()->write($this->viewBuilder->build('@article/index', ['data' => $data]));
-        return $response;
+    private function index($page) {
+        $httpResponse = new Response();
+        $service=new IndexArticleApplication($this->repository);
+        $response=$service->execute($page);
+      
+        $httpResponse->getBody()->write($this->viewBuilder->build('@article/index', ['data' => $response->getArticle()]));
+        return $httpResponse;
     }
 
     /**
