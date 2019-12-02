@@ -14,6 +14,7 @@
             "Framework\\DependencyInjection\\" : "./src/framework/dependencyInjection",
             "Framework\\Renderer\\" : "./src/framework/renderer",
             "Framework\\HtmlBuilder\\" : "./src/framework/htmlBuilder",
+            "Framework\\Html\\" : "./src/framework/html",
             "Framework\\Module\\" : "./src/framework/module",
             "Framework\\Middleware\\" : "./src/framework/middleware",
             "Framework\\Validator\\" : "./src/framework/validator",
@@ -71,6 +72,7 @@
             "Test\\Framework\\Middleware\\" : "./test/framework/middleware",
             "Test\\Framework\\Renderer\\" : "./test/framework/renderer",
             "Test\\Framework\\HtmlBuilder\\" : "./test/framework/htmlBuilder",
+            "Test\\Framework\\Html\\" : "./test/framework/html",
             "Test\\Framework\\FileManager\\" : "./test/framework/fileManager",
             
             
