@@ -1,4 +1,6 @@
-<?php use \App\htmlBuilder\Link;?>
+<?
+use App\Html\LinkFactory;
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -17,16 +19,16 @@
                         <h2><a class="nav-logo__item" href="">-LOGO-</a></h2>
                     </div>
                     <nav class="nav">
-                        <?= Link::topNavLink($router->generateURL('home'), 'Home')->toHtml() ?>
-                        <?= Link::topNavLink($router->generateURL('parking.home'), 'Parking')->toHtml() ?>
-                        <?= Link::topNavLink($router->generateURL('contact'), 'Contact')->toHtml() ?>
+                        <?= LinkFactory::topNavLink($router->generateURL('home'), 'Home')->toHtml() ?>
+                        <?= LinkFactory::topNavLink($router->generateURL('parking.home'), 'Parking')->toHtml() ?>
+                        <?= LinkFactory::topNavLink($router->generateURL('contact'), 'Contact')->toHtml() ?>
                     </nav>
                 </div>
 
                 <div class="nav-top nav-top-right">
                     <nav class="nav">
-                            <?= Link::topNavLink($router->generateURL('user.signIn'), 'Sign In')->toHtml() ?>
-                            <?= Link::topNavLink($router->generateURL('user.signUp'), 'Sign Up', true)->toHtml() ?>
+                            <?= LinkFactory::topNavLink($router->generateURL('user.signIn'), 'Sign In')->toHtml() ?>
+                            <?= LinkFactory::topNavLink($router->generateURL('user.signUp'), 'Sign Up', true)->toHtml() ?>
                     </nav>
                 </div>
             </section>

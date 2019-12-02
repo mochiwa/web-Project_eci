@@ -1,9 +1,10 @@
 <?php
 
-use App\Article\view\ViewFactory\FormFactory;
-
-$form= FormFactory::createParkingForm($router->generateURL('parking.admin.create'),
-        $errors ?? [], $values ?? [],$router->generateURL('parking.admin'));
+use App\Article\view\ViewFactory\FormBuilder;
+$form= FormBuilder::createParkingForm(
+        $router->generateURL('parking.admin.create'),
+        $errors ?? [], $values ?? [],
+        $router->generateURL('parking.admin'));
 ?>
 
 

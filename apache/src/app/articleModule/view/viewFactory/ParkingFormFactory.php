@@ -27,6 +27,8 @@ class ParkingFormFactory extends DefaultFormFactory {
 
     public function sectionButtons(): ?HtmlTag {
         $div=parent::sectionButtons();
+        $div->addStyle('form-section')
+            ->addStyle('form-section-buttons');
         return $div;
     }
 
@@ -37,6 +39,8 @@ class ParkingFormFactory extends DefaultFormFactory {
 
     public function sectionFields(): ?HtmlTag {
         $div=parent::sectionFields();
+        $div->addStyle('form-section')
+            ->addStyle('form-section-fields');
         return $div;
     }
 

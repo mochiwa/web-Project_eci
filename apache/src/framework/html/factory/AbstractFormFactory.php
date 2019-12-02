@@ -1,5 +1,5 @@
 <?php
-namespace Framework\Html;
+namespace Framework\Html\Factory;
 
 use Framework\Html\Attribute;
 use Framework\Html\HtmlTag;

@@ -2,6 +2,9 @@
 
 namespace Framework\Html;
 
+use Framework\Html\Factory\AbstractFormFactory;
+use Framework\Html\Factory\DefaultFormFactory;
+
 /**
  * Description of Form
  *
@@ -50,7 +53,7 @@ class Form extends HtmlTag{
     
     /**
      * Append an input into the form
-     * @param \Framework\Html\Input $input
+     * @param Input $input
      * @return \self
      */
     public function addInput(Input $input) : self
@@ -63,7 +66,7 @@ class Form extends HtmlTag{
     /**
      * Generate an input with an unique Id
      * @param self $input
-     * @return \Framework\Html\Input
+     * @return Input
      */
     private function generateUniqueInput(Input $input) : Input
     {
@@ -100,7 +103,7 @@ class Form extends HtmlTag{
     /**
      * Return the input with the id,if input not found return null
      * @param string $id
-     * @return \Framework\Html\Input|null
+     * @return Input|null
      */
     public function getInputById(string $id): ?Input
     {
@@ -109,7 +112,7 @@ class Form extends HtmlTag{
     
     /**
      * Append an input with its label
-     * @param \Framework\Html\Input $input
+     * @param Input $input
      * @param string $labelValue
      */
     public function addInputWithLabel(Input $input,string $labelValue):self

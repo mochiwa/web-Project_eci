@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Html;
+namespace Framework\Html\Factory;
 
 /**
  * Description of DefaultFormFactory
