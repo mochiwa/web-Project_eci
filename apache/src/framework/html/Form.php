@@ -89,7 +89,7 @@ class Form extends HtmlTag{
     {
         $uniqueInput=$this->generateUniqueInput($input);
         $this->addChild($this->makeLabel($labelValue, $uniqueInput->getId()));
-        $this->addChild($uniqueInput);
+        $this->addInput($uniqueInput);
         return $this;
     }
     

@@ -13,6 +13,27 @@ use GuzzleHttp\Psr7\ServerRequest;
 use function Http\Response\send;
 require '../vendor/autoload.php';
 
+   //$form->addAttribute((new Attribute('enctype'))->addContent('multipart/form-data'));
+
+$errors=[
+    'form-login'=>['not valid'],
+    'form-password'=>['not valid']
+];
+
+$value=[
+    'form-login'=>'typed'
+];
+        
+$form = new Framework\Html\Form('./here', 'post');
+$form->addInputWithLabel(new \Framework\Html\Input('login'), 'Your login');
+$form->addInputWithLabel(new \Framework\Html\Input('password','password'), 'Your password');
+
+$form->setErrors($errors);
+$form->fillForm($value);
+
+echo $form->toHtml();
+die();
+
 $container=new Container();
 $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php'));
 
