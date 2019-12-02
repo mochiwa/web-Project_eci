@@ -47,6 +47,8 @@
             "App\\Article\\Model\\Article\\Service\\Response\\" : "./src/app/articleModule/model/article/service/response",
             
             "App\\Article\\View\\" : "./src/app/articleModule/view",
+            "App\\Article\\view\\ViewFactory\\" : "./src/app/articleModule/view/viewFactory",
+
             "App\\Article\\Validation\\" : "./src/app/articleModule/validation",
             "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory"
             
