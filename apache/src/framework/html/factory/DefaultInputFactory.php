@@ -1,7 +1,9 @@
 <?php
 namespace Framework\Html\Factory;
 
+use Framework\Html\HtmlTag;
 use Framework\Html\Input;
+use Framework\Html\TextArea;
 
 /**
  * The basic input factory without special behavior
@@ -24,8 +26,13 @@ class DefaultInputFactory extends AbstractInputFactory{
     public function text($name) :Input {
         return new Input($name, 'text');
     }
-
-    public function build(string $type, string $name) :Input {
+    
+    public function textArea($name): TextArea {
+        return new TextArea($name);
+    }
+    
+    
+    public function build(string $type, string $name) : HtmlTag {
         return  call_user_func_array([$this,$type], [$name]);
     }
 

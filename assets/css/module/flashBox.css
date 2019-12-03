@@ -1,0 +1,12 @@
+.flashBox{
+	width: 100%;
+}
+	.flashBox-error{
+		background-color: red;
+	}
+	.flashBox-success{
+		background-color: green;
+	}
+	.flashBox__message{
+
+	}

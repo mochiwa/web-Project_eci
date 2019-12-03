@@ -3,6 +3,7 @@ namespace Framework\Html\Factory;
 
 use Framework\Html\Attribute;
 use Framework\Html\HtmlTag;
+use Framework\Html\Input;
 
 
 

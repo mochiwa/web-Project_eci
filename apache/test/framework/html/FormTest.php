@@ -2,7 +2,7 @@
 
 namespace Test\Framework\html;
 
-use Framework\Html\DefaultFormFactory;
+use Framework\Html\Factory\DefaultFormFactory;
 use Framework\Html\Form;
 use Framework\Html\Input;
 use PHPUnit\Framework\TestCase;

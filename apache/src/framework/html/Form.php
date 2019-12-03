@@ -56,7 +56,7 @@ class Form extends HtmlTag{
      * @param Input $input
      * @return \self
      */
-    public function addInput(Input $input) : self
+    public function addInput(HtmlTag $input) : self
     {
         $uniqueInput=$this->generateUniqueInput($input);
         $this->sectionFields->addChild($uniqueInput);
@@ -68,7 +68,7 @@ class Form extends HtmlTag{
      * @param self $input
      * @return Input
      */
-    private function generateUniqueInput(Input $input) : Input
+    private function generateUniqueInput(HtmlTag $input) : HtmlTag
     {
         if(!$input->hasAttribute('id'))
         {
@@ -105,7 +105,7 @@ class Form extends HtmlTag{
      * @param string $id
      * @return Input|null
      */
-    public function getInputById(string $id): ?Input
+    public function getInputById(string $id): ?HtmlTag
     {
         return $this->sectionFields->searchChildById($id);
     }
@@ -115,7 +115,7 @@ class Form extends HtmlTag{
      * @param Input $input
      * @param string $labelValue
      */
-    public function addInputWithLabel(Input $input,string $labelValue):self
+    public function addInputWithLabel(HtmlTag $input,string $labelValue):self
     {
         $uniqueInput=$this->generateUniqueInput($input);
         $this->sectionFields->addChild($this->formElementFactory->label($labelValue,$uniqueInput->getId()));
@@ -157,15 +157,17 @@ class Form extends HtmlTag{
      * Append a submit button at the bottom of the form
      * @param string $text
      */
-    public function addSubmit(string $text)
+    public function addSubmit(string $text) : self
     {
         $button = $this->formElementFactory->submit($text);
         $this->sectionButtons->addChild($button);
+        return $this;
     }
-    public function addCancel(string $text,string $target)
+    public function addCancel(string $text,string $target) :self
     {
         $button = $this->formElementFactory->cancel($text,$target);
         $this->sectionButtons->addChild($button);
+        return $this;
     }
   
 

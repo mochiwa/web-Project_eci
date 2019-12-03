@@ -4,6 +4,7 @@ namespace App\Article\view\ViewFactory;
 
 use Framework\Html\Factory\DefaultInputFactory;
 use Framework\Html\Input;
+use Framework\Html\TextArea;
 
 /**
  * Description of ParkingInputFactory
@@ -30,6 +31,11 @@ class ParkingInputFactory extends DefaultInputFactory{
 
     public function text($name): Input {
         return parent::text($name)
+                ->addStyle('form__input');
+    }
+    
+    public function textArea($name): TextArea {
+        return parent::textArea($name)
                 ->addStyle('form__input');
     }
 

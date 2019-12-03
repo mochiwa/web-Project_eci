@@ -2,7 +2,7 @@
 <section class="block">
     
     <?php
-        $box = new \App\htmlBuilder\FlashBox($session->flash());
+        $box = new \App\Article\view\ViewFactory\FlashBox($session->flash());
         echo $box->toHtml();
     ?>
     

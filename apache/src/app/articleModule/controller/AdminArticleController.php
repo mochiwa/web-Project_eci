@@ -7,6 +7,7 @@ use App\Article\Application\Service\DeleteArticleApplication;
 use App\Article\Application\Service\EditArticleApplication;
 use App\Article\Application\Service\FindArticleApplication;
 use App\Article\Application\Service\IndexArticleApplication;
+use App\Article\Application\Service\Response\ArticleFormResponse;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Validation\ParkingEditFormValidator;
 use App\Article\Validation\ParkingFormValidator;
@@ -146,7 +147,7 @@ class AdminArticleController {
         {
             return $this->redirectToIndex(400);
         }
-        return new Response(200, [], $this->viewBuilder->build('@article/editArticle', ['article'=>$response->getArticle()]));
+        return new Response(200, [], $this->viewBuilder->build('@article/editArticle', ['article'=>new ArticleFormResponse($response->getArticle())]));
     }
     
     private function editArticleProcess(RequestInterface $request) {

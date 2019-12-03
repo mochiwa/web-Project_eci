@@ -2,6 +2,10 @@
 
 namespace Framework\Html\Factory;
 
+use Framework\Html\Attribute;
+use Framework\Html\HtmlTag;
+use Framework\Html\Input;
+
 /**
  * Description of DefaultFormFactory
  *
@@ -36,7 +40,7 @@ class DefaultFormFactory extends AbstractFormFactory{
     }
 
     public function sectionFields(): ?HtmlTag {
-        return HtmlTag::make('div')->setId($this->id.'-section-fields');;
+        return HtmlTag::make('div')->setId($this->id.'-section-fields');
     }
 
     public function label(string $text, string $for) :HtmlTag{

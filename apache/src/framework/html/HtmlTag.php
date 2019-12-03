@@ -214,6 +214,7 @@ class HtmlTag {
     public function searchChildById(string $id) : ?HtmlTag
     {
         foreach ($this->children as $child) {
+                    
             if($child instanceof self)
             {
                 if($child->getId()===$id)
@@ -222,11 +223,17 @@ class HtmlTag {
                 }
                 elseif($child->childrenCount())
                 {
-                   return $child->searchChildById($id);
+                   $search=$child->searchChildById($id);
+                   if($search != null )
+                       return $search;
                 }
             }
         }
         return null;
     }
     
+    protected function setName(string $name)
+    {
+        $this->name=$name;
+    }
 }

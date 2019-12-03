@@ -2,7 +2,7 @@
 
 namespace App\Article\view\ViewFactory;
 
-use Framework\Html\DefaultFormFactory;
+use Framework\Html\Factory\DefaultFormFactory;
 use Framework\Html\HtmlTag;
 use Framework\Html\Input;
 

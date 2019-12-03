@@ -24,7 +24,8 @@ class FormBuilder {
             ->addInputWithLabel($inputFactory->build('file', 'picture'),'Picture')
             ->addInputWithLabel($inputFactory->build('text', 'city'),'City')
             ->addInputWithLabel($inputFactory->build('text', 'place'),'Count of place')
-            ->addInputWithLabel($inputFactory->build('text', 'parking_name'),'parking name')
+            ->addInputWithLabel($inputFactory->build('text', 'name'),'parking name')
+            ->addInputWithLabel($inputFactory->build('textArea', 'description'), 'Parking description')
             ->addCancel('cancel', $cancelTarget)
             ->addSubmit('Upload article');
         

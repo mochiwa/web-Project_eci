@@ -21,15 +21,7 @@ class Input extends HtmlTag{
         $this->setRequired($isRequired);
     }
     
-    public static function TEXT(string $name):self
-    {
-        return new self($name,'text');
-    }
-    public static function FILE(string $name):self
-    {
-        return new self($name,'file');
-    }
-    
+
     /**
      * Set the name of the input
      * @param string $name
