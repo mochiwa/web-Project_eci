@@ -38,6 +38,7 @@
             "App\\Article\\Application\\" : "./src/app/articleModule/application",
             "App\\Article\\Application\\Service\\" : "./src/app/articleModule/application/service",
             "App\\Article\\Application\\Service\\Response\\" : "./src/app/articleModule/application/service/response",
+            "App\\Article\\Application\\Service\\Dto\\" : "./src/app/articleModule/application/service/dto",
             
             "App\\Article\\Model\\" : "./src/app/articleModule/model",
             

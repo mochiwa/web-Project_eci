@@ -2,13 +2,16 @@
 
 namespace App\Article\Application\Service;
 
-use App\Article\Application\Service\Response\ApplicationResponse;
+use App\Article\Application\Service\Dto\ArticleView;
+use App\Article\Application\Service\Response\IndexResponse;
 use App\Article\Model\Article\IArticleRepository;
-use App\Article\Model\Article\Service\Response\ArticleViewResponse;
+use App\Article\Model\Article\Service\Response\ArticleDomainResponse;
 use Framework\Paginator\Paginator;
 
 /**
- * Description of IndexArticleApplication
+ * List all article found in repository and make a pagination of them.
+ * Return an IndexResponse
+ * 
  *
  * @author mochiwa
  */
@@ -19,14 +22,14 @@ class IndexArticleApplication {
     }
     
     
-    public function execute($page,int $articlePerPage=2): ApplicationResponse {
-        $response = new ApplicationResponse();
+    public function execute($page,int $articlePerPage=5): IndexResponse {
+        
         $paginator=new Paginator($this->repository,$articlePerPage);
         $data=[];
         foreach ($paginator->getDataForPage(intval($page)) as $article) {
-            $data[] = new ArticleViewResponse($article);
+            $data[] = new ArticleView(new ArticleDomainResponse($article));//a remplacer par le finder in dd
         }
-        
-        return $response->withArticle($data)->withPageCount($paginator->pageCount());
+        $response = new IndexResponse($data,$paginator->pageCount());
+        return $response;
     }
 }

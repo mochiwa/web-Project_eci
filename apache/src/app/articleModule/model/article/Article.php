@@ -57,8 +57,6 @@ class Article {
         $this->creationDate = $creationDate;
         $this->lastUpdateDate = $lastUpdateDate;
     }
-
-    
     /**
      * Build a new article where the creation date and last update will be init
      * By the system
@@ -74,6 +72,7 @@ class Article {
     {
         $currentTime=Date::fromTimeStamp(time());
         return new self($id,$title,$picture,$attributes,$description, $currentTime,$currentTime);
+        
     }
     
     /**

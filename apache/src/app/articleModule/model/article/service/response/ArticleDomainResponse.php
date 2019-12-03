@@ -2,6 +2,12 @@
 
 namespace App\Article\Model\Article\Service\Response;
 
+use App\Article\Model\Article\Article;
+use App\Article\Model\Article\ArticleId;
+use App\Article\Model\Article\Date;
+use App\Article\Model\Article\Picture;
+use App\Article\Model\Article\Title;
+
 /**
  * Description of ArticleDomainResponse
  *
@@ -45,17 +51,16 @@ class ArticleDomainResponse {
     private $lastUpdateDate;
     
     
-    private function __construct(ArticleId $id,Title $title,
-            Picture $picture,array $attributes,string $description,
-            Date $creationDate, Date $lastUpdateDate) 
+    public function __construct(Article $article) 
     {
-        $this->id = $id;
-        $this->title = $title;
-        $this->picture = $picture;
-        $this->attributes = $attributes;
-        $this->description = $description;
-        $this->creationDate = $creationDate;
-        $this->lastUpdateDate = $lastUpdateDate;
+        $this->id = $article->id();
+        $this->title = $article->title();
+        $this->picture = $article->picture();
+        $this->attributes = $article->attributes();
+        $this->description = $article->description();
+        $this->creationDate = $article->creationDate();
+        $this->lastUpdateDate = $article->lastUpdateDate();
+        
     }
     
     /**
