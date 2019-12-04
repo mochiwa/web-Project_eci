@@ -6,7 +6,6 @@ use Framework\Html\Pagination;
 ?>
 
 <section class="block">
-    
     <?php
         $box = new FlashBox($session->flash());
         echo $box->toHtml();
@@ -14,7 +13,7 @@ use Framework\Html\Pagination;
     
    
     
-<h1 class=""> Article management </h1>
+<h1 class="block__title block__title-center"> Article management </h1>
 <a class="button button table__button" href="<?= $router->generateURL('parking.admin.create')?>">Create a new article</a>
     
 <table class="table">
@@ -28,7 +27,7 @@ use Framework\Html\Pagination;
     </thead>
     <tbody>
         <?php foreach($articles as $key => $article) {?>
-        <tr class="table-article <?= $key%2!==0 ? 'table-article--odd' : '' ?>">
+        <tr class="table-article <?= $key%2===0 ? 'table-article--odd' : '' ?>">
             <td class="table-article__item table-article__item-title"><?= $article->getTitle() ?></td>
             <td class="table-article__item table-article__item-date "><?= $article->getCreationDate() ?></td>
             <td class="table-article__item table-article__item-date "><?= $article->getLastUpdateDate()?></td>

@@ -24,7 +24,7 @@ class PaginationFactory extends DefaultPaginationFactory {
     
     
     protected function generateLink($link): string {
-        return $this->router->generateURL($this->baseUrl,[$this->slug => $link]);//parent::generateLink($this->baseUrl,[$this->slug => $link]);
+        return $this->router->generateURL($this->baseUrl,[$this->slug => $link]);
     }
     
     public function currentPage(int $number): HtmlTag {
