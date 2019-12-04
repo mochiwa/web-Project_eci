@@ -114,28 +114,7 @@ class Pagination extends HtmlTag{
     
     public function generateLink()
     {
-        if($this->pageCount===1)
-        {
-            $this->setCurrentPage(1);
-        }
-        if( isset($this->currentPage) && $this->currentPage+1 >= $this->getLocalLimit()-$this->pageCountLimite)
-        {
-            $arrayPos=0;
-            for ($i = $this->currentPage; $i <= $this->pageCount && $i <= $this->currentPage+$this->pageCountLimite;  ++$i) {
-                $this->links[$arrayPos++] = $this->factory->page($i);
-            }
-            $this->links[0] = $this->factory->currentPage($this->currentPage);
-        }
-        else
-        {
-            for ($i = 1; $i <= $this->pageCount && $i <= $this->pageCountLimite;  ++$i) {
-                $this->links[strval($i)] = $this->factory->page($i);
-            }
-            if (isset($this->currentPage)) {
-                $this->links[$this->currentPage] = $this->factory->currentPage($this->currentPage);
-            }
-        }
-        
+     
     }
     
     public function getLocalLimit($iterator=0,$const=0)

@@ -79,4 +79,7 @@ class Paginator {
         $current= $page===1 ? 0 : (($page-1) * $this->maxDataPerPage);
         return $this->paginable->getForPagination($current,$this->maxDataPerPage);
     }
+    
+    
+    
 }

@@ -109,22 +109,6 @@ class PaginationTest extends TestCase{
         $this->assertNotContains($this->paginationFactory->page(5)->toHtml(),$this->pagination->toHtml());
     }
     
-    public function test_toHtml_shouldGenerateLinks3_4_5_whenLimitIs3AndCurrentIs2()
-    {
-        $this->pagination->setPageCount(5);
-        $this->pagination->setPageLimite(3);
-        $this->pagination->setCurrentPage(3);
-        $this->assertContains($this->paginationFactory->currentPage(3)->toHtml(),$this->pagination->toHtml());
-        
-        
-        for($i=4;$i!=5;++$i)
-        {
-            $this->assertContains($this->paginationFactory->page($i)->toHtml(),$this->pagination->toHtml());
-        }
-        
-        $this->assertNotContains($this->paginationFactory->page(1)->toHtml(),$this->pagination->toHtml());
-        $this->assertNotContains($this->paginationFactory->page(6)->toHtml(),$this->pagination->toHtml());
-    }
     
     
     function test_getLocalLimit_shouldReturn1_whenPageCountIsEqualsOne()
