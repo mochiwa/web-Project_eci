@@ -70,7 +70,7 @@ class AdminArticleController {
         $httpResponse->getBody()->write(
                 $this->viewBuilder->build('@article/index',
                 ['articles' => $appResponse->getArticles(),
-                'pageCount'=>$appResponse->getPageCount()]));
+                'pagination'=>$appResponse->getPagination()]));
         return $httpResponse;
     }
 

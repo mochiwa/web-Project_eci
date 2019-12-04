@@ -2,6 +2,8 @@
 
 namespace App\Article\Application\Service\Response;
 
+use Framework\Paginator\Pagination;
+
 /**
  * This response deals with the index controlle ,
  * it returns a list of article and the count of page
@@ -17,15 +19,15 @@ class IndexResponse extends AbstractApplicationResponse{
     private $articles;
     
     /**
-     * return the count of page
-     * @var int
+     * the pagination of the index
+     * @var Pagination
      */
-    private $pageCount;
+    private $pagination;
     
-    public function __construct(array $articles=[], int $pageCount=0) {
+    public function __construct(Pagination $pagination,array $articles=[]) {
         parent::__construct();
         $this->articles = $articles;
-        $this->pageCount = $pageCount;
+        $this->pagination = $pagination;
     }
 
     
@@ -33,8 +35,8 @@ class IndexResponse extends AbstractApplicationResponse{
         return $this->articles;
     }
     
-    public function getPageCount() : int {
-        return $this->pageCount;
+    public function getPagination() : Pagination {
+        return $this->pagination;
     }
 
 

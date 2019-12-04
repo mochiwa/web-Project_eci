@@ -78,7 +78,7 @@ class Pagination {
      */
     public function isLastPageReach() : bool
     {
-       return $this->pageCount===$this->current ;
+       return $this->pageCount<=$this->current ;
     }
     /**
      * Return true if the current page is the last of the current set
@@ -120,7 +120,7 @@ class Pagination {
      * than the page count return 1 .
      * @return int
      */
-    private function getCurrentPage() : int
+    public function getCurrentPage() : int
     {
         if(!isset($this->current) || $this->current > $this->pageCount){
             return 1;
@@ -190,18 +190,21 @@ class Pagination {
         return $links;
     }
 
-    public function setCurrent(int $current)
+    public function setCurrent(int $current):self
     {
         $this->current=$current;
+        return $this;
     }
     
-    public function setTotalPageCount(int $pageCount)
+    public function setTotalPageCount(int $pageCount):self
     {
         $this->pageCount = $pageCount <= 0 ? 1 : $pageCount;
+        return $this;
     }
-    public function setLimitToGenerate(int $limit)
+    public function setLimitToGenerate(int $limit):self
     {
         $this->limitToGenerate= $limit <= 0 ? 1 : $limit;
+        return $this;
     }
     public function getLimitToGenerate()
     {

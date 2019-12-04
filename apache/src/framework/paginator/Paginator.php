@@ -21,7 +21,7 @@ class Paginator {
     private $maxDataPerPage;
     
     
-    public function __construct(IPaginable $paginable,int $maxDataPerPage=5) {
+    public function __construct(IPaginable $paginable,int $maxDataPerPage) {
         $this->paginable=$paginable;
         $this->maxDataPerPage=$maxDataPerPage;
     }
@@ -80,6 +80,17 @@ class Paginator {
         return $this->paginable->getForPagination($current,$this->maxDataPerPage);
     }
     
-    
+    /**
+     * Return a pagination with actual data
+     * @param int $currentPage
+     * @return \Framework\Paginator\Pagination
+     */
+    public function getPagination(int $currentPage):Pagination
+    {
+        return (new Pagination())
+                ->setTotalPageCount($this->pageCount())
+                ->setLimitToGenerate($this->maxDataPerPage)
+                ->setCurrent($currentPage);
+    }
     
 }

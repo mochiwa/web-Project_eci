@@ -1,0 +1,5 @@
+.pagination__item{} 
+	.pagination__item--current{
+		background-color: var(--hover);
+		color: white;
+	}

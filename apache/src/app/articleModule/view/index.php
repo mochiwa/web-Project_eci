@@ -1,8 +1,14 @@
+<?php
+
+use App\Article\view\ViewFactory\FlashBox;
+use App\Article\view\ViewFactory\PaginationFactory;
+use Framework\Html\Pagination;
+?>
 
 <section class="block">
     
     <?php
-        $box = new \App\Article\view\ViewFactory\FlashBox($session->flash());
+        $box = new FlashBox($session->flash());
         echo $box->toHtml();
     ?>
     
@@ -24,8 +30,8 @@
         <?php foreach($articles as $key => $article) {?>
         <tr class="table-article <?= $key%2!==0 ? 'table-article--odd' : '' ?>">
             <td class="table-article__item table-article__item-title"><?= $article->getTitle() ?></td>
-            <td class="table-article__item table-article__item-date " ><?= $article->getCreationDate() ?></td>
-            <td class="table-article__item table-article__item-date " ><?= $article->getLastUpdateDate()?></td>
+            <td class="table-article__item table-article__item-date "><?= $article->getCreationDate() ?></td>
+            <td class="table-article__item table-article__item-date "><?= $article->getLastUpdateDate()?></td>
             <td lass="table-article__item">
                 <a class="button table__button" href="<?= $router->generateURL('parking.admin.edit',['id'=>$article->getId()]) ?>">Edit</a>
                 <a class="button table__button" href="<?= $router->generateURL('parking.admin.delete',['id'=>$article->getId()]) ?>">Delete</a>
@@ -35,16 +41,11 @@
     </tbody>
 </table>
 
-    <?php
-    $pagination = new Framework\Html\Pagination(new Framework\Html\Factory\DefaultPaginationFactory($router));
-    echo $pagination->setCurrentPage(1)->setPageCount(10)->toHtml();
-    ?>
-
-    <div>
-        <?php for($i=1;$i<=$pageCount;$i++){
-            echo '<a href="'.$router->generateURL('parking.admin.index-page',['page'=>$i]).'">'.$i.'</a>';
-            
-        } ?>
+    <div class="container container-center">
+        <?php
+        $paginator= new Pagination(new PaginationFactory($router,'parking.admin.index-page','page'),$pagination);
+        echo $paginator->toHtml();
+        ?>
     </div>
     
 </section>
