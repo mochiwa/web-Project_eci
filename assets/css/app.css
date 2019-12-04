@@ -16,6 +16,7 @@
 			   Module
 \***********************************/
 @import url("module/nav.css");
+@import url("module/container.css");
 @import url("module/burger.css");
 @import url("module/button.css");
 
