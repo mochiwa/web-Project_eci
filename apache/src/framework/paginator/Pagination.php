@@ -2,8 +2,29 @@
 declare(strict_types=1);
 namespace Framework\Paginator;
 /**
- * Description of Pagination
- *
+ * Responsible to manage the page number for a pagination process
+ * The pagination will look like :
+ *  # 1
+ *      pageCount=10;
+ *      limitToGenerate=5;
+ *      current = 2;
+ *      Result : link = [1,2,3,4,5]   previous = 1  next =3
+ *  # 2
+ *      pageCount=10;
+ *      limitToGenerate=6;
+ *      current = 8;
+ *      Result : link = [7,8,9,10]   previous = 7  next = 9
+ *  # 3
+ *      pageCount=0
+ *      limitToGenerate=6;
+ *      current = 0;
+ *      Result : link = [1]   previous = 1 next = 1
+ *  # 4
+ *      pageCount=10
+ *      limitToGenerate=3;
+ *      current = 10;
+ *      Result : link = [8,9,10]   previous = 9 next = 10
+ * 
  * @author mochiwa
  */
 class Pagination {
@@ -67,45 +88,96 @@ class Pagination {
         return $this->current===$this->limitToGenerate;
     }
     
+    /**
+     * Generate a list of page links,
+     * if the current position reach the page limit to generate @see $limitToGenerate
+     * Then create a new set of page where the beginning page is the current.
+     * Else if no new set a required the return a set of link beginning with the beginning set
+     * and finish with the ending set , the current page will be always in the set
+     * @return array
+     */
     public function  getLinks():array
     {
-        $links=[];
+        return $this->generateNewSetOfLinks($this->getBeginningPage());
+    }
+    
+    /**
+     * Return per which page to beginning the page links generation.
+     * @return int
+     */
+    private function getBeginningPage() : int
+    {
+        $current=$this->getCurrentPage();
         
-        if($this->isLastPageOfSetReach())
+        if($this->isLastPageOfSetReach()){
+            return $current;
+        }
+        return $this->getSetOfPage($current)['min'];
+        
+    }
+    /**
+     * Return the current page , if the current pas is not set or sup
+     * than the page count return 1 .
+     * @return int
+     */
+    private function getCurrentPage() : int
+    {
+        if(!isset($this->current) || $this->current > $this->pageCount){
+            return 1;
+        }
+        return $this->current;
+    }
+    /**
+     * Return an array that represent a set of page with:
+     *   min => the minimal value of the current set
+     *   max => the maximal value of the current set
+     * The current page is alway between min and max 
+     * and the size of the set is the page limit to generate
+     * @param int $current
+     * @return array
+     */
+    private function getSetOfPage(int $current) : array
+    {
+        $setSize=$this->getLimitToGenerate();
+        $maxValue=$this->findMaxValueOfCurrentSet($current,$setSize);
+        $minValue=$this->findMinValueOfCurrentSet($maxValue, $setSize);
+        return ['min'=>$minValue , 'max'=>$maxValue];    
+    }
+    /**
+     * Find the maximum value contained in the current set of page
+     * @param type $current the current page
+     * @param type $setSize the maximal size of the set
+     * @return int
+     */
+    private function findMaxValueOfCurrentSet(int $current,int $setSize):int
+    {
+        $maxValue=0;
+        for ($i = 0; $maxValue <= $current; $i++) {
+            $maxValue = $setSize * $i;
+        }
+        return $maxValue;
+    }
+    /**
+     * Find the minimal value for the current set of page.
+     * If the minimal value is equals to 0 then return 1 (cause page 0 does not exist)
+     * @param type $maxValue the max value contained in the set
+     * @param type $setSize the size of the set
+     * @return int
+     */
+    private function findMinValueOfCurrentSet($maxValue,$setSize) : int
+    {
+        if($maxValue>=$this->pageCount)
         {
-            $links=$this->generateNewSetOfLinks($this->current);
+            $minValue=($maxValue+1) - ($setSize*2);
+           
+            $minValue= $minValue<=1 ? $maxValue-$setSize-1 : $minValue; 
+             
         }
         else
         {
-            $max=0;
-            $current = isset($this->current) ? $this->current : 1;
-            for($i=0;$max<=$current ; $i++)
-            {
-                $max=$this->limitToGenerate*$i;
-            }
-            $min=$max - $this->limitToGenerate;
-            
-            $min= $min<=0 ? 1 : $min;
-            $max = $max <= 0 ? 1:$max+1;
-      
-            if($max >= $this->pageCount)
-                $min=$max - ($this->limitToGenerate*2);
-            
-            $links=$this->generateNewSetOfLinks($min);
-           /* $maxPageAvailable= $this->pageCount;
-            $setSize=$this->limitToGenerate;
-            
-            for ($page = 0; $page < $maxPageAvailable && $page < $setSize ;  ++$page) {
-                $links[$page] = $min + $page;
-            }*/
-           /* for($i=$min;$i!=$this->pageCount+1 && $i<=$max && sizeof($links)<$this->limitToGenerate;++$i)
-            {
-                $links[]=$i;
-            }*/
-            
-           
+            $minValue=$maxValue - $setSize;
         }
-        return $links;
+        return $minValue <= 0 ? 1 : $minValue;
     }
     
     private function generateNewSetOfLinks(int $actual) {
