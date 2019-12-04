@@ -34,7 +34,12 @@
         <?php } ?>
     </tbody>
 </table>
-    
+
+    <?php
+    $pagination = new Framework\Html\Pagination(new Framework\Html\Factory\DefaultPaginationFactory($router));
+    echo $pagination->setCurrentPage(1)->setPageCount(10)->toHtml();
+    ?>
+
     <div>
         <?php for($i=1;$i<=$pageCount;$i++){
             echo '<a href="'.$router->generateURL('parking.admin.index-page',['page'=>$i]).'">'.$i.'</a>';
