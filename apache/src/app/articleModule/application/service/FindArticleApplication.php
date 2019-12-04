@@ -2,7 +2,6 @@
 
 namespace App\Article\Application\Service;
 
-use App\Article\Application\Service\Response\ApplicationResponse;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\GettingArticleService;
 use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
@@ -23,17 +22,15 @@ class FindArticleApplication {
         $this->session=$session;
     }
     
-    public function execute(string $articleId) : ApplicationResponse
+    public function execute(string $articleId) : Response\FindResponse
     {
-        $response=new ApplicationResponse();
         try{
            $service = new GettingArticleService($this->repository); 
            $article = $service->execute(new GettingSingleArticleByIdRequest($articleId));
-           $response->withArticle($article);
+           return new Response\FindResponse([],[Dto\ArticleToForm::fromDomainResponse($article)]);
         } catch (Exception $ex) {
             $this->session->setFlash(FlashMessage::error($ex->getMessage()));
-            return $response->withErrors([$ex]);
         }
-        return $response;
+        return new Response\FindResponse();
     }
 }

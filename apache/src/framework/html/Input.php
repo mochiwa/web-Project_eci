@@ -21,6 +21,7 @@ class Input extends HtmlTag{
         $this->setRequired($isRequired);
     }
     
+
     /**
      * Set the name of the input
      * @param string $name

@@ -1,7 +1,8 @@
 <?php
 namespace App\Article\Application\Service;
 
-use App\Article\Application\Service\Response\ApplicationResponse;
+use App\Article\Application\Service\Dto\ArticleToForm;
+use App\Article\Application\Service\Response\CreatedResponse;
 use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\CreateArticleService;
@@ -32,23 +33,29 @@ class CreateArticleApplication {
     }
     
     
-    public function execute(array $post): ApplicationResponse {
-        $response = new ApplicationResponse();
+    public function execute(array $post): CreatedResponse {
         if (!$this->validator->validate($post)) {
-            return $response->withErrors($this->validator->getErrors());
+            return $this->responseWithError($this->validator->getErrors(),$post);
         }
+        
         try
         {
             $service=new CreateArticleService($this->repository);
-            $articleResponse=$service->execute(CreateArticleRequest::fromArray($post));
-            $this->uploader->uploadToDefault($post['picture'], $articleResponse->getPicture());
+            $domainresponse=$service->execute(CreateArticleRequest::fromArray($post));
+            $this->uploader->uploadToDefault($post['picture'], $domainresponse->picture()->path());
         } catch (ArticleException $ex) {
-            return $response->withErrors([$ex->field()=>[$ex->getMessage()]]);
+            return $this->responseWithError([$ex->field()=>[$ex->getMessage()]],$post);
         }
-        $this->session->setFlash(FlashMessage::success('The article "'.$articleResponse->getTitle().'" has been created !'));
-        return $response;
+        $this->session->setFlash(FlashMessage::success('The article "'.$domainresponse->title()->valueToString().'" has been created !'));
+        return new CreatedResponse();
     }
 
+    
+    private function responseWithError(array $errors,array $postData)
+    {
+        $formData= ArticleToForm::fromArray($postData);
+        return new CreatedResponse($errors, $formData);
+    }
 
     
 }

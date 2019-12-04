@@ -122,4 +122,20 @@ class HtmlTagTest extends TestCase{
         $this->assertTrue($tag->hasAttribute('id'));       
     }
     
+    function test_searchChildById_shoulreturnTheChild_whenParentContainTheChild()
+    {
+        $parent=HtmlTag::make('body');
+        $child=HtmlTag::make('p')->setId('test');
+        $parent->addChild($child);
+        $this->assertEquals($child, $parent->searchChildById('test'));
+    }
+    function test_searchChildById_shoulreturnTheChild_whenChildContainTheChild()
+    {
+        $parent=HtmlTag::make('body');
+        $son=HtmlTag::make('p')->setId('son');
+        $grandSon=HtmlTag::make('p')->setId('grandSon');
+        $parent->addChild($son->addChild($grandSon));
+        $this->assertEquals($grandSon, $parent->searchChildById('grandSon'));
+    }
+    
 }

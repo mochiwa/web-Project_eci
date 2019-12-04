@@ -8,7 +8,6 @@ use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Picture;
 use App\Article\Model\Article\Service\Request\CreateArticleRequest;
-use App\Article\Model\Article\Service\Response\ArticleCreatedResponse;
 use App\Article\Model\Article\Title;
 
 /**
@@ -34,12 +33,12 @@ class CreateArticleService {
      * 
      * @throws ArticleException when an article with the same title already exist
      */
-    public function execute(CreateArticleRequest $request) : ArticleCreatedResponse
+    public function execute(CreateArticleRequest $request) : Response\ArticleDomainResponse
     {
         $title= Title::of($request->getTitle());
         $attributes=[];
         foreach ($request->getAttributes() as $key=>$value) {
-            $attributes[]=Attribute::of($key,$value);
+            $attributes[$key]=Attribute::of($key,$value);
         }
         $description=$request->getDescription();
         
@@ -51,15 +50,15 @@ class CreateArticleService {
         $articleId=$this->repository->nextId();
         $picture=$this->generatePictureName($articleId,$title);
         
-        $article=Article::newArticle($articleId,$title,$picture,$attributes,$description);
+        $articleCreated=Article::newArticle($articleId,$title,$picture,$attributes,$description);
         
-        $this->repository->addArticle($article);
-        return new ArticleCreatedResponse($picture->path(),$title->valueToString());
+        $this->repository->addArticle($articleCreated);
+        return new Response\ArticleDomainResponse($articleCreated);
     }
     
     private function generatePictureName(ArticleId $articleId,Title $title):Picture
     {
-        return Picture::of('article-'.$title->valueToString().'-'.$articleId->idToString());
+        return Picture::of('article-'.$articleId->idToString());
     }
     
 }

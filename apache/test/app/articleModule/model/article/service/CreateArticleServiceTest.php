@@ -43,7 +43,7 @@ class CreateArticleServiceTest extends TestCase{
         $this->repository->expects($this->once())->method('isArticleTitleExist')->willReturn(false);
 
         $article=$this->service->execute($this->request);
-        $this->assertequals('article-ArticleTitle-01',$article->getPicture());
+        $this->assertequals('article-01',$article->picture()->path());
     }
     
 }

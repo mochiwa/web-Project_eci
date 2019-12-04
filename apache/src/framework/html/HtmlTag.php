@@ -68,7 +68,10 @@ class HtmlTag {
         return new self($name,$attributes,true);
     }
     
-    
+    /**
+     * Build the html tag
+     * @return string
+     */
     public function toHtml():string
     {
         $openTag=$this->buildOpenTag();
@@ -109,6 +112,7 @@ class HtmlTag {
     public function addChild(self $content):self
     {
         $this->children[]=$content;
+        
         return $this;
     }
     
@@ -192,9 +196,44 @@ class HtmlTag {
         }
         return '';
     }
+    /**
+     * Return true if this tag has the attribute
+     * @param string $attributeName
+     * @return bool
+     */
     public function hasAttribute(string $attributeName):bool
     {
         return key_exists($attributeName, $this->attributes);
     }
     
+    public function childrenCount():int
+    {
+        return sizeof($this->children);
+    }
+    
+    public function searchChildById(string $id) : ?HtmlTag
+    {
+        foreach ($this->children as $child) {
+                    
+            if($child instanceof self)
+            {
+                if($child->getId()===$id)
+                {
+                   return $child; 
+                }
+                elseif($child->childrenCount())
+                {
+                   $search=$child->searchChildById($id);
+                   if($search != null )
+                       return $search;
+                }
+            }
+        }
+        return null;
+    }
+    
+    protected function setName(string $name)
+    {
+        $this->name=$name;
+    }
 }

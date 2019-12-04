@@ -13,8 +13,8 @@
             "Framework\\Router\\" : "./src/framework/router",
             "Framework\\DependencyInjection\\" : "./src/framework/dependencyInjection",
             "Framework\\Renderer\\" : "./src/framework/renderer",
-            "Framework\\HtmlBuilder\\" : "./src/framework/htmlBuilder",
             "Framework\\Html\\" : "./src/framework/html",
+            "Framework\\Html\\Factory\\" : "./src/framework/html/factory",
             "Framework\\Module\\" : "./src/framework/module",
             "Framework\\Middleware\\" : "./src/framework/middleware",
             "Framework\\Validator\\" : "./src/framework/validator",
@@ -24,7 +24,7 @@
             
             "App\\" : "./src/app",
             "App\\Shared\\" : "./src/app/shared",
-            "App\\htmlBuilder\\" : "./src/app/htmlBuilder/",
+            "App\\Html\\" : "./src/app/html",
             
             
             "App\\User\\": "./src/app/user",
@@ -38,6 +38,7 @@
             "App\\Article\\Application\\" : "./src/app/articleModule/application",
             "App\\Article\\Application\\Service\\" : "./src/app/articleModule/application/service",
             "App\\Article\\Application\\Service\\Response\\" : "./src/app/articleModule/application/service/response",
+            "App\\Article\\Application\\Service\\Dto\\" : "./src/app/articleModule/application/service/dto",
             
             "App\\Article\\Model\\" : "./src/app/articleModule/model",
             
@@ -47,6 +48,8 @@
             "App\\Article\\Model\\Article\\Service\\Response\\" : "./src/app/articleModule/model/article/service/response",
             
             "App\\Article\\View\\" : "./src/app/articleModule/view",
+            "App\\Article\\view\\ViewFactory\\" : "./src/app/articleModule/view/viewFactory",
+
             "App\\Article\\Validation\\" : "./src/app/articleModule/validation",
             "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory"
             

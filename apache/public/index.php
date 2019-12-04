@@ -4,7 +4,6 @@ use App\Application;
 use App\Article\ArticleModule;
 use App\User\UserModule;
 use Framework\DependencyInjection\Container;
-use Framework\Html\HtmlTag;
 use Framework\Middleware\ErrorMiddleware;
 use Framework\Middleware\LastSlashRemoverMiddleware;
 use Framework\Middleware\RouteDispatcherMiddleware;
@@ -12,6 +11,9 @@ use Framework\Middleware\RouterMiddleware;
 use GuzzleHttp\Psr7\ServerRequest;
 use function Http\Response\send;
 require '../vendor/autoload.php';
+
+
+
 
 $container=new Container();
 $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php'));

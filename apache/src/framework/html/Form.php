@@ -2,44 +2,77 @@
 
 namespace Framework\Html;
 
+use Framework\Html\Factory\AbstractFormFactory;
+use Framework\Html\Factory\DefaultFormFactory;
+
 /**
  * Description of Form
  *
  * @author mochiwa
  */
 class Form extends HtmlTag{
-    protected $inputs;
-    public function __construct(string $action='#',string $method='POST',string $id='form') {
+    
+    private $sectionFields;
+    private $sectionButtons;
+    private $formElementFactory;
+    
+    public function __construct(AbstractFormFactory $factory=null) {
         parent::__construct('form');
-        $this->inputs=[];
-        $this->setId($id);
-        $this->setAttribute(Attribute::oneContent('action', $action));
-        $this->setAttribute(Attribute::oneContent('method', $method));
+        $this->formElementFactory = $factory === null ? new DefaultFormFactory() : $factory;
+        
+        $this->initId();
+        $this->initAction();
+        $this->initMethod();
+        
+        $this->sectionFields= $this->formElementFactory->sectionFields();
+        $this->sectionButtons= $this->formElementFactory->sectionButtons();
+        $this->addChild($this->sectionFields);
+        $this->addChild($this->sectionButtons);
+    }
+    /**
+     * Init the form method from the formElementFactory
+     */
+    private function initMethod()
+    {
+        $this->setAttribute( $this->formElementFactory->method());
+    }
+    /**
+     * Init the form action from the formElementFactory
+     */
+    private function initAction()
+    {
+        $this->setAttribute( $this->formElementFactory->action());
+    }
+    /**
+     * Init the form id from the formElementFactory
+     */
+    private function initId()
+    {
+        $this->setId($this->formElementFactory->id());
     }
     
     /**
      * Append an input into the form
-     * @param \Framework\Html\Input $input
+     * @param Input $input
      * @return \self
      */
-    public function addInput(Input $input) : self
+    public function addInput(HtmlTag $input) : self
     {
         $uniqueInput=$this->generateUniqueInput($input);
-        $this->inputs[$uniqueInput->getId()]=$uniqueInput;
-        $this->addChild($uniqueInput);
+        $this->sectionFields->addChild($uniqueInput);
         return $this;
     }
     
     /**
      * Generate an input with an unique Id
      * @param self $input
-     * @return \Framework\Html\Input
+     * @return Input
      */
-    private function generateUniqueInput(Input $input) : Input
+    private function generateUniqueInput(HtmlTag $input) : HtmlTag
     {
         if(!$input->hasAttribute('id'))
         {
-            $input->setId($this->htmlId.'-'.$input->getName());
+            $input->setId($this->getId().'-'.$input->getName());
         }
         $input->setId($this->generateUniqueId($input->getId()));
         return $input;
@@ -54,10 +87,10 @@ class Form extends HtmlTag{
      */
     private function generateUniqueId(string $baseId):string
     {
-        if(key_exists($baseId, $this->inputs))
+        if($this->getInputById($baseId)!==null)
         {
             $count=2;
-            while(key_exists($baseId.'-'.$count, $this->inputs))
+            while($this->getInputById($baseId.'-'.$count)!==null)
             {
                 $count++;
             }
@@ -70,41 +103,25 @@ class Form extends HtmlTag{
     /**
      * Return the input with the id,if input not found return null
      * @param string $id
-     * @return \Framework\Html\Input|null
+     * @return Input|null
      */
-    public function getInputById(string $id): ?Input
+    public function getInputById(string $id): ?HtmlTag
     {
-        if(key_exists($id, $this->inputs)){
-            return $this->inputs[$id];
-        }
-        return null;
+        return $this->sectionFields->searchChildById($id);
     }
     
     /**
      * Append an input with its label
-     * @param \Framework\Html\Input $input
+     * @param Input $input
      * @param string $labelValue
      */
-    public function addInputWithLabel(Input $input,string $labelValue):self
+    public function addInputWithLabel(HtmlTag $input,string $labelValue):self
     {
         $uniqueInput=$this->generateUniqueInput($input);
-        $this->addChild($this->makeLabel($labelValue, $uniqueInput->getId()));
-        $this->addChild($uniqueInput);
+        $this->sectionFields->addChild($this->formElementFactory->label($labelValue,$uniqueInput->getId()));
+        $this->addInput($uniqueInput);
+        
         return $this;
-    }
-    
-    /**
-     * Make a label for an input in form
-     * @param string $value between label tag
-     * @param string $inputId to append at attribute 'for'
-     * @return \Framework\Html\HtmlTag
-     */
-    protected function makeLabel(string $value,string $inputId): HtmlTag
-    {
-        $label=HtmlTag::make('label');
-        $label->addAttribute(Attribute::oneContent('for', $inputId));
-        $label->addText($value);
-        return $label;
     }
     
     /**
@@ -115,30 +132,11 @@ class Form extends HtmlTag{
      */
     public function setErrors(array $errors=[]):self
     {
-        if(empty($errors)){
-            return $this;
+        $sectionError=$this->formElementFactory->sectionErrors($errors);
+        if($sectionError->childrenCount()){
+            $this->addChildOnTop($sectionError);
         }
-        
-        $div= HtmlTag::make('div');
-        foreach ($errors as $fieldErrors) {
-            $div->addChild($this->makeListOfError($fieldErrors));
-        }
-      $this->addChildOnTop($div);
-      return $this;
-    }
-    
-    /**
-     * Return a list (ul and li ) with errors 
-     * @param array $errors
-     * @return HtmlTag
-     */
-    protected function makeListOfError(array $errors): HtmlTag
-    {
-        $ul = HtmlTag::make('ul');
-        foreach ($errors as $error) {
-            $ul->addChild(HtmlTag::make('li')->addText($error));
-        }
-        return $ul;
+        return $this;
     }
    
     /**
@@ -148,11 +146,28 @@ class Form extends HtmlTag{
     public function fillForm(array $values=[])
     {
         foreach ($values as $fieldId=>$value) {
-            if(array_key_exists($fieldId, $this->inputs)){
-                $pos = array_search($this->inputs[$fieldId], $this->children);
-                $this->children[$pos]->setValue($value);
+            if($this->getInputById($fieldId)!==null)
+            {
+                $this->getInputById($fieldId)->setValue($value);
             }
         }
+    }
+    
+    /**
+     * Append a submit button at the bottom of the form
+     * @param string $text
+     */
+    public function addSubmit(string $text) : self
+    {
+        $button = $this->formElementFactory->submit($text);
+        $this->sectionButtons->addChild($button);
+        return $this;
+    }
+    public function addCancel(string $text,string $target) :self
+    {
+        $button = $this->formElementFactory->cancel($text,$target);
+        $this->sectionButtons->addChild($button);
+        return $this;
     }
   
 
