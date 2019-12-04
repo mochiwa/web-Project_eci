@@ -38,6 +38,8 @@ class AdminArticleController {
     }
 
     public function __invoke(RequestInterface $request) {
+        
+      //  var_dump($request);die();
         if (strpos($request->getRequestTarget(), 'create')) 
         {
             if($request->getMethod()==='POST'){
@@ -72,6 +74,19 @@ class AdminArticleController {
                 ['articles' => $appResponse->getArticles(),
                 'pagination'=>$appResponse->getPagination()]));
         return $httpResponse;
+    }
+    
+    private function create(RequestInterface $request): ResponseInterface
+    {
+        if($request->getMethod()==='POST')
+        {
+            
+        }
+        else
+        {
+            
+        }
+        return new Response(200);
     }
 
     /**
