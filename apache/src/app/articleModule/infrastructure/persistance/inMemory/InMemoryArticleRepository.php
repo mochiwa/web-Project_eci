@@ -129,5 +129,16 @@ class InMemoryArticleRepository extends AbstractInMemoryFactory implements IArti
         $this->data[$article->id()->idToString()]=$article;
         $this->commit();
     }
+    /**
+     * Return the size of data[]
+     * @return int
+     */
+    public function dataCount(): int {
+       return sizeof($this->data);
+    }
+
+    public function getForPagination(int $current, int $max): array {
+        return array_slice($this->data, $current,$max);
+    }
 
 }

@@ -2,12 +2,15 @@
 
 namespace App\Article\Application\Service;
 
+use App\Article\Application\Service\Dto\ArticleView;
+use App\Article\Application\Service\Response\EditResponse;
 use App\Article\Model\Article\ArticleException;
-use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\EditArticleService;
+use App\Article\Model\Article\Service\GettingArticleService;
 use App\Article\Model\Article\Service\Request\EditArticleRequest;
-use App\Article\Model\Article\Service\Response\ArticleViewResponse;
+use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
+use Framework\Session\FlashMessage;
 use Framework\Session\SessionManager;
 use Framework\Validator\AbstractFormValidator;
 
@@ -28,23 +31,23 @@ class EditArticleApplication {
     }
     
     
-    public function execute(array $post): Response\ApplicationResponse {
-        $response=new Response\ApplicationResponse();
-        $article=$this->repository->findById(ArticleId::of($post['id']));
+    public function execute(array $post): EditResponse {
+        $response=new EditResponse();
         
         if (!$this->validator->validate($post)) {
-            return $response->withArticle(new ArticleViewResponse($article))
-                    ->withErrors($this->validator->getErrors());
+            $service=new GettingArticleService($this->repository);
+            $domainResponse=$service->execute(new GettingSingleArticleByIdRequest($post['id']));
+            return $response->withErrors($this->validator->getErrors())->withArticleView(new ArticleView($domainResponse));;
         }
         try
         {
             $service=new EditArticleService($this->repository);
-            $articleResposne=$service->execute(EditArticleRequest::fromArray($post));
+            $domainResponse=$service->execute(EditArticleRequest::fromArray($post));
         } catch (ArticleException $ex) {
             return $response->withErrors([$ex->field()=>[$ex->getMessage()]])
-                    ->withArticle(new ArticleViewResponse($article));
+                    ->withArticleView(new ArticleView($domainResponse));
         }
-        $this->session->setFlash(\Framework\Session\FlashMessage::success('The article "'.$articleResposne->getTitle().'" has been updated !'));
-        return $response;
+        $this->session->setFlash(FlashMessage::success('The article "'.$domainResponse->title()->valueToString().'" has been updated !'));
+        return $response->withArticleView(new ArticleView($domainResponse));
     }
 }

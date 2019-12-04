@@ -1,17 +1,43 @@
 .table{
+	border-collapse:collapse
 }
 	.table-header{
-
-	}
-	.table-article{
 		
 	}
-		.table-article__item{
-			margin: auto;
+	.table-header__item{
+		font-size: 1.3em;
+	}
+	.table-article{
+	}
+		.table-article__item
+		{
 			text-align: center;
 		}
-		.table-article__item{
+		.table-article__item-title{
+			font-size: 1.2em;
 		}
-		.button-table{
-			margin-left: 10px;
+
+		.table-article__item .table__button
+		{
+			margin:  5px 50px;
 		}
+
+
+	.table__button{
+		display: block;
+		text-align: center;
+		margin: 10px;
+	}
+
+@media only screen and (min-width: 1000px){
+	.table__button
+	{
+		display: inline-block;
+		float: right;
+	}
+	.table-article__item .table__button{
+		float: left;
+	}
+
+
+}

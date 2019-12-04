@@ -10,7 +10,6 @@ use App\Article\Model\Article\EntityNotFoundException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Picture;
 use App\Article\Model\Article\Service\Request\EditArticleRequest;
-use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Model\Article\Title;
 
 /**
@@ -31,7 +30,7 @@ class EditArticleService {
      * @throws EntityNotFoundException
      * @throws ArticleException
      */
-    public function execute(EditArticleRequest $request) : ArticleViewResponse
+    public function execute(EditArticleRequest $request) : Response\ArticleDomainResponse
     {
         $articleId=ArticleId::of($request->getArticleId());
         if(!$this->repository->isArticleIdExist($articleId)){
@@ -45,7 +44,7 @@ class EditArticleService {
         }
         
         $this->repository->update($editedArticle);
-        return new ArticleViewResponse($editedArticle);
+        return new Response\ArticleDomainResponse($editedArticle);//new ArticleViewResponse($editedArticle);
     }
     
     /**
@@ -80,7 +79,7 @@ class EditArticleService {
         $picture= $request->getPicture() === '' ? $orignal->picture() :Picture::of($request->getPicture() ); 
         $attributes=[];
         foreach ($request->getAttributes() as $key=>$value) {
-            $attributes[]= Attribute::of($key,$value);
+            $attributes[$key]= Attribute::of($key,$value);
         }
         $description=$request->getDescription();
         return Article::fromUpdate($articleId, $title, $picture, $attributes, $description, $orignal->creationDate());

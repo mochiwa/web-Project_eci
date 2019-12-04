@@ -1,6 +1,12 @@
-.table-header__column--hidden{
+.table-header__item--hidden{
 	display: none;
 }
+
 .table-article__item--hidden{
 	display: none;
+}
+
+.table-article--odd{
+	background-color: #e3e2dc;
+
 }

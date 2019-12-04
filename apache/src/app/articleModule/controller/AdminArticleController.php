@@ -6,10 +6,8 @@ use App\Article\Application\Service\CreateArticleApplication;
 use App\Article\Application\Service\DeleteArticleApplication;
 use App\Article\Application\Service\EditArticleApplication;
 use App\Article\Application\Service\FindArticleApplication;
+use App\Article\Application\Service\IndexArticleApplication;
 use App\Article\Model\Article\IArticleRepository;
-use App\Article\Model\Article\Service\GettingArticleService;
-use App\Article\Model\Article\Service\Request\GettingSingleArticleByIdRequest;
-use App\Article\Model\Article\Service\Response\ArticleViewResponse;
 use App\Article\Validation\ParkingEditFormValidator;
 use App\Article\Validation\ParkingFormValidator;
 use Exception;
@@ -26,7 +24,6 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class AdminArticleController {
-
     private $viewBuilder;
     private $repository;
     private $session;
@@ -41,6 +38,8 @@ class AdminArticleController {
     }
 
     public function __invoke(RequestInterface $request) {
+        
+      //  var_dump($request);die();
         if (strpos($request->getRequestTarget(), 'create')) 
         {
             if($request->getMethod()==='POST'){
@@ -57,21 +56,37 @@ class AdminArticleController {
         } else if (strpos($request->getRequestTarget(), 'delete')) {
             return $this->deleteArticle($request->getAttribute('id'));
         }
-        return $this->index();
+        $page=$request->getAttribute('page');
+        return $this->index($page ?? '1');
     }
 
     /**
      * The main page to manage all article
-     * @return Response
+     * @return ResponseInterface
      */
-    private function index() {
-        $response = new Response();
-        $data = [];
-        foreach ($this->repository->All() as $article) {
-            $data[] = new ArticleViewResponse($article);
+    private function index(string $page) : ResponseInterface{
+        $appService=new IndexArticleApplication($this->repository);
+        $appResponse=$appService->execute($page);
+        
+        $httpResponse=new Response(200);
+        $httpResponse->getBody()->write(
+                $this->viewBuilder->build('@article/index',
+                ['articles' => $appResponse->getArticles(),
+                'pagination'=>$appResponse->getPagination()]));
+        return $httpResponse;
+    }
+    
+    private function create(RequestInterface $request): ResponseInterface
+    {
+        if($request->getMethod()==='POST')
+        {
+            
         }
-        $response->getBody()->write($this->viewBuilder->build('@article/index', ['data' => $data]));
-        return $response;
+        else
+        {
+            
+        }
+        return new Response(200);
     }
 
     /**
@@ -86,7 +101,7 @@ class AdminArticleController {
     
     /**
      * Responsible to assure the Post process of an article when it made.
-     * If no errors are detected during the process the response will be redirected
+     * If no errors are detected during the process, the response will be redirected
      * to the admin index with a flash message accessible from the session.
      * When one or many errors occur then redirect to the form with the error list
      * @param RequestInterface $request
@@ -100,7 +115,7 @@ class AdminArticleController {
         $response = $service->execute($post);
 
         if ($response->hasErrors()) {
-            return $this->responseWithErrors('@article/createArticle', ['errors'=> $response->getErrors()]);
+            return $this->responseWithErrors('@article/createArticle', ['errors'=> $response->getErrors(),'formData'=>$response->getFormData()]);
         }
         return $this->redirectToIndex();
     }
@@ -131,10 +146,6 @@ class AdminArticleController {
         return $response->withHeader('Location', '/parking/admin');
     }
     
-    
-    
-   
-    
     /**
      * Return the form with the data from the article
      * when error occur it's return to the index
@@ -149,9 +160,10 @@ class AdminArticleController {
         {
             return $this->redirectToIndex(400);
         }
-        return new Response(200, [], $this->viewBuilder->build('@article/editArticle', ['article'=>$response->getArticle()]));
+        
+        return new Response(200, [], $this->viewBuilder->build('@article/editArticle', ['article'=> $response->getFirst()]));
     }
-
+    
     private function editArticleProcess(RequestInterface $request) {
         $post = $request->getParsedBody();
         $post['id'] = $request->getAttribute('id');
@@ -160,10 +172,12 @@ class AdminArticleController {
         $response = $service->execute($post);
         
         if ($response->hasErrors()) {
-            return $this->responseWithErrors('@article/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);
+            return $this->responseWithErrors('@article/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticleToForm()]);
         }
+        
         return $this->redirectToIndex();
     }
+
 
     /**
      * Delete an article
@@ -171,7 +185,6 @@ class AdminArticleController {
      * @return ResponseInterface
      */
     private function deleteArticle(string $articleId): ResponseInterface {
-        
         $service=new DeleteArticleApplication($this->repository,$this->session);
         $response=$service->execute($articleId);
         if($response->hasErrors())

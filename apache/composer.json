@@ -13,15 +13,18 @@
             "Framework\\Router\\" : "./src/framework/router",
             "Framework\\DependencyInjection\\" : "./src/framework/dependencyInjection",
             "Framework\\Renderer\\" : "./src/framework/renderer",
-            "Framework\\HtmlBuilder\\" : "./src/framework/htmlBuilder",
+            "Framework\\Html\\" : "./src/framework/html",
+            "Framework\\Html\\Factory\\" : "./src/framework/html/factory",
             "Framework\\Module\\" : "./src/framework/module",
             "Framework\\Middleware\\" : "./src/framework/middleware",
             "Framework\\Validator\\" : "./src/framework/validator",
             "Framework\\Session\\" : "./src/framework/session",
             "Framework\\FileManager\\" : "./src/framework/fileManager",
+            "Framework\\Paginator\\" : "./src/framework/paginator",
             
             "App\\" : "./src/app",
-            "App\\htmlBuilder\\" : "./src/app/htmlBuilder/",
+            "App\\Shared\\" : "./src/app/shared",
+            "App\\Html\\" : "./src/app/html",
             
             
             "App\\User\\": "./src/app/user",
@@ -35,6 +38,7 @@
             "App\\Article\\Application\\" : "./src/app/articleModule/application",
             "App\\Article\\Application\\Service\\" : "./src/app/articleModule/application/service",
             "App\\Article\\Application\\Service\\Response\\" : "./src/app/articleModule/application/service/response",
+            "App\\Article\\Application\\Service\\Dto\\" : "./src/app/articleModule/application/service/dto",
             
             "App\\Article\\Model\\" : "./src/app/articleModule/model",
             
@@ -44,6 +48,8 @@
             "App\\Article\\Model\\Article\\Service\\Response\\" : "./src/app/articleModule/model/article/service/response",
             
             "App\\Article\\View\\" : "./src/app/articleModule/view",
+            "App\\Article\\view\\ViewFactory\\" : "./src/app/articleModule/view/viewFactory",
+
             "App\\Article\\Validation\\" : "./src/app/articleModule/validation",
             "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory"
             
@@ -69,10 +75,12 @@
             "Test\\Framework\\Middleware\\" : "./test/framework/middleware",
             "Test\\Framework\\Renderer\\" : "./test/framework/renderer",
             "Test\\Framework\\HtmlBuilder\\" : "./test/framework/htmlBuilder",
+            "Test\\Framework\\Html\\" : "./test/framework/html",
             "Test\\Framework\\FileManager\\" : "./test/framework/fileManager",
             
             
             "Test\\App\\": "./test/app/",
+            "Test\\App\\Shared\\" : "./test/app/shared",
             "Test\\App\\Article\\Model\\Article\\" : "./test/app/articleModule/model/article",
             "Test\\App\\Article\\Infrastructure\\Persistance\\" : "./test/app/articleModule/infrastructure/persistance"
 

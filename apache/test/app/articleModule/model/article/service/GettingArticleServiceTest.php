@@ -35,10 +35,10 @@ class GettingArticleServiceTest extends TestCase{
     }
     
     
-    function test_execute_shouldAnArticleViewResponse_WhenItFoundInRepository()
+    function test_execute_shouldReturnAnArticleDomainResponse_WhenItFoundInRepository()
     {
         $article= TestHelper::get()->makeArticle('aaa');
-        $articleView=new ArticleViewResponse($article);
+        $articleView=new \App\Article\Model\Article\Service\Response\ArticleDomainResponse($article);
         
         $this->repository->expects($this->once())->method('isArticleIdExist')->willReturn(true);
         $this->repository->expects($this->once())->method('findById')->willReturn($article);
