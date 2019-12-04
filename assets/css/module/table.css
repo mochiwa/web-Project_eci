@@ -19,7 +19,7 @@
 
 		.table-article__item .table__button
 		{
-				margin:  5px 50px;
+			margin:  5px 50px;
 		}
 
 
@@ -28,3 +28,16 @@
 		text-align: center;
 		margin: 10px;
 	}
+
+@media only screen and (min-width: 1000px){
+	.table__button
+	{
+		display: inline-block;
+		float: right;
+	}
+	.table-article__item .table__button{
+		float: left;
+	}
+
+
+}

@@ -1,0 +1,10 @@
+.block{
+
+}
+	.block__title{
+		padding: 10px;
+		font-size: 2em;
+	}
+	.block__title-center{
+		text-align: center;
+	}

@@ -16,6 +16,7 @@
 			   Module
 \***********************************/
 @import url("module/nav.css");
+@import url("module/container.css");
 @import url("module/burger.css");
 @import url("module/button.css");
 
@@ -25,9 +26,11 @@
 
 @import url('module/table.css');
 @import url('module/flashBox.css');
+@import url('module/pagination.css');
 
 /***********************************\
 			   State
 \***********************************/
 @import url("state/nav.css");
 @import url("state/table.css");
+@import url('state/pagination.css');

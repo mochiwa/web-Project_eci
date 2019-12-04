@@ -22,14 +22,14 @@ class IndexArticleApplication {
     }
     
     
-    public function execute($page,int $articlePerPage=5): IndexResponse {
+    public function execute(int $page,int $articlePerPage=5): IndexResponse {
         
         $paginator=new Paginator($this->repository,$articlePerPage);
         $data=[];
         foreach ($paginator->getDataForPage(intval($page)) as $article) {
             $data[] = new ArticleView(new ArticleDomainResponse($article));//a remplacer par le finder in dd
         }
-        $response = new IndexResponse($data,$paginator->pageCount());
+        $response = new IndexResponse($paginator->getPagination($page),$data);
         return $response;
     }
 }

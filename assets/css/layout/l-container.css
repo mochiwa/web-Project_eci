@@ -17,6 +17,10 @@
 		padding: 10px 5%;
 	}
 
+	.container-center{
+		display: flex;
+		justify-content: center;
+	}
 	.container-footer{
 	}
 
