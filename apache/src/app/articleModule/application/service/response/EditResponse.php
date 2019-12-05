@@ -2,8 +2,6 @@
 
 namespace App\Article\Application\Service\Response;
 
-use App\Article\Application\Service\Dto\ArticleToForm;
-use App\Article\Application\Service\Dto\ArticleView;
 
 /**
  * Description of EditResponse
@@ -13,13 +11,13 @@ use App\Article\Application\Service\Dto\ArticleView;
 class EditResponse extends AbstractApplicationResponse{
     private $article;
     
-    public function __construct(array $errors=[],ArticleView $article=null) {
+    public function __construct(array $errors=[], $article=null) {
         $this->errors = $errors;
         $this->article = $article;
     }
     
 
-    public function withArticleView(ArticleView $article):self
+    public function withArticleView(\App\Article\Application\Service\Dto\ParkingView $article):self
     {
         $this->article=$article;
         return $this;
@@ -29,9 +27,9 @@ class EditResponse extends AbstractApplicationResponse{
         return $this->article;
     }
     
-    public function getArticleToForm()
+    public function toForm()
     {
-        return ArticleToForm::fromArticleView($this->article);
+        return $this->article->toForm();
     }
 
 

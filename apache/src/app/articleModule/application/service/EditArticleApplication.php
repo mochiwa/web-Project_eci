@@ -2,7 +2,7 @@
 
 namespace App\Article\Application\Service;
 
-use App\Article\Application\Service\Dto\ArticleView;
+use App\Article\Application\Service\Dto\ParkingView;
 use App\Article\Application\Service\Response\EditResponse;
 use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\IArticleRepository;
@@ -37,17 +37,18 @@ class EditArticleApplication {
         if (!$this->validator->validate($post)) {
             $service=new GettingArticleService($this->repository);
             $domainResponse=$service->execute(new GettingSingleArticleByIdRequest($post['id']));
-            return $response->withErrors($this->validator->getErrors())->withArticleView(new ArticleView($domainResponse));;
+            return $response->withErrors($this->validator->getErrors())->withArticleView(ParkingView::fromDomainResponse($domainResponse));
         }
+        
         try
         {
             $service=new EditArticleService($this->repository);
             $domainResponse=$service->execute(EditArticleRequest::fromArray($post));
         } catch (ArticleException $ex) {
-            return $response->withErrors([$ex->field()=>[$ex->getMessage()]])
-                    ->withArticleView(new ArticleView($domainResponse));
+            return $response->withErrors([$ex->field()=>[$ex->field()]])
+                    ->withArticleView(ParkingView::fromPost($post));
         }
         $this->session->setFlash(FlashMessage::success('The article "'.$domainResponse->title()->valueToString().'" has been updated !'));
-        return $response->withArticleView(new ArticleView($domainResponse));
+        return $response->withArticleView(ParkingView::fromDomainResponse($domainResponse));
     }
 }

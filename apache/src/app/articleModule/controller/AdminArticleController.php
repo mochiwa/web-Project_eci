@@ -39,7 +39,6 @@ class AdminArticleController {
 
     public function __invoke(RequestInterface $request) {
         
-      //  var_dump($request);die();
         if (strpos($request->getRequestTarget(), 'create')) 
         {
             if($request->getMethod()==='POST'){
@@ -76,19 +75,7 @@ class AdminArticleController {
         return $httpResponse;
     }
     
-    private function create(RequestInterface $request): ResponseInterface
-    {
-        if($request->getMethod()==='POST')
-        {
-            
-        }
-        else
-        {
-            
-        }
-        return new Response(200);
-    }
-
+   
     /**
      * return the web page with the creation article form
      * @return ResponseInterface
@@ -172,7 +159,7 @@ class AdminArticleController {
         $response = $service->execute($post);
         
         if ($response->hasErrors()) {
-            return $this->responseWithErrors('@article/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticleToForm()]);
+            return $this->responseWithErrors('@article/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);
         }
         
         return $this->redirectToIndex();

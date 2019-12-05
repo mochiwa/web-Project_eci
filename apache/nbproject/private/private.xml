@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/html/Pagination.php</file>
             <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/controller/AdminArticleController.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/view/index.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/service/response/EditResponse.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/model/article/service/EditArticleService.php</file>
             <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/service/IndexArticleApplication.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/service/EditArticleApplication.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/service/dto/ArticleView.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/service/dto/ArticleToForm.php</file>
         </group>
     </open-files>
 </project-private>

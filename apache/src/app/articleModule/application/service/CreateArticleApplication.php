@@ -53,7 +53,7 @@ class CreateArticleApplication {
     
     private function responseWithError(array $errors,array $postData)
     {
-        $formData= ArticleToForm::fromArray($postData);
+        $formData= Dto\ParkingView::fromPost($postData);
         return new CreatedResponse($errors, $formData);
     }
 

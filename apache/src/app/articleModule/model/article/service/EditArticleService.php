@@ -33,18 +33,19 @@ class EditArticleService {
     public function execute(EditArticleRequest $request) : Response\ArticleDomainResponse
     {
         $articleId=ArticleId::of($request->getArticleId());
+        
+           
         if(!$this->repository->isArticleIdExist($articleId)){
             throw new EntityNotFoundException("The article with id=".$articleId->idToString().' not found in repository');
         }
-        
+         
         $editedArticle=$this->builEditedArticle($request);
         
         if($this->isTitleAlreadyUsed($editedArticle->title(),$editedArticle->id())){
             throw new ArticleException('The title "'.$editedArticle->title()->valueToString().'" is already used');
         }
-        
         $this->repository->update($editedArticle);
-        return new Response\ArticleDomainResponse($editedArticle);//new ArticleViewResponse($editedArticle);
+        return new Response\ArticleDomainResponse($editedArticle);
     }
     
     /**
