@@ -32,6 +32,27 @@ class FormBuilder {
         $form->setErrors($errors);
         $form->fillForm($values);
         return $form;
+    }
+    
+    public function editParkingForm($action,array $errors=[],array $values=[],$cancelTarget='#'): Form
+    {
+        $formFactory=new ParkingFormFactory($action);
+        $inputFactory=new ParkingInputFactory();
         
+        $form=new Form($formFactory);
+        $form->addStyle('form');
+        $form->addAttribute(Attribute::oneContent('enctype', 'multipart/form-data'));
+        
+        $form->addInputWithLabel($inputFactory->build('text', 'title'),'Title :')
+            ->addInputWithLabel($inputFactory->build('text', 'city'),'City')
+            ->addInputWithLabel($inputFactory->build('text', 'place'),'Count of place')
+            ->addInputWithLabel($inputFactory->build('text', 'name'),'parking name')
+            ->addInputWithLabel($inputFactory->build('textArea', 'description'), 'Parking description')
+            ->addCancel('cancel', $cancelTarget)
+            ->addSubmit('Update article');
+        
+        $form->setErrors($errors);
+        $form->fillForm($values);
+        return $form;
     }
 }

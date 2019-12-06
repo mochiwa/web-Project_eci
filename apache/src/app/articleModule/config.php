@@ -3,11 +3,12 @@
 use App\Article\Application\Service\CreateArticleApplication;
 use App\Article\Application\Service\DeleteArticleApplication;
 use App\Article\Application\Service\EditArticleApplication;
-use App\Article\Application\Service\FindArticleApplication;
 use App\Article\Application\Service\IndexArticleApplication;
 use App\Article\Infrastructure\Persistance\InMemory\InMemoryArticleRepository;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\ArticleFinder;
+use App\Article\Model\Article\Service\CreateArticleService;
+use App\Article\Model\Article\Service\DeleteArticleService;
 use App\Article\Model\Article\Service\EditArticleService;
 use App\Article\Validation\ParkingEditFormValidator;
 use App\Article\Validation\ParkingFormValidator;
@@ -16,6 +17,7 @@ use Framework\FileManager\PostUploader;
 use Framework\Session\ISession;
 use Framework\Session\PhpSession;
 use Framework\Session\SessionManager;
+
 return [
     IArticleRepository::class => function(){return new InMemoryArticleRepository();},
     SessionManager::class => function(){return new SessionManager(new PhpSession());},
@@ -24,28 +26,24 @@ return [
             
     CreateArticleApplication::class => function($di){
         return new CreateArticleApplication(
-                $di->get(IArticleRepository::class),
-                new ParkingFormValidator(),
+                $di->get(CreateArticleService::class),
+                $di->get(ParkingFormValidator::class),
                 $di->get(FileUploader::class),
                 $di->get(ISession::class));},
                         
     EditArticleApplication::class => function($di){
         return new EditArticleApplication(
-            new ArticleFinder($di->get(IArticleRepository::class)),
-            new EditArticleService($di->get(IArticleRepository::class)),
-            new ParkingEditFormValidator(),
+            $di->get(ArticleFinder::class),
+            $di->get(EditArticleService::class),
+            $di->get(ParkingEditFormValidator::class),
             $di->get(ISession::class));},
                     
     DeleteArticleApplication::class => function($di){
         return new DeleteArticleApplication(
-                $di->get(IArticleRepository::class)
-                ,$di->get(ISession::class));},
+            $di->get(DeleteArticleService::class),
+            $di->get(ISession::class));},
     
-    FindArticleApplication::class => function($di){
-        return new FindArticleApplication(
-                $di->get(IArticleRepository::class),
-                $di->get(ISession::class));
-}
+
                 
     
                 

@@ -22,7 +22,7 @@ class IndexArticleApplication {
     }
     
     
-    public function execute(int $page,int $articlePerPage=5): IndexResponse {
+    public function execute(int $page,int $articlePerPage=2): IndexResponse {
         
         $paginator=new Paginator($this->repository,$articlePerPage);
         $data=[];

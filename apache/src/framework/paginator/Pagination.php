@@ -42,6 +42,7 @@ class Pagination {
     
     /**
      * The count of page to generate
+     * do not confuse with the number of article per page !
      * @var int
      */
     private $limitToGenerate;
