@@ -2,7 +2,7 @@
 
 namespace App\Article\Application\Service\Response;
 
-use App\Article\Application\Service\Dto\ArticleToForm;
+use App\Article\Application\Service\Dto\ParkingView;
 
 /**
  * Description of CreateResponse
@@ -10,17 +10,29 @@ use App\Article\Application\Service\Dto\ArticleToForm;
  * @author mochiwa
  */
 class CreatedResponse extends AbstractApplicationResponse{
-    private $formData;
-    public function __construct(array $errors = [], ArticleToForm $formData=null) {
+    /**
+     * The article view 
+     * @var ParkingView 
+     */
+    private $article;
+    
+    
+    public function __construct(ParkingView $article,array $errors = [] ) {
         parent::__construct($errors);
-        $this->formData=$formData;
+        $this->article=$article;
     }
     
-    public function getFormData(): array
-    {
-        if($this->formData===null){
-            return [];
-        }
-        return $this->formData->toForm();
+    public static function of(ParkingView $article,array $errors = []) : self {
+        return new self($article,$errors);
     }
+    public static function success(ParkingView $article) : self {
+        return new self($article);
+    }
+    
+    public function getArticle(): ParkingView
+    {
+        return $this->article;
+    }
+    
+    
 }

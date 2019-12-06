@@ -2,6 +2,8 @@
 
 namespace App\Article\Application\Service\Response;
 
+use App\Article\Application\Service\Dto\ParkingView;
+
 /**
  * Description of FindResponse
  *
@@ -9,7 +11,7 @@ namespace App\Article\Application\Service\Response;
  */
 class FindResponse extends AbstractApplicationResponse{
     private $dataFound;
-    public function __construct(array $errors=[],array $dataFound) {
+    public function __construct(array $dataFound,array $errors=[]) {
         parent::__construct($errors);
         $this->dataFound=$dataFound;
     }
@@ -18,7 +20,7 @@ class FindResponse extends AbstractApplicationResponse{
         return $this->dataFound;
     }
     
-    public function getFirst()
+    public function getFirst() : ParkingView
     {
         return $this->dataFound ? $this->dataFound[0] : null; 
     }

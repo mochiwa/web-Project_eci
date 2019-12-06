@@ -14,7 +14,7 @@ use Framework\Html\Pagination;
    
     
 <h1 class="block__title block__title-center"> Article management </h1>
-<a class="button button table__button" href="<?= $router->generateURL('parking.admin.create')?>">Create a new article</a>
+<a class="button button table__button" href="<?= $router->generateURL('parking.admin',['action'=>'create'])?>">Create a new article</a>
     
 <table class="table">
     <thead>
@@ -32,8 +32,8 @@ use Framework\Html\Pagination;
             <td class="table-article__item table-article__item-date "><?= $article->getCreationDate() ?></td>
             <td class="table-article__item table-article__item-date "><?= $article->getLastUpdateDate()?></td>
             <td lass="table-article__item">
-                <a class="button table__button" href="<?= $router->generateURL('parking.admin.edit',['id'=>$article->getId()]) ?>">Edit</a>
-                <a class="button table__button" href="<?= $router->generateURL('parking.admin.delete',['id'=>$article->getId()]) ?>">Delete</a>
+                <a class="button table__button" href="<?= $router->generateURL('parking.admin.article',['action'=>'edit','id'=>$article->getId()]) ?>">Edit</a>
+                <a class="button table__button" href="<?= $router->generateURL('parking.admin.article',['action'=>'delete','id'=>$article->getId()]) ?>">Delete</a>
             </td>
         </tr>
         <?php } ?>
@@ -42,7 +42,7 @@ use Framework\Html\Pagination;
 
     <div class="container container-center">
         <?php
-        $paginator= new Pagination(new PaginationFactory($router,'parking.admin.index-page','page'),$pagination);
+        $paginator= new Pagination(new PaginationFactory($router,'parking.admin.page'),$pagination);
         echo $paginator->toHtml();
         ?>
     </div>

@@ -89,7 +89,7 @@ class Paginator {
     {
         return (new Pagination())
                 ->setTotalPageCount($this->pageCount())
-                ->setLimitToGenerate($this->maxDataPerPage)
+                ->setLimitToGenerate(9)
                 ->setCurrent($currentPage);
     }
     

@@ -17,18 +17,17 @@ use TheSeer\Tokenizer\Exception;
  * @author mochiwa
  */
 class DeleteArticleApplication {
-    private $repository;
+    private $deleteArticleService;
     private $sesion;
-    public function __construct(IArticleRepository $repository, SessionManager $session ) {
-        $this->repository=$repository;
+    public function __construct(DeleteArticleService $deleteArticleService, SessionManager $session ) {
+        $this->deleteArticleService=$deleteArticleService;
         $this->sesion=$session;
     }
     
     public function execute(string $articleId) : Response\DeleteResponse
     {
         try{
-            $service = new DeleteArticleService($this->repository);
-            $service->execute(new DeleteArticleRequest($articleId));
+            $this->deleteArticleService->execute(new DeleteArticleRequest($articleId));
         } catch (\Exception $ex) {
             $this->sesion->setFlash(FlashMessage::error('This article has been already deleted'));
             return new DeleteResponse([$ex->getMessage()]);

@@ -16,7 +16,7 @@ class PaginatorTest extends TestCase{
     
     protected function setUp() {
         $this->paginable=$this->createMock(IPaginable::class);
-        $this->paginator=new Paginator($this->paginable);
+        $this->paginator=new Paginator($this->paginable,5);
     }
     
     function test_setMaxDataPerPage_shouldThrowPaginatorException_whenCountIsEquals_0()

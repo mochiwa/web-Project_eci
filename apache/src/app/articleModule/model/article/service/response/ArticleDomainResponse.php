@@ -60,7 +60,6 @@ class ArticleDomainResponse {
         $this->description = $article->description();
         $this->creationDate = $article->creationDate();
         $this->lastUpdateDate = $article->lastUpdateDate();
-        
     }
     
     /**

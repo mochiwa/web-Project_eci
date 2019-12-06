@@ -27,12 +27,13 @@ class Pagination extends HtmlTag{
         foreach ($this->pagination->getLinks() as $page) {
             $this->addChild($this->factory->page($page));
         }
+        
+        
         $this->setTheCurrentPage();
         $this->addChild($this->factory->toNext($this->pagination->getNext()));
         return parent::toHtml();
     }
     
-  
     /**
      * If the current page is present then
      * edit list of link to set it

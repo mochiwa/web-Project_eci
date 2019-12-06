@@ -2,7 +2,7 @@
 
 namespace App\Article\Application\Service;
 
-use App\Article\Application\Service\Dto\ArticleView;
+use App\Article\Application\Service\Dto\ParkingView;
 use App\Article\Application\Service\Response\IndexResponse;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\Response\ArticleDomainResponse;
@@ -22,12 +22,12 @@ class IndexArticleApplication {
     }
     
     
-    public function execute(int $page,int $articlePerPage=5): IndexResponse {
+    public function execute(int $page,int $articlePerPage=2): IndexResponse {
         
         $paginator=new Paginator($this->repository,$articlePerPage);
         $data=[];
         foreach ($paginator->getDataForPage(intval($page)) as $article) {
-            $data[] = new ArticleView(new ArticleDomainResponse($article));//a remplacer par le finder in dd
+            $data[] = ParkingView::fromDomainResponse(new ArticleDomainResponse($article));
         }
         $response = new IndexResponse($paginator->getPagination($page),$data);
         return $response;
