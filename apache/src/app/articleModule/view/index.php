@@ -1,13 +1,14 @@
 <?php
 
-use App\Article\view\ViewFactory\FlashBox;
+use App\Article\view\ViewFactory\FlashBoxFactory;
 use App\Article\view\ViewFactory\PaginationFactory;
+use Framework\Html\FlashBox;
 use Framework\Html\Pagination;
 ?>
 
 <section class="block">
     <?php
-        $box = new FlashBox($session->flash());
+        $box=new FlashBox(new FlashBoxFactory($session->flash()));
         echo $box->toHtml();
     ?>
     

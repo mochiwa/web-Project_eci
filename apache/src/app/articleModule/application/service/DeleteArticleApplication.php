@@ -24,7 +24,7 @@ class DeleteArticleApplication {
         $this->sesion=$session;
     }
     
-    public function execute(string $articleId) : Response\DeleteResponse
+    public function __invoke(string $articleId) : Response\DeleteResponse
     {
         try{
             $this->deleteArticleService->execute(new DeleteArticleRequest($articleId));

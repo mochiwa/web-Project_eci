@@ -5,7 +5,7 @@ namespace App\Article\Application\Service\Response;
 use Framework\Paginator\Pagination;
 
 /**
- * This response deals with the index controlle ,
+ * This response deals with the index controller ,
  * it returns a list of article and the count of page
  *
  * @author mochiwa

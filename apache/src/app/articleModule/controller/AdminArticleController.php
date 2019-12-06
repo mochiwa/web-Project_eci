@@ -26,7 +26,7 @@ class AdminArticleController {
         $this->viewBuilder=$container->get(IViewBuilder::class);
     }
 
-    public function __invoke(RequestInterface $request) {
+    public function __invoke(RequestInterface $request) : ResponseInterface{
         $action=$request->getAttribute('action');
         
         if(method_exists($this, $action) && is_callable([$this,$action])){
@@ -47,7 +47,7 @@ class AdminArticleController {
     }
     
     
-    public function create(RequestInterface $request): ResponseInterface{
+    private function create(RequestInterface $request): ResponseInterface{
         if($request->getMethod()!=='POST')
         {
             $response = new Response(200);
@@ -88,7 +88,7 @@ class AdminArticleController {
     {
         $service=$this->container->get(DeleteArticleApplication::class);
         
-        $response=$service->execute($request->getAttribute('id'));
+        $response=$service($request->getAttribute('id'));
         if($response->hasErrors())
         {
             return $this->redirectToIndex(400);
