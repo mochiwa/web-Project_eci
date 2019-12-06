@@ -45,9 +45,9 @@ class EditArticleRequest {
         $this->description=$description;
     }
     
-    public static function fromArray(array $postData) : self
+    public static function fromArray(string $articleId,array $postData) : self
     {
-        return new self($postData['id'],$postData['title'],
+        return new self($articleId,$postData['title'],
                 ['city'=>$postData['city'],'name'=>$postData['name'],'place'=>$postData['place']],
                 $postData['description']);
     }

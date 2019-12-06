@@ -46,6 +46,7 @@
             "App\\Article\\Model\\Article\\Service\\" : "./src/app/articleModule/model/article/service",
             "App\\Article\\Model\\Article\\Service\\Request\\" : "./src/app/articleModule/model/article/service/request",
             "App\\Article\\Model\\Article\\Service\\Response\\" : "./src/app/articleModule/model/article/service/response",
+            "App\\Article\\Model\\Article\\Service\\Finder\\" : "./src/app/articleModule/model/article/service/finder",
             
             "App\\Article\\View\\" : "./src/app/articleModule/view",
             "App\\Article\\view\\ViewFactory\\" : "./src/app/articleModule/view/viewFactory",

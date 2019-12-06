@@ -32,7 +32,7 @@ use Framework\Html\Pagination;
             <td class="table-article__item table-article__item-date "><?= $article->getCreationDate() ?></td>
             <td class="table-article__item table-article__item-date "><?= $article->getLastUpdateDate()?></td>
             <td lass="table-article__item">
-                <a class="button table__button" href="<?= $router->generateURL('parking.admin.edit',['id'=>$article->getId()]) ?>">Edit</a>
+                <a class="button table__button" href="<?= $router->generateURL('parking.admin.edit',['action'=>'edit','id'=>$article->getId()]) ?>">Edit</a>
                 <a class="button table__button" href="<?= $router->generateURL('parking.admin.delete',['id'=>$article->getId()]) ?>">Delete</a>
             </td>
         </tr>

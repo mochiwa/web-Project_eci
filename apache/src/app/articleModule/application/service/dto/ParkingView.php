@@ -86,7 +86,6 @@ class ParkingView {
                 $post['description'] ?? '',
                  $post['creationDate'] ?? '' , $post['lastUpdateDate'] ?? '');
     }
-
     
     public function getId() :string {
         return htmlentities($this->id);
@@ -118,7 +117,6 @@ class ParkingView {
     
     public function toForm():array
     {
-        
         return [
             'form-title'=>$this->getTitle(),
             'form-picture'=>$this->getPicture(),

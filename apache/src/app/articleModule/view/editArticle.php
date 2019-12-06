@@ -3,7 +3,7 @@
 use App\Article\view\ViewFactory\FormBuilder;
 
 $form= FormBuilder::createParkingForm(
-        $router->generateURL('parking.admin.edit',['id'=>$article->getId()]),
+        $router->generateURL('parking.admin.edit',['action'=>'edit','id'=>$article->getId()]),
         $errors ?? [], $article->toForm() ?? [],
         $router->generateURL('parking.admin.index'));
 ?>
