@@ -21,8 +21,7 @@ $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php')
 
 $app = new Application($container);
 
-$app->addModule(UserModule::class)
-        ->addModule(ArticleModule::class);
+$app->addModule(ArticleModule::class);
         
 $app->pipe(LastSlashRemoverMiddleware::class)
     ->pipe(RouterMiddleware::class)

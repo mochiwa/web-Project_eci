@@ -24,12 +24,11 @@
             
             "App\\" : "./src/app",
             "App\\Shared\\" : "./src/app/shared",
-            "App\\Html\\" : "./src/app/html",
+            "App\\Shared\\Html\\" : "./src/app/shared/html",
+            "App\\Shared\\Application\\" : "./src/app/shared/application",
+            "App\\Shared\\Model\\" : "./src/app/shared/model",
             
-            
-            "App\\User\\": "./src/app/user",
-            "App\\User\\Controller\\": "./src/app/user/controller",
-            "App\\User\\View\\": "./src/app/user/view",
+           
             
             
             "App\\Article\\" : "./src/app/articleModule",
@@ -41,7 +40,6 @@
             "App\\Article\\Application\\Service\\Dto\\" : "./src/app/articleModule/application/service/dto",
             
             "App\\Article\\Model\\" : "./src/app/articleModule/model",
-            
             "App\\Article\\Model\\Article\\" : "./src/app/articleModule/model/article",
             "App\\Article\\Model\\Article\\Service\\" : "./src/app/articleModule/model/article/service",
             "App\\Article\\Model\\Article\\Service\\Request\\" : "./src/app/articleModule/model/article/service/request",

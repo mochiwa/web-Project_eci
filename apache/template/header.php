@@ -1,5 +1,7 @@
 <?
-use App\Html\LinkFactory;
+
+use App\Shared\Html\LinkFactory;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

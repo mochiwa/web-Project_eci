@@ -1,5 +1,5 @@
 <?php
-namespace App\Html;
+namespace App\Shared\Html;
 
 use Framework\Html\Link;
 /**
