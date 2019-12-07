@@ -50,9 +50,17 @@
             "App\\Article\\view\\ViewFactory\\" : "./src/app/articleModule/view/viewFactory",
 
             "App\\Article\\Validation\\" : "./src/app/articleModule/validation",
-            "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory"
+            "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory",
             
-            
+            "App\\Identity\\": "./src/app/identityModule",
+            "App\\Identity\\Controller\\": "./src/app/identityModule/controller",
+            "App\\Identity\\infrastructure\\": "./src/app/identityModule/infrastructure",
+            "App\\Identity\\Model\\": "./src/app/identityModule/model",
+            "App\\Identity\\Model\\User\\": "./src/app/identityModule/model/user",
+            "App\\Identity\\Model\\User\\Service\\": "./src/app/identityModule/model/user/service",
+            "App\\Identity\\Model\\User\\Service\\Request\\": "./src/app/identityModule/model/user/service/request",
+            "App\\Identity\\Model\\User\\Service\\Response\\": "./src/app/identityModule/model/user/service/response",
+            "App\\Identity\\view\\": "./src/app/identityModule/view"
         }
     },
     
