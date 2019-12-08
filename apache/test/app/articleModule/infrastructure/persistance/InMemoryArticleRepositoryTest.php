@@ -16,7 +16,7 @@ class InMemoryArticleRepositoryTest extends ArticleRepositoryTest{
         
     }
     
-       function tearDown() {
+    function tearDown() {
         $this->repository->clear();
     }
 }

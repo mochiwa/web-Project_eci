@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Test\App\Article\Infrastructure\Persistance;
+namespace Test\App\Shared\Infrastructure;
 
-use App\Article\Infrastructure\Persistance\InMemory\AbstractInMemoryFactory;
+use App\Shared\Infrastructure\AbstractInMemoryRepository;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -28,14 +28,14 @@ class AbstractInMemoryFactoryTest extends TestCase{
     
     function test_constructor_shouldCreateDirectory_inMemory_whenDirectoryNotExist()
     {
-        $this->factory=new AbstractInMemoryFactory("file");
-        $this->assertTrue(file_exists(AbstractInMemoryFactory::DIR));
+        $this->factory=new AbstractInMemoryRepository("file");
+        $this->assertTrue(file_exists(AbstractInMemoryRepository::DIR));
     }
     
     function test_constructor_shouldCreateFileInArg_whenItNotExist()
     {
-        $this->factory=new AbstractInMemoryFactory("file");
-        $this->assertTrue(file_exists(AbstractInMemoryFactory::DIR.'file'));
+        $this->factory=new AbstractInMemoryRepository("file");
+        $this->assertTrue(file_exists(AbstractInMemoryRepository::DIR.'file'));
     }
     
 

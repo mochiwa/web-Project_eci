@@ -1,5 +1,5 @@
 <?php
-
+namespace Test\App\Identity\Model\User;
 use App\Identity\Model\User\Email;
 use App\Identity\Model\User\EntityNotFoundException;
 use App\Identity\Model\User\IUserRepository;
@@ -14,7 +14,7 @@ use Test\App\Identity\Helper\UserBuilder;
  * @author mochiwa
  */
 abstract class UserRepositoryTest extends TestCase{
-    private $repository;
+    protected $repository;
     
     protected function setUp() {
         $this->repository=new IUserRepository();
@@ -44,7 +44,7 @@ abstract class UserRepositoryTest extends TestCase{
     
     function test_isUsernameFree_shouldReturnTrue_whenAnyUserUseTheUsername()
     {
-        $this->assertTrue($this->repository->isEmailFree(Username::of('aUsername')));
+        $this->assertTrue($this->repository->isUsernameFree(Username::of('aUsername')));
     }
     
     function test_isUsernameFree_shouldReturnFalse_whenUserAlreadyUseTheUsername()
@@ -52,7 +52,7 @@ abstract class UserRepositoryTest extends TestCase{
         $username= Username::of('aUsername');
         $this->repository->addUser(UserBuilder::of()->setUsername($username->usernameToString())->build());
         
-        $this->assertFalse($this->repository->isEmailFree(Email::of($username->usernameToString())));
+        $this->assertFalse($this->repository->isUsernameFree(Username::of($username->usernameToString())));
     }
     
     function test_addUser_shouldAppendTheUserInTheRepository()

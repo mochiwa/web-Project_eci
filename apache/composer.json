@@ -26,6 +26,7 @@
             "App\\Shared\\" : "./src/app/shared",
             "App\\Shared\\Html\\" : "./src/app/shared/html",
             "App\\Shared\\Application\\" : "./src/app/shared/application",
+            "App\\Shared\\Infrastructure\\" : "./src/app/shared/infrastructure",
             "App\\Shared\\Model\\" : "./src/app/shared/model",
             
            
@@ -54,7 +55,8 @@
             
             "App\\Identity\\": "./src/app/identityModule",
             "App\\Identity\\Controller\\": "./src/app/identityModule/controller",
-            "App\\Identity\\infrastructure\\": "./src/app/identityModule/infrastructure",
+            "App\\Identity\\Infrastructure\\": "./src/app/identityModule/infrastructure",
+            "App\\Identity\\Infrastructure\\Persistance\\": "./src/app/identityModule/infrastructure/persistance",
             "App\\Identity\\Model\\": "./src/app/identityModule/model",
             "App\\Identity\\Model\\User\\": "./src/app/identityModule/model/user",
             "App\\Identity\\Model\\User\\Service\\": "./src/app/identityModule/model/user/service",
@@ -88,10 +90,12 @@
             
             "Test\\App\\": "./test/app/",
             "Test\\App\\Shared\\" : "./test/app/shared",
+            "Test\\App\\Shared\\Infrastructure\\" : "./test/app/shared/infrastructure",
             "Test\\App\\Article\\Model\\Article\\" : "./test/app/articleModule/model/article",
             "Test\\App\\Article\\Infrastructure\\Persistance\\" : "./test/app/articleModule/infrastructure/persistance",
             
-            "Test\\App\\Identity\\Helper\\" : "./test/app/identityModule/helper"
+            "Test\\App\\Identity\\Helper\\" : "./test/app/identityModule/helper",
+            "Test\\App\\Identity\\Model\\User\\" : "./test/app/identityModule/model/user"
 
         }
     },

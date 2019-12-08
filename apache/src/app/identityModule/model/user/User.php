@@ -70,4 +70,14 @@ class User {
     {
         return $this->id;
     }
+    
+    public function email():Email
+    {
+        return $this->email;
+    }
+    
+    public function username():Username
+    {
+        return $this->username;
+    }    
 }

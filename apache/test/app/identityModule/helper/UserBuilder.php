@@ -51,22 +51,25 @@ class UserBuilder {
     
     
     public function setId(string $id) {
-        $this->id = $id;
+        $this->id = UserId::of($id);
         return $this;
     }
 
     public function setEmail(string $email) {
-        $this->email = $email;
+        $this->email = \App\Identity\Model\User\Email::of($email);
         return $this;
     }
 
     public function setUsername(string $username) {
-        $this->username = $username;
+        $this->username = Username::of($username);
         return $this;
     }
 
     public function setPassword( $password) {
-        $this->password = $password;
+        if($password instanceof Password)
+            $this->password=$password;
+        else
+            $this->password = Password::secure($password);
         return $this;
     }
 

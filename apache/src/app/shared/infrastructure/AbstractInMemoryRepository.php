@@ -6,14 +6,14 @@
  * and open the template in the editor.
  */
 
-namespace App\Article\Infrastructure\Persistance\InMemory;
+namespace App\Shared\Infrastructure;
 
 /**
  * Description of AbstractInMemoryFactory
  *
  * @author mochiwa
  */
-class AbstractInMemoryFactory {
+class AbstractInMemoryRepository {
 
     const DIR = './inMemory/';
 
