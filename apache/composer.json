@@ -89,7 +89,9 @@
             "Test\\App\\": "./test/app/",
             "Test\\App\\Shared\\" : "./test/app/shared",
             "Test\\App\\Article\\Model\\Article\\" : "./test/app/articleModule/model/article",
-            "Test\\App\\Article\\Infrastructure\\Persistance\\" : "./test/app/articleModule/infrastructure/persistance"
+            "Test\\App\\Article\\Infrastructure\\Persistance\\" : "./test/app/articleModule/infrastructure/persistance",
+            
+            "Test\\App\\Identity\\Helper\\" : "./test/app/identityModule/helper"
 
         }
     },

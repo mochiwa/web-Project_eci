@@ -9,7 +9,7 @@ use Exception;
  *
  * @author mochiwa
  */
-class UserCredentialException extends Exception{
+class UserProviderException extends Exception{
     
     public function __construct(string $message) {
         parent::__construct($message);

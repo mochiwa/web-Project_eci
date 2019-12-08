@@ -18,7 +18,6 @@ class InMemoryArticleRepository extends AbstractInMemoryFactory implements IArti
     public function __construct() {
         parent::__construct('Article');
         $this->load();
-       // $this->articles= unserialize(file_get_contents( 'data.txt' ));
         
     }
     

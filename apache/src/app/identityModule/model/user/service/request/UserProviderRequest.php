@@ -7,25 +7,32 @@ namespace App\Identity\Model\User\Service\Request;
  */
 class UserProviderRequest {
     /**
-     * the user email
+     * The user email
      * @var string
      */
     private $email;
     
     /**
-     * $the username of the user
+     * The username of the user
      * @var string 
      */
     private $username;
     
-    public function __construct(string $email,string $username) {
+    /**
+     * The user password
+     * @var string 
+     */
+    private $password;
+    
+    private function __construct(string $email,string $username,string $password) {
         $this->email = $email;
         $this->username=$username;
+        $this->password=$password;
     }
     
-    public static function of(string $email,string $username=''):self
+    public static function of(string $email,string $username='',string $password=''):self
     {
-        return new self($email,$username);
+        return new self($email,$username,$password);
     }
     
     
@@ -36,6 +43,12 @@ class UserProviderRequest {
     public function getUsername():string {
         return $this->username;
     }
+    
+    public function getPassword() {
+        return $this->password;
+    }
+
+
 
 
 

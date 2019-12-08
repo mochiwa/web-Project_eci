@@ -6,7 +6,7 @@ use App\Article\Infrastructure\Persistance\InMemory\InMemoryArticleRepository;
 use Test\App\Article\Model\Article\ArticleRepositoryTest;
 
 /**
- * Dont launch this test , run the test in the model !
+ * Don't launch this test , run the test in the model !
  *
  * @author mochiwa
  */
