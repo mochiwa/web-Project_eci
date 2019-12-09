@@ -26,6 +26,7 @@
             "App\\" : "./src/app",
             "App\\Shared\\" : "./src/app/shared",
             "App\\Shared\\Html\\" : "./src/app/shared/html",
+            "App\\Shared\\Html\\Factory\\" : "./src/app/shared/html/factory",
             "App\\Shared\\Application\\" : "./src/app/shared/application",
             "App\\Shared\\Infrastructure\\" : "./src/app/shared/infrastructure",
             "App\\Shared\\Model\\" : "./src/app/shared/model",

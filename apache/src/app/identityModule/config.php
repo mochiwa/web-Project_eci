@@ -17,8 +17,7 @@ use Framework\Session\SessionManager;
 
 return [
     IUserRepository::class => function(){return new InMemoryUserRepository();},
-    SessionManager::class => function(){return new SessionManager(new PhpSession());},
-ActivationByLink::class=> function ($di){return new ActivationByLink($di->get(IRouter::class),$di->get(ISession::class));},
+    
 
     RegisterUserApplication::class => function($di){
         return new RegisterUserApplication(
@@ -29,7 +28,6 @@ ActivationByLink::class=> function ($di){return new ActivationByLink($di->get(IR
     Application\UserActivationApplication::class => function($di){
         return new UserActivationApplication(
                 $di->get(IUserRepository::class),
-                $di->get(ActivationByLink::class)
-                );
+                $di->get(ActivationByLink::class));
     }
 ];

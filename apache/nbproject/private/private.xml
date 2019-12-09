@@ -4,11 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/identityModule/application/UserActivationApplication.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/app/identityModule/application/UserActivationApplicationTest.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/identityModule/infrastructure/service/ActivationByLink.php</file>
             <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/identityModule/application/request/UserActivationRequest.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/html/Link.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/identityModule/view/userRegister.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/controller/AbstractController.php</file>
             <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/identityModule/application/response/UserActivationResponse.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/identityModule/controller/UserController.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/router/IRouter.php</file>
         </group>
     </open-files>
 </project-private>

@@ -20,7 +20,6 @@ use Framework\Session\SessionManager;
 
 return [
     IArticleRepository::class => function(){return new InMemoryArticleRepository();},
-    SessionManager::class => function(){return new SessionManager(new PhpSession());},
     FileUploader::class => function (){return new FileUploader(new PostUploader(), getcwd().DIRECTORY_SEPARATOR.'upload/article');},
     IndexArticleApplication::class => function($di){return new IndexArticleApplication($di->get(IArticleRepository::class));},
             
@@ -29,19 +28,19 @@ return [
                 $di->get(CreateArticleService::class),
                 $di->get(ParkingFormValidator::class),
                 $di->get(FileUploader::class),
-                $di->get(ISession::class));},
+                $di->get(SessionManager::class));},
                         
     EditArticleApplication::class => function($di){
         return new EditArticleApplication(
             $di->get(ArticleFinder::class),
             $di->get(EditArticleService::class),
             $di->get(ParkingEditFormValidator::class),
-            $di->get(ISession::class));},
+            $di->get(SessionManager::class));},
                     
     DeleteArticleApplication::class => function($di){
         return new DeleteArticleApplication(
             $di->get(DeleteArticleService::class),
-            $di->get(ISession::class));},
+            $di->get(SessionManager::class));},
     
 
                 

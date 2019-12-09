@@ -2,6 +2,7 @@
 
 namespace Framework\Controller;
 
+use Framework\DependencyInjection\IContainer;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -12,9 +13,26 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 abstract class AbstractController {
-    const INDEX="";
     /**
-     * 
+     * This constant should be the default action of the controller
+     */
+    const INDEX="";
+    
+    /**
+     * the dependency injector
+     * @var IContainer 
+     */
+    protected $container;
+
+
+    public function __construct(IContainer $container) {
+        $this->container=$container;
+    }
+    
+    /**
+     * This method dispatch the action from the URL , if a method name match
+     * with the action then return its result ,
+     * If any method find then redirect to the index constant
      * @param RequestInterface $request
      * @return ResponseInterface
      */
@@ -53,5 +71,15 @@ abstract class AbstractController {
         return (new Response(200))
             ->withHeader('Location', $target)
             ->withStatus($code, $cause);
+    }
+    
+    /**
+     * Return true if the request is a POST request
+     * @param RequestInterface $request
+     * @return bool
+     */
+    protected function isPostRequest(RequestInterface $request):bool
+    {
+        return $request->getMethod()==='POST';
     }
 }

@@ -11,7 +11,7 @@ class UserActivationRequest {
     /**
      * @var string 
      */
-    private $id;
+    private $userId;
     
     /**
      *
@@ -20,7 +20,7 @@ class UserActivationRequest {
     private $username;
     
     private function __construct(string $id,string $username) {
-        $this->id=$id;
+        $this->userId=$id;
         $this->username=$username;
     }
     
@@ -35,7 +35,7 @@ class UserActivationRequest {
     
 
     public function getId(): string {
-        return $this->id;
+        return $this->userId;
     }
 
     public function getUsername() : string {

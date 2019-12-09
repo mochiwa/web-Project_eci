@@ -15,8 +15,9 @@ return [
     IContainer::class => function($di){return $di;},
     IRouter::class => function(){return new Router();},
     IMiddlewareDispatcher::class => function(){return new MiddlewareDispatcher();},
-    ISession::class => function(){return new SessionManager(new PhpSession());},
+    
+    SessionManager::class => function(){return new SessionManager(new PhpSession());},
     IViewBuilder::class => function($di){return ViewBuilder::buildWithLayout('template', dirname(__DIR__).'/template', 'layout')
             ->addGlobal('router', $di->get(IRouter::class))
-            ->addGlobal('session', $di->get(ISession::class));}
+            ->addGlobal('session', $di->get(SessionManager::class));}
 ];

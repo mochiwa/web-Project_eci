@@ -61,7 +61,7 @@ class User {
     public function active()
     {
         if($this->isActived()){
-            throw new UserActivationException("You are alreay actived", UserActivationException::USER_ALREADY_ACTIVED);
+            throw new UserActivationException("This account is already actived", UserActivationException::USER_ALREADY_ACTIVED);
         }
         $this->activation= UserActivation::of($this->activation->createdDate(), time());
     }

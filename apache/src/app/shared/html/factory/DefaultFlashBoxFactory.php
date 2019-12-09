@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Shared\Html;
+namespace App\Shared\Html\Factory;
 
 use Framework\Html\Factory\AbstractFlashBoxFactory;
+use Framework\Html\FlashBox;
 use Framework\Session\FlashMessage;
 
 /**
@@ -15,10 +16,15 @@ class DefaultFlashBoxFactory extends AbstractFlashBoxFactory{
     public function __construct(FlashMessage $message) {
         $this->message=$message;
     }
-
+       
+    public static function of(FlashMessage $message):FlashBox
+    {
+        $factory=new self($message);
+        return new FlashBox($factory);
+    }
     
     public function getBoxStyle(): string {
-        return $this->message->getIsError() ? 'flashBox flashBox-error' : 'flashBox flashBox-success';
+        return 'flashBox';
     }
 
     public function getMessage(): string {

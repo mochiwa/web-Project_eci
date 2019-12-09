@@ -12,7 +12,6 @@ use App\Identity\Model\User\UserId;
 use App\Identity\Model\User\Username;
 use InvalidArgumentException;
 
-
 /**
  * Description of UserActivationApplication
  *
@@ -73,24 +72,21 @@ class UserActivationApplication {
     }
     
     
-    private function returnActivationRequest(string $username)
-    {
-           try{
-                $username = Username::of($username);
-            } catch (InvalidArgumentException $ex) {
-                return UserActivationResponse::of()->withError('An error occurs during your validation porcess. is your username valid ?', 'general');
+    private function returnActivationRequest(string $username) : UserActivationResponse {
+        try {
+            $username = Username::of($username);
+            $user = $this->userRepository->findUserByUsername($username);
+            if ($user->isActived()) {
+                return UserActivationResponse::of()->withError('Your account is already actived', 'general');
             }
-            
-            try{
-                $user=$this->userRepository->findUserByUsername($username);
-                if($user->isActived()){
-                    return UserActivationResponse::of()->withError('your account is already actived', 'general');
-                }
-                $link=$this->userActivation->sendActivationRequest($user);
-                return UserActivationResponse::of()->withLink($link);
-            } catch (EntityNotFoundException $ex) {
-                return UserActivationResponse::of()->withError('An error occurs during your validation process, the user account not found', 'general');
-            }
-            
+            $this->userActivation->sendActivationRequest($user);
+        }catch (InvalidArgumentException $ex) {
+            return UserActivationResponse::of()->withError('An error occurs during your validation porcess. is your username valid ?', 'general');
+        }catch (EntityNotFoundException $ex) {
+            return UserActivationResponse::of()->withError('An error occurs during your validation process', 'general');
+        }
+        
+        return UserActivationResponse::of();
     }
+
 }
