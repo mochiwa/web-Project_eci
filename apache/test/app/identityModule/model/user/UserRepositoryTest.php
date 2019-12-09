@@ -1,8 +1,10 @@
 <?php
 namespace Test\App\Identity\Model\User;
+
 use App\Identity\Model\User\Email;
 use App\Identity\Model\User\EntityNotFoundException;
 use App\Identity\Model\User\IUserRepository;
+use App\Identity\Model\User\UserActivation;
 use App\Identity\Model\User\UserId;
 use App\Identity\Model\User\Username;
 use PHPUnit\Framework\TestCase;
@@ -76,6 +78,29 @@ abstract class UserRepositoryTest extends TestCase{
         $userFound=$this->repository->findUserById($user->id());
         $this->assertSame($user, $userFound);
     }
+    
+    function test_updateUser_shouldUpdateTheUserInformation()
+    {
+        $user = UserBuilder::of()->setId('01')->setActivation(UserActivation::newActivation())->build();
+        $user_updated=UserBuilder::of()->setId('01')->setUsername('johnDoe')->setActivation(UserActivation::newActivation())->build();
+        $this->repository->addUser($user);
+        $this->repository->updateUser($user_updated);
+        $this->assertNotEquals($user, $this->repository->findUserById($user->id()));
+    }
         
+    
+    function test_findUserByUsername_shouldThrowEntityNotFound_whenUserWithIdNotFound()
+    {
+        $this->expectException(EntityNotFoundException::class);
+        $this->repository->findUserByUsername(Username::of('notExisting'));
+    }
+    
+    function test_findUserByUsername_shouldReturnTheUser_whenUserWithIdFound()
+    {
+        $user = UserBuilder::of()->build();
+        $this->repository->addUser($user);
+        $userFound=$this->repository->findUserByUsername($user->username());
+        $this->assertSame($user, $userFound);
+    }
     
 }

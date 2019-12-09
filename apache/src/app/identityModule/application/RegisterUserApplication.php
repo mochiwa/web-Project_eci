@@ -19,7 +19,7 @@ use Framework\Validator\AbstractFormValidator;
  * @author mochiwa
  */
 class RegisterUserApplication {
-    const PASSWORD_SECURITY_REGEX='/^[a-zA-Z0-9]{3,55}$/';
+    const PASSWORD_SECURITY_REGEX='/^[a-zA-Z0-9]{3,100}$/';
     private $validator;
     private $userProvider;
     private $passwordEncryption;

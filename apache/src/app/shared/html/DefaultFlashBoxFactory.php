@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Article\view\ViewFactory;
+namespace App\Shared\Html;
 
 use Framework\Html\Factory\AbstractFlashBoxFactory;
 use Framework\Session\FlashMessage;
 
 /**
- * Description of FlashBoxFactory
+ * Description of DefaultFlashBoxFactory
  *
  * @author mochiwa
  */
-class FlashBoxFactory extends AbstractFlashBoxFactory{
+class DefaultFlashBoxFactory extends AbstractFlashBoxFactory{
     private $message;
     public function __construct(FlashMessage $message) {
         $this->message=$message;

@@ -36,4 +36,17 @@ interface IUserRepository {
      * @return User
      */
     function findUserById(UserId $id): User;
+    
+    /**
+     * Must update the user
+     * @param User $user
+     * @return \App\Identity\Model\User\User
+     */
+    function updateUser(User $user);
+    
+    /**
+     * Must return an user or throw
+     * @param \App\Identity\Model\User\Username $username
+     */
+    function findUserByUsername(Username $username) : User;
 }

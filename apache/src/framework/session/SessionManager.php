@@ -71,7 +71,7 @@ class SessionManager {
      */
     public function flash(string $key= self::FLASH_KEY) : FlashMessage
     {
-        $data=$this->get($key);
+        $data=$this->get($key);        
         $this->delete($key);
         return $data ?? FlashMessage::null();
     }

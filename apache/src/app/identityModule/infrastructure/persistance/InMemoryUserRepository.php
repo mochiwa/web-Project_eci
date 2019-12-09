@@ -28,7 +28,7 @@ class InMemoryUserRepository extends AbstractInMemoryRepository implements IUser
      */
     public function addUser(User $user) {
         $this->data[]=$user;
-        $this->commit();
+        //$this->commit();
     }
 
     /**
@@ -82,6 +82,39 @@ class InMemoryUserRepository extends AbstractInMemoryRepository implements IUser
      */
     public function nextId(): UserId {
         return UserId::of(uniqid());
+    }
+    
+    /**
+     * Update and commit the user if the user id was found
+     * @param User $user
+     * @return User
+     */
+    public function updateUser(User $user) {
+        foreach ($this->data as $key => $value)
+        {
+            if($value->id()==$user->id())
+            {
+                $this->data[$key]=$user;
+              //  $this->commit();
+            }
+        }
+    }
+
+    /**
+     * Return the user found , else throw exception
+     * @param Username $username
+     * @return type
+     * @throws EntityNotFoundException
+     */
+    public function findUserByUsername(Username $username) : User {
+        foreach ($this->data as $user)
+        {
+            if($user->username()==$username)
+            {
+                return $user;
+            }
+        }
+        throw new EntityNotFoundException();
     }
 
 }

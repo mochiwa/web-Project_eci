@@ -4,6 +4,8 @@ namespace App\Identity\Controller;
 
 use App\Identity\Application\RegisterUserApplication;
 use App\Identity\Application\Request\RegisterUserRequest;
+use App\Identity\Application\Request\UserActivationRequest;
+use App\Identity\Application\UserActivationApplication;
 use Framework\DependencyInjection\IContainer;
 use Framework\Renderer\IViewBuilder;
 use GuzzleHttp\Psr7\Response;
@@ -54,7 +56,37 @@ class UserController {
                 'user'=>$registerResponse->getUserView()]));
             return $response;
         }
-        return $this->redirectToIndex();
+        return $this->activation(new \GuzzleHttp\Psr7\Request('GET','',['username'=>$registerResponse->getUserView()->getUsername()]));
+    }
+    
+    private function activation(RequestInterface $request): ResponseInterface
+    {
+        if($request->hasHeader('username'))
+        {
+            $username=$request->getHeader('username')[0];
+            $applicationRequest= UserActivationRequest::newActivationFor($username);
+        }
+        else
+        {
+            $userId=$request->getAttribute('id');
+            $applicationRequest= UserActivationRequest::of($id);
+        }
+        $applicationService=$this->container->get(UserActivationApplication::class);
+        $applicationResponse=$applicationService($applicationRequest);
+        
+        if($applicationResponse->hasErrors())
+        {
+            $response=new Response(400);//todo : redict to login
+            $response->getBody()->write($this->viewBuilder->build('@user/login',[
+                'errors'=>$applicationResponse->getErrors()]));
+            return $response;
+        }
+        elseif ($applicationResponse->hasActivationLink()) 
+        {
+            $response=new Response(200);
+            $response->getBody()->write($this->viewBuilder->build('@user/userRegister'));
+            return $response;
+        }
     }
     
      /**
