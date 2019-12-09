@@ -9,15 +9,17 @@ use App\Identity\Model\User\User;
 use App\Identity\Model\User\UserId;
 use App\Identity\Model\User\Username;
 use App\Shared\Infrastructure\AbstractInMemoryRepository;
+
 /**
  * Description of InMemoryUserRepository
  *
  * @author mochiwa
  */
-class InMemoryUserRepository extends  AbstractInMemoryRepository implements IUserRepository{
+class InMemoryUserRepository extends AbstractInMemoryRepository implements IUserRepository{
     
     public function __construct() {
         parent::__construct('UserRepository');
+        $this->load();
     }
 
     /**
@@ -27,7 +29,6 @@ class InMemoryUserRepository extends  AbstractInMemoryRepository implements IUse
     public function addUser(User $user) {
         $this->data[]=$user;
         $this->commit();
-        
     }
 
     /**

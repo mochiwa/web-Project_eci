@@ -1,14 +1,9 @@
 <?php
 namespace App\Identity\Model\User\Service;
 
-use App\Identity\Model\User\Email;
-use App\Identity\Model\User\EntityNotFoundException;
 use App\Identity\Model\User\IUserRepository;
-use App\Identity\Model\User\Password;
 use App\Identity\Model\User\Service\Request\UserProviderRequest;
 use App\Identity\Model\User\User;
-use App\Identity\Model\User\UserId;
-use App\Identity\Model\User\Username;
 
 /**
  * This service is responsible to provide
@@ -25,9 +20,9 @@ class UserProviderService {
     
     public function provide(UserProviderRequest $request) : User
     {
-        $email= Email::of($request->getEmail());
-        $username= Username::of($request->getUsername());
-        $password= Password::secure($request->getPassword());
+        $email= $request->getEmail();
+        $username= $request->getUsername();
+        $password= $request->getPassword();
         
         if(!$this->userRepository->isEmailFree($email)){
             throw new UserProviderException('The email '.$email->emailToString().' is already used');

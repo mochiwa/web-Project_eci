@@ -30,7 +30,7 @@ use App\Shared\Html\LinkFactory;
                 <div class="nav-top nav-top-right">
                     <nav class="nav">
                             <?= LinkFactory::topNavLink($router->generateURL('user.signIn'), 'Sign In')->toHtml() ?>
-                            <?= LinkFactory::topNavLink($router->generateURL('user.signUp'), 'Sign Up', true)->toHtml() ?>
+                            <?= LinkFactory::topNavLink($router->generateURL('user',['action'=>'register']), 'Sign Up', true)->toHtml() ?>
                     </nav>
                 </div>
             </section>
