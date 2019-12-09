@@ -28,7 +28,6 @@ class UserProviderServiceTest extends TestCase{
     
     function test_provide_shouldThrowUserProviderException_whenEmailIsAlreadyUsed()
     {
-       // $request=UserProviderRequest::of('myEmail@email.com');
         $this->userRepository->expects($this->once())->method('isEmailFree')->willReturn(false);
         $exception=false;
         try{
@@ -42,7 +41,6 @@ class UserProviderServiceTest extends TestCase{
     
     function test_provide_shouldThrowUserProviderException_whenUsernameIsAlreadyUsed()
     {
-       // $request=UserProviderRequest::of('myEmail@email.com','aUsername');
         $this->userRepository->expects($this->once())->method('isEmailFree')->willReturn(true);
         $this->userRepository->expects($this->once())->method('isUsernameFree')->willReturn(false);
         
@@ -58,7 +56,6 @@ class UserProviderServiceTest extends TestCase{
     
     function test_provide_shouldThrowUserProviderException_whenPasswordIsNotSecure()
     {
-        //$request=UserProviderRequest::of('myEmail@email.com','aUsername','');
         $password=$this->createMock(Password::class);
         $request= UserProviderRequest::of($this->request->getEmail(), $this->request->getUsername(), $password);
         
@@ -78,7 +75,6 @@ class UserProviderServiceTest extends TestCase{
     
     function test_provide_shouldReturnAUserWIthAUniqueId_whenNoErrorOccursDuringTheProcess()
     {
-      //  $request=UserProviderRequest::of('myEmail@email.com','aUsername','aPassword');
         $userId=UserId::of('aaa');
         $this->userRepository->expects($this->once())->method('isEmailFree')->willReturn(true);
         $this->userRepository->expects($this->once())->method('isUsernameFree')->willReturn(true);
@@ -89,7 +85,6 @@ class UserProviderServiceTest extends TestCase{
     
     function test_provide_shouldProvideANotActivedUser_whenNoErrorOccursDuringTheProcess()
     {
-       // $request=UserProviderRequest::of('myEmail@email.com','aUsername','aPassword');
         $this->userRepository->expects($this->once())->method('isEmailFree')->willReturn(true);
         $this->userRepository->expects($this->once())->method('isUsernameFree')->willReturn(true);
         $user=$this->provider->provide($this->request);
@@ -98,7 +93,6 @@ class UserProviderServiceTest extends TestCase{
     
     function test_provide_shouldAppendTheUserInRepository_whenNoErrorOccure()
     {
-        //$request=UserProviderRequest::of('myEmail@email.com','aUsername','aPassword');
         $this->userRepository->expects($this->once())->method('isEmailFree')->willReturn(true);
         $this->userRepository->expects($this->once())->method('isUsernameFree')->willReturn(true);
         $this->userRepository->expects($this->once())->method('addUser');

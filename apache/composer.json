@@ -58,6 +58,7 @@
             "App\\Identity\\Infrastructure\\": "./src/app/identityModule/infrastructure",
             "App\\Identity\\Infrastructure\\Persistance\\": "./src/app/identityModule/infrastructure/persistance",
             "App\\Identity\\Infrastructure\\Validation\\": "./src/app/identityModule/infrastructure/validation",
+            "App\\Identity\\Infrastructure\\Service\\": "./src/app/identityModule/infrastructure/service",
             "App\\Identity\\Model\\": "./src/app/identityModule/model",
             "App\\Identity\\Model\\User\\": "./src/app/identityModule/model/user",
             "App\\Identity\\Model\\User\\Service\\": "./src/app/identityModule/model/user/service",

@@ -26,6 +26,15 @@ class Username {
     
     private function setUsername(string $username)
     {
+        $username=trim($username);
+        if(strlen(trim($username))< 3)
+        {
+            throw new \InvalidArgumentException("The username lenght must be atleast to 3");
+        }
+        elseif(strlen(trim($username))> 55)
+        {
+            throw new \InvalidArgumentException("The username lenght must be maximal to 55");
+        }
         $this->username=$username;
     }
     

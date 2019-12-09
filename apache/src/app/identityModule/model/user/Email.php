@@ -2,6 +2,8 @@
 
 namespace App\Identity\Model\User;
 
+use InvalidArgumentException;
+
 /**
  * Description of Email
  *
@@ -26,6 +28,13 @@ class Email {
     
     private function setEmail(string $email)
     {
+        if(!filter_var($email,FILTER_VALIDATE_EMAIL))
+        {
+            throw new InvalidArgumentException('Cannot reconnize the email format');
+        }
+        elseif(isset($email[100])){
+             throw new InvalidArgumentException('The max lenght for email is 100');
+        }
         $this->email=$email;
     }
     

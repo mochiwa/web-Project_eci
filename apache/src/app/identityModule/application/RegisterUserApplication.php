@@ -4,6 +4,7 @@ namespace App\Identity\Application;
 use App\Identity\Application\Request\RegisterUserRequest;
 use App\Identity\Application\Response\RegisterUserResponse;
 use App\Identity\Application\Response\UserView;
+use App\Identity\Infrastructure\Service\PasswordEncryptionService;
 use App\Identity\Model\User\Email;
 use App\Identity\Model\User\Password;
 use App\Identity\Model\User\Service\Request\UserProviderRequest;
@@ -21,9 +22,11 @@ class RegisterUserApplication {
     const PASSWORD_SECURITY_REGEX='/^[a-zA-Z0-9]{3,55}$/';
     private $validator;
     private $userProvider;
-    public function __construct(AbstractFormValidator $validator, UserProviderService $userProvider) {
+    private $passwordEncryption;
+    public function __construct(AbstractFormValidator $validator, UserProviderService $userProvider, PasswordEncryptionService $passwordEncryption) {
         $this->validator=$validator;
         $this->userProvider=$userProvider;
+        $this->passwordEncryption=$passwordEncryption;
     }
     
     /**
@@ -42,7 +45,7 @@ class RegisterUserApplication {
        try{
            $email= Email::of($request->getEmail());
            $username= Username::of($request->getUsername());
-           $password= Password::secure($request->getPassword(),self::PASSWORD_SECURITY_REGEX);           
+           $password= Password::secure($this->passwordEncryption->crypt($request->getPassword()),self::PASSWORD_SECURITY_REGEX);           
            
           $user=$this->userProvider->provide(UserProviderRequest::of($email,$username,$password));
        } catch (UserProviderException $ex) {
