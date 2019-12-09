@@ -16,6 +16,7 @@
             "Framework\\Html\\" : "./src/framework/html",
             "Framework\\Html\\Factory\\" : "./src/framework/html/factory",
             "Framework\\Module\\" : "./src/framework/module",
+            "Framework\\Controller\\" : "./src/framework/controller",
             "Framework\\Middleware\\" : "./src/framework/middleware",
             "Framework\\Validator\\" : "./src/framework/validator",
             "Framework\\Session\\" : "./src/framework/session",
