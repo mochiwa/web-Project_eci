@@ -9,7 +9,6 @@ $formFactory=new UserFormFactory($router->generateURL('user',['action'=>'registe
 $inputFactory=new UserInputFactory();
 
 $form=new Form($formFactory);
-$form->setErrors($errors ?? []);
 
 $form->addStyle('form');
 $form->addInputWithLabel($inputFactory->text('email'), 'email')
@@ -19,6 +18,9 @@ $form->addInputWithLabel($inputFactory->text('email'), 'email')
      ->addCancel('cancel', $router->generateURL('index'))
      ->addSubmit('Register');
 
+$form->setErrors($errors ?? []);
+$form->fillForm(isset($user) ? $user->toForm() : []);
+isset($user) ? var_dump($user->toForm()) : [];
 $flashBox= DefaultFlashBoxFactory::of($session->flash()); //new FlashBox(new DefaultFlashBoxFactory($session->flash()));
 
 ?>

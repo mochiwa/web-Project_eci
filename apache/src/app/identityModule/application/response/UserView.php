@@ -30,6 +30,10 @@ class UserView {
     {
         return new self($user->username()->usernameToString(),$user->email()->emailToString());
     }
+    public static function fromArray(array $post) : self
+    {
+        return new self($post['username'],$post['email']);
+    }
     public static function empty()
     {
         return new self('','');
@@ -44,6 +48,13 @@ class UserView {
     }
 
 
+    public function toForm():array
+    {
+        return [
+            'form-email'=>$this->getEmail(),
+            'form-username'=>$this->getUsername(),
+        ];
+    }
 
     
 }

@@ -7,8 +7,6 @@ use App\Identity\Application\Response\UserActivationResponse;
 use App\Identity\Model\User\EntityNotFoundException;
 use App\Identity\Model\User\IUserActivation;
 use App\Identity\Model\User\IUserRepository;
-use App\Identity\Model\User\UserActivationException;
-use App\Identity\Model\User\UserId;
 use App\Identity\Model\User\Username;
 use InvalidArgumentException;
 
@@ -47,7 +45,7 @@ class UserActivationApplication {
         
         if(!empty($request->getUsername()))
         {
-            return $this->returnActivationRequest($request->getUsername());
+            return $this->activationRequest($request->getUsername());
         }
         
         
@@ -72,7 +70,7 @@ class UserActivationApplication {
     }
     
     
-    private function returnActivationRequest(string $username) : UserActivationResponse {
+    private function activationRequest(string $username) : UserActivationResponse {
         try {
             $username = Username::of($username);
             $user = $this->userRepository->findUserByUsername($username);
@@ -85,7 +83,6 @@ class UserActivationApplication {
         }catch (EntityNotFoundException $ex) {
             return UserActivationResponse::of()->withError('An error occurs during your validation process', 'general');
         }
-        
         return UserActivationResponse::of();
     }
 
