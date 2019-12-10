@@ -80,4 +80,9 @@ class User {
     {
         return $this->username;
     }    
+    
+    public function isPasswordMatch(Password $clearPassword)
+    {
+        return  password_verify($clearPassword->toString(), $this->password->toString());
+    }
 }

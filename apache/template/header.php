@@ -29,8 +29,16 @@ use App\Shared\Html\LinkFactory;
 
                 <div class="nav-top nav-top-right">
                     <nav class="nav">
-                            <?= LinkFactory::topNavLink($router->generateURL('user.signIn'), 'Sign In')->toHtml() ?>
-                            <?= LinkFactory::topNavLink($router->generateURL('user',['action'=>'register']), 'Sign Up', true)->toHtml() ?>
+                        <?php
+                            if($session->get(App\Identity\Infrastructure\Service\AuthenticationService::USER_AUTHENTICATED)===null)
+                            {
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'signIn']), 'Sign In')->toHtml();
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'register']), 'Sign Up', true)->toHtml();
+                            }
+                            else{
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'logout']), 'Logout', true)->toHtml();
+                            }
+                        ?>
                     </nav>
                 </div>
             </section>

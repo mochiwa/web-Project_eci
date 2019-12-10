@@ -6,6 +6,8 @@ use App\Identity\Application\RegisterUserApplication;
 use App\Identity\Application\Request\NewActivationRequest;
 use App\Identity\Application\Request\ProcessActivationRequest;
 use App\Identity\Application\Request\RegisterUserRequest;
+use App\Identity\Application\Request\SignInRequest;
+use App\Identity\Application\SignInApplication;
 use App\Identity\Application\UserActivationApplication;
 use Framework\Connection\AtomicRemoteOperation;
 use Framework\Controller\AbstractController;
@@ -106,7 +108,13 @@ class UserController extends AbstractController{
     }
     
     
-    
+    /**
+     * Launch the activation process ,
+     * If an result then redirect to the login page with error,
+     * else try to connect user
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     */
     private function activation(RequestInterface $request) : ResponseInterface
     {
         $appRequest= ProcessActivationRequest::of($request->getAttribute('id'));
@@ -118,9 +126,29 @@ class UserController extends AbstractController{
             $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
-        return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
-        
+        return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);   
     }
     
-    
+    /**
+     * Manage the sign in process
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     */
+    private function signIn(RequestInterface $request) : ResponseInterface
+    {
+        if(!$this->isPostRequest($request))
+        {
+            return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
+        }
+        
+        $appRequest= SignInRequest::fromPost($request->getParsedBody());
+        $appService=$this->container->get(SignInApplication::class);
+        $appResponse= $appService($appRequest);
+        if($appResponse->hasErrors())
+        {
+            $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
+            return $this->buildResponse($body, 400);
+        }
+        return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
+    }
 }

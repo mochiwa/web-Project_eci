@@ -21,6 +21,7 @@ class UserView {
      */
     private $email;
     
+    
     public function __construct(string $username,string $email) {
         $this->username = $username;
         $this->email = $email;
@@ -32,7 +33,7 @@ class UserView {
     }
     public static function fromArray(array $post) : self
     {
-        return new self($post['username'],$post['email']);
+        return new self($post['username'] ?? '',$post['email'] ?? '');
     }
     public static function empty()
     {
