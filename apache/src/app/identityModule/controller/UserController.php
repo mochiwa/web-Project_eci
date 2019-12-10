@@ -3,9 +3,11 @@
 namespace App\Identity\Controller;
 
 use App\Identity\Application\RegisterUserApplication;
+use App\Identity\Application\Request\NewActivationRequest;
+use App\Identity\Application\Request\ProcessActivationRequest;
 use App\Identity\Application\Request\RegisterUserRequest;
-use App\Identity\Application\Request\UserActivationRequest;
 use App\Identity\Application\UserActivationApplication;
+use Framework\Connection\AtomicRemoteOperation;
 use Framework\Controller\AbstractController;
 use Framework\DependencyInjection\IContainer;
 use Framework\Renderer\IViewBuilder;
@@ -21,10 +23,12 @@ class UserController extends AbstractController{
     const INDEX="/home";
     
     private $viewBuilder;
+    private $atomicOperator;
     
     function __construct(IContainer $container) {
         parent::__construct($container);
         $this->viewBuilder=$container->get(IViewBuilder::class);
+        $this->atomicOperator=$container->get(AtomicRemoteOperation::class);
     }
     
     /**
@@ -65,7 +69,7 @@ class UserController extends AbstractController{
     {
         $appRequest=RegisterUserRequest::fromPost($request->getParsedBody());
         $appService=$this->container->get(RegisterUserApplication::class);
-        $appResponse=$appService($appRequest);
+        $appResponse= call_user_func_array($this->atomicOperator,[$appService,[$appRequest]]);
         
         if($appResponse->hasErrors())
         {
@@ -89,7 +93,7 @@ class UserController extends AbstractController{
      */
     private function requestActivation(string $username) : ResponseInterface
     {
-        $appRequest=UserActivationRequest::newActivationFor($username);
+        $appRequest= NewActivationRequest::of($username);
         $appService=$this->container->get(UserActivationApplication::class);
         $appResponse=$appService($appRequest);
         
@@ -103,34 +107,20 @@ class UserController extends AbstractController{
     
     
     
-    /*
-    private function activation(RequestInterface $request): ResponseInterface
+    private function activation(RequestInterface $request) : ResponseInterface
     {
-        if($request->hasHeader('username'))
-        {
-            $username=$request->getHeader('username')[0];
-            $applicationRequest= UserActivationRequest::newActivationFor($username);
-        }
-        else
-        {
-            $userId=$request->getAttribute('id');
-            $applicationRequest= UserActivationRequest::of($id);
-        }
-        $applicationService=$this->container->get(UserActivationApplication::class);
-        $applicationResponse=$applicationService($applicationRequest);
+        $appRequest= ProcessActivationRequest::of($request->getAttribute('id'));
+        $appService=$this->container->get(UserActivationApplication::class);
+        $appResponse= call_user_func_array($this->atomicOperator, [$appService,[$appRequest]]);
         
-        if($applicationResponse->hasErrors())
+        if($appResponse->hasErrors())
         {
-            $response=new Response(400);//todo : redict to login
-            $response->getBody()->write($this->viewBuilder->build('@user/login',[
-                'errors'=>$applicationResponse->getErrors()]));
-            return $response;
+            $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
+            return $this->buildResponse($body, 400);
         }
-        elseif ($applicationResponse->hasActivationLink()) 
-        {
-            $response=new Response(200);
-            $response->getBody()->write($this->viewBuilder->build('@user/userRegister'));
-            return $response;
-        }
-    }*/
+        return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
+        
+    }
+    
+    
 }

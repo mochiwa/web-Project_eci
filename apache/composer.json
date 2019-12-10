@@ -22,6 +22,8 @@
             "Framework\\Session\\" : "./src/framework/session",
             "Framework\\FileManager\\" : "./src/framework/fileManager",
             "Framework\\Paginator\\" : "./src/framework/paginator",
+            "Framework\\Connection\\" : "./src/framework/connection",
+            
             
             "App\\" : "./src/app",
             "App\\Shared\\" : "./src/app/shared",

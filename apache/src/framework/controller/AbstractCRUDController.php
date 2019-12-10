@@ -1,10 +1,10 @@
 <?php
 
+namespace Framework\Controller;
 use Framework\Controller\AbstractController;
 use Psr\Http\Message\RequestInterface;
 use Swoole\Http\Response;
 
-namespace Framework\Controller;
 
 /**
  * Description of AbstractCRUDController

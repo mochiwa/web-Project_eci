@@ -10,13 +10,13 @@ use App\Identity\Infrastructure\Service\PasswordEncryptionService;
 use App\Identity\Infrastructure\Validation\UserRegisterValidation;
 use App\Identity\Model\User\IUserRepository;
 use App\Identity\Model\User\Service\UserProviderService;
-use Framework\Router\IRouter;
-use Framework\Session\ISession;
-use Framework\Session\PhpSession;
-use Framework\Session\SessionManager;
+use App\Shared\Infrastructure\InMemoryTransaction;
+use Framework\Connection\AtomicRemoteOperation;
 
 return [
     IUserRepository::class => function(){return new InMemoryUserRepository();},
+    AtomicRemoteOperation::class => function($di){
+        return new AtomicRemoteOperation(new InMemoryTransaction($di->get(IUserRepository::class)));},
     
 
     RegisterUserApplication::class => function($di){

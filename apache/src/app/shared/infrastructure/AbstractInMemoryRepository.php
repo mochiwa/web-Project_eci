@@ -39,5 +39,12 @@ abstract class AbstractInMemoryRepository {
         if (file_exists($this->file))
             unlink($this->file);
     }
+    
+    public function getData() : array{
+        return $this->data;
+    }
+    public function setData(array $data):void{
+        $this->data=$data;
+    }
 
 }

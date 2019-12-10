@@ -15,5 +15,5 @@ interface IUserActivation {
      * @param \App\Identity\Model\User\User $user
      * @return string
      */
-    function sendActivationRequest(User $user) :string;
+    function sendActivationRequest(User $user);
 }

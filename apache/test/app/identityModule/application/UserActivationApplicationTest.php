@@ -1,6 +1,7 @@
 <?php
 
-use App\Identity\Application\Request\UserActivationRequest;
+use App\Identity\Application\Request\NewActivationRequest;
+use App\Identity\Application\Request\ProcessActivationRequest;
 use App\Identity\Application\UserActivationApplication;
 use App\Identity\Model\User\EntityNotFoundException;
 use App\Identity\Model\User\IUserActivation;
@@ -30,50 +31,53 @@ class UserActivationApplicationTest extends TestCase{
         $this->application=new UserActivationApplication($this->repository,$this->activation);
         
         
-        $this->processRequest=UserActivationRequest::of('anId');
-        $this->newActivationFor= UserActivationRequest::newActivationFor('aUsername');
+        $this->processRequest= ProcessActivationRequest::of('anId');
+        $this->newActivationFor= NewActivationRequest::of('aUsername');
     }
     
     
-    function test_invoke_shouldReturnResponseWithError_whenIdAndUsernameFromRequestIsEmpty()
-    {
-        $request=UserActivationRequest::of('');
-        $response= call_user_func($this->application,$request);
-        $this->assertTrue($response->hasErrors());
-        $this->assertEquals('An error occurs during your validation porcess.',$response->getErrors()['general']);
-    }
+   
     
-    function test_invoke_shouldTryToFindUserByItsId_whenTheUsernameIsEmpty()
+    function test_invoke_shouldTryToFindUserByItsId_whenRequestIsProcessActivation()
     {
         $this->repository->expects($this->once())->method('findUserById');
         $response= call_user_func($this->application,$this->processRequest);
     }
     
-    function test_invoke_shouldReturnResponseWithError_whenIdNotFoundInRepository()
+    function test_invoke_shouldReturnResponseWithEntityNotFoundError_whenIdNotFoundInRepository()
     {
-        $this->repository->expects($this->once())->method('findUserById')->willThrowException(new EntityNotFoundException());
+        $this->repository->expects($this->once())
+            ->method('findUserById')
+            ->willThrowException(new EntityNotFoundException());
+        
+        $response= call_user_func($this->application,$this->processRequest);
+        
+        $this->assertTrue($response->hasErrors());
+        $this->assertEquals('Your account was not found',$response->getErrors()['repository']);
+    }
+    
+    function test_invoke_shouldReturnResponseWithUserActivationException_whenUserIsAlreadyValidate()
+    {
+        $user=$this->createMock(User::class);
+        $user->expects($this->once())
+            ->method('active')
+            ->willThrowException(new UserActivationException());
+        
+        
+        $this->repository->expects($this->once())
+            ->method('findUserById')
+            ->willReturn($user);
         
         $response= call_user_func($this->application,$this->processRequest);
         $this->assertTrue($response->hasErrors());
-        $this->assertEquals('An error occurs during your validation porcess.',$response->getErrors()['general']);
+        $this->assertEquals('Your account is already actived',$response->getErrors()['activation']);
     }
     
-    function test_invoke_shouldReturnResponseWithError_whenUserIsAlreadyValidate()
-    {
-        $user= $this->createMock(User::class); 
-        $this->repository->expects($this->once())->method('findUserById')->willReturn($user);
-        $user->expects($this->once())->method('active')->willThrowException(new UserActivationException());
-        
-        $response= call_user_func($this->application,$this->processRequest);
-        $this->assertTrue($response->hasErrors());
-        $this->assertEquals('Your account is already actived',$response->getErrors()['general']);
-    }
-    
-    function test_invoke_shouldUpdateUser_whenUserIsNotAlreadyValidate()
+    function test_invoke_shouldUpdateUser_whenUserWasValidate()
     {
         $user= UserBuilder::of()->setId('aaa')->setActivation(UserActivation::newActivation())->build();
         $this->repository->expects($this->once())->method('findUserById')->willReturn($user);
-        $this->repository->expects($this->once())->method('updateUser');
+        $this->repository->expects($this->once())->method('updateUser')->with($user);
         
         $response= call_user_func($this->application,$this->processRequest);
         
@@ -81,44 +85,53 @@ class UserActivationApplicationTest extends TestCase{
         $this->assertTrue($user->isActived());
     }
     
-    function test_invoke_shouldTryToFindUserByItsUsername_whenTheIdIsEmpty()
+    function test_invoke_shouldReturnUserView_whenNoErrorOccur()
+    {
+        $user= UserBuilder::of()->setId('aaa')->setActivation(UserActivation::newActivation())->build();
+        $this->repository->expects($this->once())->method('findUserById')->willReturn($user);
+        $this->repository->expects($this->once())->method('updateUser')->with($user);
+        
+        $response= call_user_func($this->application,$this->processRequest);
+        
+        $this->assertFalse($response->hasErrors());
+        $this->assertNotNull($response->getUserView());
+    }
+    
+    
+    
+    
+    
+    function test_invoke_shouldTryToFindUserByItsUsername_whenRequestItIsNewActivationFor()
     {
         $this->repository->expects($this->once())->method('findUserByUsername');
         $response= call_user_func($this->application,$this->newActivationFor);
     }
     
-    function test_invoke_shouldReturnResponseWithValidationLink_whenTheUserIsNotActived()
+    function test_invoke_shouldSendTheActivationRequest_whenTheUserIsNotActived()
     { 
         $user= UserBuilder::of()->setId('aaa')->setActivation(UserActivation::newActivation())->build();
         $this->repository->expects($this->once())->method('findUserByUsername')->willReturn($user);
-        $this->activation->expects($this->once())->method('sendActivationRequest')->willReturn('/user/activation-aaa');
+        $this->activation->expects($this->once())->method('sendActivationRequest');
         
         $response= call_user_func($this->application,$this->newActivationFor);
-        $this->assertTrue($response->hasLink());
-        $this->assertEquals('/user/activation-aaa', $response->getLink());
     }
     
-    function test_invoke_shouldReturnResponseWithValidationInstructionMessage_whenTheUserIsNotActived()
-    { 
-        $user= UserBuilder::of()->setId('aaa')->setActivation(UserActivation::newActivation())->build();
-        $this->repository->expects($this->once())->method('findUserByUsername')->willReturn($user);
-        $this->activation->expects($this->once())->method('sendActivationRequest')->willReturn('/user/activation-aaa');
-        $this->activation->expects($this->once())->method('getMessage')->willReturn('a message');
-        
-        $response= call_user_func($this->application,$this->newActivationFor);
-        $this->assertTrue($response->hasLink());
-        $this->assertNotEmpty($response->getInstruction());
-    }
+   
     
     
     function test_invoke_shouldReturnResponseWithError_whenUserIsAlreadyActived()
     {
-        $user= UserBuilder::of()->setId('aaa')->setActivation(UserActivation::of(1,2))->build();
+        $user=$this->createMock(User::class);
+        $user->expects($this->once())
+            ->method('isActived')
+            ->willReturn(true);
+        
+        
         $this->repository->expects($this->once())->method('findUserByUsername')->willReturn($user);
         $response= call_user_func($this->application,$this->newActivationFor);
         
         $this->assertTrue($response->hasErrors());
-        $this->assertEquals('An error occurs during your validation porcess.',$response->getErrors()['general']);
+        $this->assertEquals('Your account is already actived',$response->getErrors()['general']);
     }
     
     

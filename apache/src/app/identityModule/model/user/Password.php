@@ -8,7 +8,7 @@ namespace App\Identity\Model\User;
  * @author mochiwa
  */
 class Password {
-    const DEFAULT_SECURE_REGEX='/^[a-zA-Z0-9]{3,100}$/';
+    const DEFAULT_SECURE_REGEX='/^.{3,55}$/';
     private $password;
     private $securityRegex;
     
@@ -25,7 +25,7 @@ class Password {
    
    public function isSecure():bool
    {
-       return true;//preg_match($this->securityRegex, $this->password);
+       return preg_match($this->securityRegex, $this->password);
    }
    
    public function toString()

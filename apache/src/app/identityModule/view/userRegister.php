@@ -20,7 +20,6 @@ $form->addInputWithLabel($inputFactory->text('email'), 'email')
 
 $form->setErrors($errors ?? []);
 $form->fillForm(isset($user) ? $user->toForm() : []);
-isset($user) ? var_dump($user->toForm()) : [];
 $flashBox= DefaultFlashBoxFactory::of($session->flash()); //new FlashBox(new DefaultFlashBoxFactory($session->flash()));
 
 ?>

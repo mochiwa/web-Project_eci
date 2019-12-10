@@ -22,14 +22,13 @@ class ActivationByLink implements IUserActivation{
         $this->router=$router;
         $this->sessionManager=$sessionManager;
     }
-    public function sendActivationRequest(User $user): string {
+    public function sendActivationRequest(User $user) {
         $userId=$user->id()->idToString();
-        $url=$this->router->generateURL('user.action',['action'=>'activate','id'=>$userId]);
+        $url=$this->router->generateURL('user.action',['action'=>'activation','id'=>$userId]);
         $htmlLink=new Link($url,'here');
         
         $this->sessionManager->setFlash(FlashMessage::success(''
                 . 'For validate your account please click '.$htmlLink->toHtml()));
-        return $url;
     }
 
     

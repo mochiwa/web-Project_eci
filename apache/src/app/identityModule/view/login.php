@@ -1,4 +1,4 @@
 <?php
 
 
-echo $errors['general'];
+var_dump($errors);

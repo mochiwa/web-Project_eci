@@ -28,7 +28,6 @@ class InMemoryUserRepository extends AbstractInMemoryRepository implements IUser
      */
     public function addUser(User $user) {
         $this->data[]=$user;
-        //$this->commit();
     }
 
     /**
@@ -95,7 +94,6 @@ class InMemoryUserRepository extends AbstractInMemoryRepository implements IUser
             if($value->id()==$user->id())
             {
                 $this->data[$key]=$user;
-              //  $this->commit();
             }
         }
     }

@@ -11,15 +11,21 @@ use App\Shared\Application\AbstractApplicationResponse;
  */
 class UserActivationResponse extends AbstractApplicationResponse {
    
-    public function __construct()
-    {
-       
-    }
+    private $userView;
 
     public static function of(): self {
         return new self();
     }
 
-
-
+    public function withUserView(UserView $userView):self
+    {
+        $this->userView=$userView;
+        return $this;
+    }
+    
+    public function getUserView() : UserView {
+        return $this->userView;
+    }
 }
+
+

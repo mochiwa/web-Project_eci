@@ -26,9 +26,8 @@ class ActivationByLinkTest extends TestCase{
         $user = UserBuilder::of()->setId('aaa')->build();
         
         
-        $this->router->expects($this->once())->method('generateURL')->willReturn('activation-aaa');
-        
-        $this->assertSame('activation-aaa',$this->activation->sendActivationRequest($user));
+        $this->router->expects($this->once())->method('generateURL');
+        $this->activation->sendActivationRequest($user);
     }
     
     function test_ShouldAppendInstructionToFlashMessageIntoSession_whenSendActivationIsCalled()
