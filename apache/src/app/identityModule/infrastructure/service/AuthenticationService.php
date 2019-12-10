@@ -48,8 +48,9 @@ class AuthenticationService {
     
     function logout()
     {
-        if($this->isUserConnected()){
-            $this->sessionManager->delete(self::USER_AUTHENTICATED);
+        if(!$this->isUserConnected()){
+            throw new AuthenticationException();
         }
+        $this->sessionManager->delete(self::USER_AUTHENTICATED);
     }
 }

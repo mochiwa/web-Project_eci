@@ -2,7 +2,9 @@
 
 namespace App\Identity\Controller;
 
+use App\Identity\Application\LogoutApplication;
 use App\Identity\Application\RegisterUserApplication;
+use App\Identity\Application\Request\LogoutRequest;
 use App\Identity\Application\Request\NewActivationRequest;
 use App\Identity\Application\Request\ProcessActivationRequest;
 use App\Identity\Application\Request\RegisterUserRequest;
@@ -149,6 +151,14 @@ class UserController extends AbstractController{
             $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
+        return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
+    }
+    
+    private function logout(RequestInterface $request) : ResponseInterface
+    {
+        $appRequest= LogoutRequest::of();
+        $appService=$this->container->get(LogoutApplication::class);
+        $appResponse= $appService($appRequest);
         return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
     }
 }
