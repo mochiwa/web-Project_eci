@@ -41,6 +41,11 @@ class UserActivation {
         return $this->activedDate!=null;
     }
     
+    public function active():self
+    {
+        return new self($this->createdDate,time());
+    }
+    
     
     public function createdDate():int 
     {

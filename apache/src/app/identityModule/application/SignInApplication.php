@@ -3,26 +3,24 @@
 namespace App\Identity\Application;
 
 use App\Identity\Application\Request\SignInRequest;
-use App\Identity\Application\Response\SignInResponse;
+use App\Identity\Application\Response\UserApplicationResponse;
 use App\Identity\Infrastructure\Service\AuthenticationException;
 use App\Identity\Infrastructure\Service\AuthenticationService;
 use App\Identity\Model\User\Password;
 use App\Identity\Model\User\Username;
+use InvalidArgumentException;
 
 /**
  * Description of SignInApplication
  *
  * @author mochiwa
  */
-class SignInApplication {
+class SignInApplication extends AbstractUserApplication{
     /**
      * the user repository
      * @var AuthenticationService 
      */
     private $authenticationService;
-    
-    private $errors;
-    private $userView;
     
 
     public function __construct(AuthenticationService $authenticationService) {
@@ -30,37 +28,19 @@ class SignInApplication {
     }
     
     
-    public function __invoke(SignInRequest $request) : SignInResponse {
+    public function __invoke(SignInRequest $request) : UserApplicationResponse {
         try{
+            $this->userView= Response\UserView::fromArray($request->toArray());
             $username= Username::of($request->getUsername());
             $password= Password::secure($request->getPassword());
             
             $this->authenticationService->authentication($username, $password);
-        } catch (\InvalidArgumentException $input){
+        } catch (InvalidArgumentException $input){
             $this->errors=['authentication'=>'Username or password incorrect'];
-            $this->userView= Response\UserView::fromArray($request->toArray());
         } catch (AuthenticationException $authentication) {
             $this->errors=['authentication'=>'Username or password incorrect'];
-            $this->userView= Response\UserView::fromArray($request->toArray());
         }finally{
             return $this->buildResponse();
         }
     }
-    
-    
-    private function buildResponse(): SignInResponse{
-        $response=SignInResponse::of();
-        if(!empty($this->errors))
-        {
-            $response->withErrors($this->errors);
-        }
-        if(isset($this->userView))
-        {
-            $response->withUserView($this->userView);
-        }
-        return $response;
-    }
-
-    
-    
 }

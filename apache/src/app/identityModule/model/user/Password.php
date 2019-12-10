@@ -33,4 +33,9 @@ class Password {
        return $this->password;
    }
    
+   public function isMatch(Password $clearPassword)
+    {
+        return  password_verify($clearPassword->toString(), $this->password);
+    }
+   
 }

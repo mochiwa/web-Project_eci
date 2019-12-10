@@ -7,7 +7,6 @@ use Framework\Html\Form;
 
 $formFactory=new UserFormFactory($router->generateURL('user',['action'=>'register']));
 $inputFactory=new UserInputFactory();
-
 $form=new Form($formFactory);
 
 $form->addStyle('form');

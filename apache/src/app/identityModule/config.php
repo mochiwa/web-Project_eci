@@ -12,6 +12,7 @@ use App\Identity\Model\User\IUserRepository;
 use App\Identity\Model\User\Service\UserProviderService;
 use App\Shared\Infrastructure\InMemoryTransaction;
 use Framework\Connection\AtomicRemoteOperation;
+use Framework\Session\SessionManager;
 
 return [
     IUserRepository::class => function(){return new InMemoryUserRepository();},
@@ -28,6 +29,7 @@ return [
     Application\UserActivationApplication::class => function($di){
         return new UserActivationApplication(
                 $di->get(IUserRepository::class),
-                $di->get(ActivationByLink::class));
+                $di->get(ActivationByLink::class),
+                $di->get(SessionManager::class));
     }
 ];

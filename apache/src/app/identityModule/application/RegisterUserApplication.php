@@ -3,7 +3,6 @@
 namespace App\Identity\Application;
 
 use App\Identity\Application\Request\RegisterUserRequest;
-use App\Identity\Application\Response\RegisterUserResponse;
 use App\Identity\Application\Response\UserView;
 use App\Identity\Infrastructure\Service\PasswordEncryptionService;
 use App\Identity\Model\User\Email;
@@ -20,7 +19,7 @@ use Framework\Validator\ValidatorException;
  *
  * @author mochiwa
  */
-class RegisterUserApplication {
+class RegisterUserApplication extends AbstractUserApplication{
 
     const PASSWORD_SECURITY_REGEX = '/^[a-zA-Z0-9]{3,100}$/';
 
@@ -40,16 +39,7 @@ class RegisterUserApplication {
      */
     private $passwordEncryption;
     
-    /**
-     * if errors occurs response will contain this array
-     * @var array 
-     */
-    private $errors;
-    /**
-     * The userView that response will contain
-     * @var type 
-     */
-    private $userView;
+
 
     public function __construct(AbstractFormValidator $validator, UserProviderService $userProvider, PasswordEncryptionService $passwordEncryption) {
         $this->validator = $validator;
@@ -64,9 +54,9 @@ class RegisterUserApplication {
      * else  after domain action
      * 
      * @param RegisterUserRequest $request
-     * @return RegisterUserResponse
+     * @return UserApplicationResponse
      */
-    public function __invoke(RegisterUserRequest $request): RegisterUserResponse {
+    public function __invoke(RegisterUserRequest $request): Response\UserApplicationResponse {
         try {
             $this->userView = UserView::fromArray($request->toArray());
             $this->validator->validateOrThrow($request->toArray());
@@ -90,17 +80,4 @@ class RegisterUserApplication {
             return $this->buildResponse();
         }
     }
-
-    
-    private function buildResponse(): RegisterUserResponse {
-        $response = RegisterUserResponse::of();
-        if (!empty($this->errors)) {
-            $response->withErrors($this->errors);
-        }
-        if (isset($this->userView)) {
-            $response->withUserView($this->userView);
-        }
-        return $response;
-    }
-
 }

@@ -32,7 +32,7 @@ class LogoutApplicationTest extends TestCase{
         $reponse= call_user_func($this->application,$this->request);
         
         $this->assertTrue($reponse->hasErrors());
-        $this->assertEquals('You are not connected , so you cannot logout ...',$reponse->getErrors()['logout']);
+        $this->assertEquals('You are not connected , so you cannot logout ...',$reponse->getErrors()['application']);
     }
     
 }

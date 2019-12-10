@@ -3,7 +3,6 @@
 namespace App\Identity\Application;
 
 use App\Identity\Application\Request\LogoutRequest;
-use App\Identity\Application\Response\LogoutResponse;
 use App\Identity\Infrastructure\Service\AuthenticationException;
 use App\Identity\Infrastructure\Service\AuthenticationService;
 
@@ -13,7 +12,7 @@ use App\Identity\Infrastructure\Service\AuthenticationService;
  *
  * @author mochiwa
  */
-class LogoutApplication {
+class LogoutApplication extends AbstractUserApplication{
     /**
      *
      * @var AuthenticationService 
@@ -25,14 +24,15 @@ class LogoutApplication {
     }
 
     
-    public function __invoke(LogoutRequest $request): LogoutResponse {
+    public function __invoke(LogoutRequest $request): Response\UserApplicationResponse {
         try{
             $this->authenticationService->logout();
-            return LogoutResponse::of();
         } catch (AuthenticationException $ex) {
-            return LogoutResponse::of()->withErrors(['logout'=>"You are not connected , so you cannot logout ..."]);
+            $this->errors=['application'=>'You are not connected , so you cannot logout ...'];
         }
-        
+        finally {
+            return $this->buildResponse();
+        }
     }
 
 }

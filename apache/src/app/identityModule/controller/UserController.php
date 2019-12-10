@@ -23,10 +23,16 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author mochiwa
  */
-class UserController extends AbstractController{
+class UserController extends AbstractController implements IUserController{
     const INDEX="/home";
     
+    /**
+     * @var IViewBuilder 
+     */
     private $viewBuilder;
+    /**
+     * @var AtomicRemoteOperation 
+     */
     private $atomicOperator;
     
     function __construct(IContainer $container) {
@@ -43,7 +49,7 @@ class UserController extends AbstractController{
     public function __invoke(RequestInterface $request) : ResponseInterface{
         $action=$request->getAttribute('action');
         
-        if(method_exists($this, $action) && is_callable([$this,$action])){
+        if(method_exists(IUserController::class, $action) && is_callable([$this,$action])){
                 return call_user_func([$this,$action],$request);
         }
         return $this->redirectTo(self::INDEX);
@@ -55,7 +61,7 @@ class UserController extends AbstractController{
      * @param RequestInterface $request
      * @return ResponseInterface
      */
-    private function register(RequestInterface $request): ResponseInterface
+    public function register(RequestInterface $request): ResponseInterface
     {
         if(!$this->isPostRequest($request)){
             return $this->buildResponse($this->viewBuilder->build('@user/userRegister'));
@@ -117,7 +123,7 @@ class UserController extends AbstractController{
      * @param RequestInterface $request
      * @return ResponseInterface
      */
-    private function activation(RequestInterface $request) : ResponseInterface
+    public function activation(RequestInterface $request) : ResponseInterface
     {
         $appRequest= ProcessActivationRequest::of($request->getAttribute('id'));
         $appService=$this->container->get(UserActivationApplication::class);
@@ -128,7 +134,7 @@ class UserController extends AbstractController{
             $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
-        return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);   
+        return $this->redirectTo('/signIn');
     }
     
     /**
@@ -136,7 +142,7 @@ class UserController extends AbstractController{
      * @param RequestInterface $request
      * @return ResponseInterface
      */
-    private function signIn(RequestInterface $request) : ResponseInterface
+    public function signIn(RequestInterface $request) : ResponseInterface
     {
         if(!$this->isPostRequest($request))
         {
@@ -151,14 +157,15 @@ class UserController extends AbstractController{
             $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
-        return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
+        return $this->redirectTo(self::INDEX, 200);
     }
     
-    private function logout(RequestInterface $request) : ResponseInterface
+    
+    public function logout(RequestInterface $request) : ResponseInterface
     {
         $appRequest= LogoutRequest::of();
         $appService=$this->container->get(LogoutApplication::class);
         $appResponse= $appService($appRequest);
-        return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
+        return $this->redirectTo(self::INDEX, 200);
     }
 }

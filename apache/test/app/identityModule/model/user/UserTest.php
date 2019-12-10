@@ -30,5 +30,11 @@ class UserTest extends TestCase{
         $this->assertTrue($user->isActived());
     }
   
+    function test_isPasswordMatch_shouldReturnTrue_whenClearPasswordMatchEncryptedPassword()
+    {
+        $user= UserBuilder::of()->setPassword(password_hash('secret',PASSWORD_BCRYPT))->build();
+        $clear= \App\Identity\Model\User\Password::secure('secret');
+        $this->assertTrue($user->isPasswordMatch($clear));
+    }
     
 }

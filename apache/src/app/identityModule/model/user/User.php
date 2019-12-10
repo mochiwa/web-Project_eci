@@ -63,7 +63,7 @@ class User {
         if($this->isActived()){
             throw new UserActivationException("This account is already actived", UserActivationException::USER_ALREADY_ACTIVED);
         }
-        $this->activation= UserActivation::of($this->activation->createdDate(), time());
+        $this->activation=$this->activation->active();
     }
     
     public function id():UserId
@@ -81,8 +81,8 @@ class User {
         return $this->username;
     }    
     
-    public function isPasswordMatch(Password $clearPassword)
+    public function isPasswordMatch(Password $clearPassword):bool
     {
-        return  password_verify($clearPassword->toString(), $this->password->toString());
+        return  $this->password->isMatch($clearPassword);//password_verify($clearPassword->toString(), $this->password->toString());
     }
 }

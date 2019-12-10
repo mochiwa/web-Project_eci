@@ -9,6 +9,8 @@ use App\Identity\Model\User\IUserRepository;
 use App\Identity\Model\User\User;
 use App\Identity\Model\User\UserActivation;
 use App\Identity\Model\User\UserActivationException;
+use Framework\Session\FlashMessage;
+use Framework\Session\SessionManager;
 use PHPUnit\Framework\TestCase;
 use Test\App\Identity\Helper\UserBuilder;
 
@@ -21,6 +23,7 @@ class UserActivationApplicationTest extends TestCase{
     private $application;
     private $repository;
     private $activation;
+    private $session;
     
     private $processRequest;
     private $newActivationFor;
@@ -28,7 +31,8 @@ class UserActivationApplicationTest extends TestCase{
     function setUp() {
         $this->repository=$this->createMock(IUserRepository::class);
         $this->activation=$this->createMock(IUserActivation::class);
-        $this->application=new UserActivationApplication($this->repository,$this->activation);
+        $this->session=$this->createMock(SessionManager::class);
+        $this->application=new UserActivationApplication($this->repository,$this->activation,$this->session);
         
         
         $this->processRequest= ProcessActivationRequest::of('anId');
@@ -97,7 +101,16 @@ class UserActivationApplicationTest extends TestCase{
         $this->assertNotNull($response->getUserView());
     }
     
-    
+    function test_invoke_shouldAppendAsuccessFlashMessageToSession_whenTheActivationProcessIsSuccess()
+    {
+        $user= UserBuilder::of()->setId('aaa')->setActivation(UserActivation::newActivation())->build();
+        $this->repository->expects($this->once())->method('findUserById')->willReturn($user);
+        $this->repository->expects($this->once())->method('updateUser')->with($user);
+        $this->session->expects($this->once())->method('setFlash')->with(FlashMessage::success('Your account is actived, you can now sign in !'));
+        
+        $response= call_user_func($this->application,$this->processRequest);
+        
+    }
     
     
     
@@ -116,9 +129,6 @@ class UserActivationApplicationTest extends TestCase{
         $response= call_user_func($this->application,$this->newActivationFor);
     }
     
-   
-    
-    
     function test_invoke_shouldReturnResponseWithError_whenUserIsAlreadyActived()
     {
         $user=$this->createMock(User::class);
@@ -131,7 +141,7 @@ class UserActivationApplicationTest extends TestCase{
         $response= call_user_func($this->application,$this->newActivationFor);
         
         $this->assertTrue($response->hasErrors());
-        $this->assertEquals('Your account is already actived',$response->getErrors()['general']);
+        $this->assertEquals('Your account is already actived',$response->getErrors()['domain']);
     }
     
     

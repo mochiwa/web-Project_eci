@@ -5,12 +5,12 @@ namespace App\Identity\Application\Response;
 use App\Shared\Application\AbstractApplicationResponse;
 
 /**
- * Description of SignInResponse
+ * Description of UserApplicationResponse
  *
  * @author mochiwa
  */
-class SignInResponse extends AbstractApplicationResponse {
-    /**
+class UserApplicationResponse extends AbstractApplicationResponse{
+     /**
      * The view of the user
      * @var UserView 
      */
@@ -19,8 +19,6 @@ class SignInResponse extends AbstractApplicationResponse {
     protected function __construct() {
         $this->userview= UserView::empty();
     }
-
-    
     
     public static function of():self
     {
@@ -36,6 +34,4 @@ class SignInResponse extends AbstractApplicationResponse {
     public function getUserview(): UserView {
         return $this->userview;
     }
-    
-    
 }
