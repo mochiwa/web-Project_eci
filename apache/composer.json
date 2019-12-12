@@ -23,6 +23,7 @@
             "Framework\\FileManager\\" : "./src/framework/fileManager",
             "Framework\\Paginator\\" : "./src/framework/paginator",
             "Framework\\Connection\\" : "./src/framework/connection",
+            "Framework\\Acl\\" : "./src/framework/acl",
             
             
             "App\\" : "./src/app",

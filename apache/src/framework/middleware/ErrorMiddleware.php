@@ -13,7 +13,6 @@ use Psr\Http\Server\RequestHandlerInterface;
  * @author mochiwa
  */
 class ErrorMiddleware implements MiddlewareInterface{
-    //put your code here
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $response=new \GuzzleHttp\Psr7\Response();
         $response->getBody()->write('Error 404 not found');

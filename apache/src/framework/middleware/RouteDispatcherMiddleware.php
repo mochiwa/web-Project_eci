@@ -41,11 +41,11 @@ class RouteDispatcherMiddleware implements MiddlewareInterface {
             ServerRequestInterface $request, 
             RequestHandlerInterface $handler): ResponseInterface {
         $route=$request->getAttribute(Route::class);
+        
         if(!$route)
         {
             return $handler->handle($request);    
-        }
-        else if (is_string($route->target()))
+        }elseif (is_string($route->target()))
         {
             $callback = $this->container->get($route->target());
         } else

@@ -1,4 +1,4 @@
-<?
+<?php
 
 use App\Shared\Html\LinkFactory;
 
@@ -30,7 +30,7 @@ use App\Shared\Html\LinkFactory;
                 <div class="nav-top nav-top-right">
                     <nav class="nav">
                         <?php
-                            if($session->get(App\Identity\Infrastructure\Service\AuthenticationService::USER_AUTHENTICATED)===null)
+                            if($session->get(\Framework\Session\SessionManager::CURRENT_USER_KEY)===null)
                             {
                                 echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'signIn']), 'Sign In')->toHtml();
                                 echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'register']), 'Sign Up', true)->toHtml();

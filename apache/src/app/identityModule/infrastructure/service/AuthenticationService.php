@@ -15,7 +15,6 @@ use Framework\Session\SessionManager;
  * @author mochiwa
  */
 class AuthenticationService {
-    const USER_AUTHENTICATED="USER_AUTHENTICATED";
     private $userRepository;
     private $sessionManager;
     
@@ -32,7 +31,7 @@ class AuthenticationService {
             if(!$user->isPasswordMatch($password) || $this->isUserConnected()){
                 throw new AuthenticationException();
             }else{
-                $this->sessionManager->set(self::USER_AUTHENTICATED, $user);
+                $this->sessionManager->set(SessionManager::CURRENT_USER_KEY, $user);
                 return $user;
             }
         } catch (EntityNotFoundException $ex) {
@@ -43,7 +42,7 @@ class AuthenticationService {
     
     function isUserConnected():bool
     {
-        return $this->sessionManager->get(self::USER_AUTHENTICATED)!=null;
+        return $this->sessionManager->get(SessionManager::CURRENT_USER_KEY)!=null;
     }
     
     function logout()
@@ -51,6 +50,6 @@ class AuthenticationService {
         if(!$this->isUserConnected()){
             throw new AuthenticationException();
         }
-        $this->sessionManager->delete(self::USER_AUTHENTICATED);
+        $this->sessionManager->delete(SessionManager::CURRENT_USER_KEY);
     }
 }

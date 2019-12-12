@@ -7,6 +7,7 @@ namespace Framework\Session;
  */
 class SessionManager {
     const FLASH_KEY='flash';
+    const CURRENT_USER_KEY='user';
     private $session;
     
     function __construct(ISession $session)

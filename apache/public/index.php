@@ -4,6 +4,7 @@ use App\Application;
 use App\Article\ArticleModule;
 use App\Identity\IdentityModule;
 use Framework\DependencyInjection\Container;
+use Framework\Middleware\ACLMiddleware;
 use Framework\Middleware\ErrorMiddleware;
 use Framework\Middleware\LastSlashRemoverMiddleware;
 use Framework\Middleware\RouteDispatcherMiddleware;
@@ -26,6 +27,7 @@ $app->addModule(ArticleModule::class)
         
 $app->pipe(LastSlashRemoverMiddleware::class)
     ->pipe(RouterMiddleware::class)
+    ->pipe(ACLMiddleware::class)
     ->pipe(RouteDispatcherMiddleware::class)
     ->pipe(ErrorMiddleware::class);
 

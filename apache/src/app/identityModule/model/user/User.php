@@ -35,8 +35,9 @@ class User {
      * @var UserActivation 
      */
     private $activation;
+    
  
-    public function __construct(UserId $id,Email $email, Username $username, Password $password, UserActivation $activation) {
+    private function __construct(UserId $id,Email $email, Username $username, Password $password, UserActivation $activation) {
         $this->id=$id;
         $this->email = $email;
         $this->username = $username;
@@ -84,5 +85,14 @@ class User {
     public function isPasswordMatch(Password $clearPassword):bool
     {
         return  $this->password->isMatch($clearPassword);//password_verify($clearPassword->toString(), $this->password->toString());
+    }
+    
+    /**
+     * TODO : implement
+     * @return bool
+     */
+    public function isAdmin():bool
+    {
+        return false;
     }
 }
