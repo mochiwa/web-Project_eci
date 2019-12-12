@@ -57,7 +57,7 @@ class AuthenticationServiceTest extends TestCase{
         $this->userRepository->expects($this->once())
             ->method('findUserByUsername')
             ->willReturn($user);
-        $this->sessionManager->expects($this->once())->method('set')->with('USER_AUTHENTICATED',$user);
+        $this->sessionManager->expects($this->once())->method('set')->with(SessionManager::CURRENT_USER_KEY,$user);
         
         $this->authentication->authentication(Username::of('aUsername'), Password::secure('aPassword'));
     }
@@ -101,7 +101,7 @@ class AuthenticationServiceTest extends TestCase{
     function test_logout_shouldRemoveTheUserInSession_whenUserIsConnected()
     {
         $this->sessionManager->expects($this->once())->method('get')->willReturn(Test\App\Identity\Helper\UserBuilder::of()->build());
-        $this->sessionManager->expects($this->once())->method('delete')->with("USER_AUTHENTICATED");
+        $this->sessionManager->expects($this->once())->method('delete')->with(SessionManager::CURRENT_USER_KEY);
         
         $this->authentication->logout();
     }

@@ -37,7 +37,7 @@ class User {
     private $activation;
     
  
-    private function __construct(UserId $id,Email $email, Username $username, Password $password, UserActivation $activation) {
+    public function __construct(UserId $id,Email $email, Username $username, Password $password, UserActivation $activation) {
         $this->id=$id;
         $this->email = $email;
         $this->username = $username;

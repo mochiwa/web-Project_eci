@@ -12,7 +12,7 @@ class PasswordTest extends TestCase{
     
     function test_isSecure_shouldReturnTrue_whenPasswordMatchWithTheSecurityRegex()
     {
-        $password=Password::secure('aGoodPassword45');
+        $password=Password::secure('aGoodPassw@ord45');
     
         $this->assertTrue($password->isSecure());
     }
