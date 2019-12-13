@@ -13,6 +13,7 @@ use Framework\Router\IRouter;
 class WebPageModule extends AbstractModule {
     
     public function __construct(IRouter $router, IViewBuilder $viewBuilder) {
+        $router->map('GET', '/', webPageController::class,'webPage');
         $router->map('GET', '/home', webPageController::class,'webPage.home');
         $router->map('GET', '/contact', webPageController::class,'webPage.contact');
         $viewBuilder->addPath('webPage', __DIR__.'/view');

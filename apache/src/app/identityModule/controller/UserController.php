@@ -24,7 +24,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class UserController extends AbstractController implements IUserController{
-    const INDEX="/home";
+    const INDEX="home";
     
     /**
      * @var IViewBuilder 
@@ -48,7 +48,6 @@ class UserController extends AbstractController implements IUserController{
      */
     public function __invoke(RequestInterface $request) : ResponseInterface{
         $action=$request->getAttribute('action');
-        
         if(method_exists(IUserController::class, $action) && is_callable([$this,$action])){
                 return call_user_func([$this,$action],$request);
         }
