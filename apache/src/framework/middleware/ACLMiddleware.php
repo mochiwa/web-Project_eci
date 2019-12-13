@@ -47,7 +47,6 @@ class ACLMiddleware implements MiddlewareInterface{
         
         $rule=$this->getRuleForRole($route,$currentRole);
        
-        
         if(!$this->acl->isAllowed($currentRole, $rule)){
             $request=$request->withAttribute(Route::class, null);  
             
@@ -87,18 +86,3 @@ class ACLMiddleware implements MiddlewareInterface{
     }
 
 }
-
-
-
-        /*if(preg_match('/admin/', $route->name())){
-            $rule= Rule::Allow(AbstractTarget::URL('admin'));
-        }elseif(isset ($route->params()['action'])){
-            
-            $rule= Rule::Allow(AbstractTarget::ControllerAction($route->target(),$route->params()['action']));
-            if($this->acl->hasRuleFor(Rule::Invert($rule), $currentRole)){
-                $rule=Rule::Invert($rule);
-            }
-        }else{
-            $rule= Rule::Allow(AbstractTarget::Controller($route->target()));
-        }*/
-        

@@ -99,6 +99,7 @@
             "Test\\Framework\\HtmlBuilder\\" : "./test/framework/htmlBuilder",
             "Test\\Framework\\Html\\" : "./test/framework/html",
             "Test\\Framework\\FileManager\\" : "./test/framework/fileManager",
+            "Test\\Framework\\Cookie\\" : "./test/framework/cookie",
             
             
             "Test\\App\\": "./test/app/",

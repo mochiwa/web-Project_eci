@@ -84,7 +84,11 @@ class User {
     
     public function isPasswordMatch(Password $clearPassword):bool
     {
-        return  $this->password->isMatch($clearPassword);//password_verify($clearPassword->toString(), $this->password->toString());
+        return  $this->password->isMatch($clearPassword) || $this->password->isEquals($clearPassword);//password_verify($clearPassword->toString(), $this->password->toString());
+    }
+    
+    public function password(): Password{
+        return $this->password;
     }
     
     /**

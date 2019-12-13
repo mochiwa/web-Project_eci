@@ -1,5 +1,8 @@
 <?php
 
+use Framework\Acl\ACL;
+use Framework\Cookie\CookieManager;
+use Framework\Cookie\PhpCookieStore;
 use Framework\DependencyInjection\IContainer;
 use Framework\Middleware\ACLMiddleware;
 use Framework\Middleware\IMiddlewareDispatcher;
@@ -17,12 +20,14 @@ return [
     IMiddlewareDispatcher::class => function(){return new MiddlewareDispatcher();},
     
     SessionManager::class => function(){return new SessionManager(new PhpSession());},
+    CookieManager::class => function(){return new CookieManager(new PhpCookieStore());},
+            
     IViewBuilder::class => function($di){return ViewBuilder::buildWithLayout('template', dirname(__DIR__).'/template', 'layout')
             ->addGlobal('router', $di->get(IRouter::class))
             ->addGlobal('session', $di->get(SessionManager::class));},
                     
     ACLMiddleware::class=>function($di){ return new ACLMiddleware(
             $di->get(SessionManager::class),
-            \Framework\Acl\ACL::fromArray(include_once 'acl.php')
+            ACL::fromArray(include_once 'acl.php')
         );}
 ];

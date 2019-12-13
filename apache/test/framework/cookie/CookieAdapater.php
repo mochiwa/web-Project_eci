@@ -1,5 +1,5 @@
 <?php
-
+namespace Test\Framework\Cookie;
 /**
  * Description of CookieAdapater
  *

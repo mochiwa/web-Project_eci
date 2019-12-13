@@ -7,7 +7,7 @@ namespace Framework\Cookie;
  *
  * @author mochiwa
  */
-class PhpCookie implements ICookieStore{
+class PhpCookieStore implements ICookieStore{
     
     public function erase(string $name): void {
         $this->setCookie($name,'',1);
