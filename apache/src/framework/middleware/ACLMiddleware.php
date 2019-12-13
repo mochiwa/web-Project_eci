@@ -6,7 +6,6 @@ use Framework\Acl\AbstractTarget;
 use Framework\Acl\ACL;
 use Framework\Acl\Role;
 use Framework\Acl\Rule;
-use Framework\Acl\Target;
 use Framework\Router\Route;
 use Framework\Session\SessionManager;
 use Psr\Http\Message\ResponseInterface;
@@ -36,9 +35,6 @@ class ACLMiddleware implements MiddlewareInterface{
         $this->session = $session;
         $this->acl = $acl;
     }
-
-    
-    
     
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $route=$request->getAttribute(Route::class);
@@ -49,17 +45,8 @@ class ACLMiddleware implements MiddlewareInterface{
         
         $currentRole= $this->getCurrentRole();
         
-        if(preg_match('/admin/', $route->name())){
-            $rule= Rule::Allow(AbstractTarget::URL('admin'));
-        }elseif(isset ($route->params()['action'])){
-            
-            $rule= Rule::Allow(AbstractTarget::ControllerAction($route->target(),$route->params()['action']));
-            if($this->acl->hasRuleFor(Rule::Invert($rule), $currentRole)){
-                $rule=Rule::Invert($rule);
-            }
-        }else{
-            $rule= Rule::Allow(AbstractTarget::Controller($route->target()));
-        }
+        $rule=$this->getRuleForRole($route,$currentRole);
+       
         
         if(!$this->acl->isAllowed($currentRole, $rule)){
             $request=$request->withAttribute(Route::class, null);  
@@ -81,5 +68,37 @@ class ACLMiddleware implements MiddlewareInterface{
         }
         return $currentRole= $this->acl->getRole ('user');
     }
+    
+    private function getRuleForRole(Route $route,Role $role):Rule{
+        
+        if(preg_match('/admin/', $route->name())){
+            return Rule::Allow(AbstractTarget::URL('admin'));
+        }elseif(isset ($route->params()['action'])){
+            $rule=Rule::Allow(AbstractTarget::ControllerAction($route->target(),$route->params()['action']));
+            return $this->isDenyRule($rule, $role) ?  Rule::Invert($rule) : $rule;
+        }else{
+            return Rule::Allow(AbstractTarget::Controller($route->target()));
+        }
+    }
+    
+    private function isDenyRule(Rule $rule,Role $currentRole) : bool
+    {
+        return $this->acl->hasRuleFor(Rule::Invert($rule), $currentRole);
+    }
 
 }
+
+
+
+        /*if(preg_match('/admin/', $route->name())){
+            $rule= Rule::Allow(AbstractTarget::URL('admin'));
+        }elseif(isset ($route->params()['action'])){
+            
+            $rule= Rule::Allow(AbstractTarget::ControllerAction($route->target(),$route->params()['action']));
+            if($this->acl->hasRuleFor(Rule::Invert($rule), $currentRole)){
+                $rule=Rule::Invert($rule);
+            }
+        }else{
+            $rule= Rule::Allow(AbstractTarget::Controller($route->target()));
+        }*/
+        
