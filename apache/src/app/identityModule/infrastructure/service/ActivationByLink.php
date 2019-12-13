@@ -24,7 +24,7 @@ class ActivationByLink implements IUserActivation{
     }
     public function sendActivationRequest(User $user) {
         $userId=$user->id()->idToString();
-        $url=$this->router->generateURL('user.action',['action'=>'activation','id'=>$userId]);
+        $url=$this->router->generateURL('user.selected',['action'=>'activation','id'=>$userId]);
         $htmlLink=new Link($url,'here');
         
         $this->sessionManager->setFlash(FlashMessage::success(''

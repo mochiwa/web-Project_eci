@@ -134,7 +134,7 @@ class UserController extends AbstractController implements IUserController{
             $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
-        return $this->redirectTo('/signIn');
+        return $this->redirectTo('/user/signIn');
     }
     
     /**
