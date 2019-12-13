@@ -24,6 +24,7 @@
             "Framework\\Paginator\\" : "./src/framework/paginator",
             "Framework\\Connection\\" : "./src/framework/connection",
             "Framework\\Acl\\" : "./src/framework/acl",
+            "Framework\\Cookie\\" : "./src/framework/cookie",
             
             
             "App\\" : "./src/app",

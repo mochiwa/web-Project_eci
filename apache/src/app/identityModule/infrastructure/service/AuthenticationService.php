@@ -15,6 +15,7 @@ use Framework\Session\SessionManager;
  * @author mochiwa
  */
 class AuthenticationService {
+    const COOKIE_CONNECTED_USER='connected_user';
     private $userRepository;
     private $sessionManager;
     
@@ -51,5 +52,9 @@ class AuthenticationService {
             throw new AuthenticationException();
         }
         $this->sessionManager->delete(SessionManager::CURRENT_USER_KEY);
+    }
+    
+    function buildCookie(){
+        
     }
 }

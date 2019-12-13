@@ -7,8 +7,10 @@ use App\Identity\Model\User\IUserRepository;
 use App\Identity\Model\User\Password;
 use App\Identity\Model\User\User;
 use App\Identity\Model\User\Username;
+use Framework\Cookie\CookieManager;
 use Framework\Session\SessionManager;
 use PHPUnit\Framework\TestCase;
+use Test\App\Identity\Helper\UserBuilder;
 
 /**
  * Description of AuthenticationServiceTest
@@ -19,15 +21,21 @@ class AuthenticationServiceTest extends TestCase{
     private $userRepository;
     private $authentication;
     private $sessionManager;
+    private $cookieManager;
     
     
     protected function setUp() {
         $this->userRepository=$this->createMock(IUserRepository::class);
         $this->sessionManager=$this->createMock(SessionManager::class);
-        $this->authentication=new AuthenticationService($this->userRepository,$this->sessionManager);
-        
-        
+        $this->cookieManager=$this->createMock(CookieManager::class);
+        $this->authentication=new AuthenticationService($this->userRepository,$this->sessionManager,$this->cookieManager);
     }
+    
+    protected function tearDown() {
+        parent::tearDown();
+        setcookie(AuthenticationService::COOKIE_CONNECTED_USER, 1);
+    }
+    
     function test_authentication_shouldThrowAuthenticationException_whenUsernameNotFoundInRepository()
     {
         $this->userRepository->expects($this->once())
@@ -64,7 +72,7 @@ class AuthenticationServiceTest extends TestCase{
     
     function test_isUserConnected_shouldReturnTrue_whenAUserIsAlreadyConnectedInSession()
     {
-        $this->sessionManager->expects($this->once())->method('get')->willReturn(Test\App\Identity\Helper\UserBuilder::of()->build());
+        $this->sessionManager->expects($this->once())->method('get')->willReturn(UserBuilder::of()->build());
         
         $this->assertTrue($this->authentication->isUserConnected());
     }
@@ -76,12 +84,11 @@ class AuthenticationServiceTest extends TestCase{
         $this->userRepository->expects($this->once())
             ->method('findUserByUsername')
             ->willReturn($user);
-        $this->sessionManager->expects($this->once())->method('get')->willReturn(Test\App\Identity\Helper\UserBuilder::of()->build());
+        $this->sessionManager->expects($this->once())->method('get')->willReturn(UserBuilder::of()->build());
         
         $this->expectException(AuthenticationException::class);
         $this->authentication->authentication(Username::of('aUsername'), Password::secure('aPassword'));
     }
-    
     
     function test_authentication_shouldReturnTheUser_whenAuthenticationSuccess()
     {
@@ -96,13 +103,12 @@ class AuthenticationServiceTest extends TestCase{
         $this->assertSame($user, $userAuthenticated);
     }
     
-    
-    
     function test_logout_shouldRemoveTheUserInSession_whenUserIsConnected()
     {
-        $this->sessionManager->expects($this->once())->method('get')->willReturn(Test\App\Identity\Helper\UserBuilder::of()->build());
+        $this->sessionManager->expects($this->once())->method('get')->willReturn(UserBuilder::of()->build());
         $this->sessionManager->expects($this->once())->method('delete')->with(SessionManager::CURRENT_USER_KEY);
         
         $this->authentication->logout();
     }
+    
 }
