@@ -33,7 +33,7 @@ use App\Shared\Html\LinkFactory;
                             if($session->get(\Framework\Session\SessionManager::CURRENT_USER_KEY)===null)
                             {
                                 echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'signIn']), 'Sign In')->toHtml();
-                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'register']), 'Sign Up', true)->toHtml();
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'register']), 'Register', true)->toHtml();
                             }
                             else{
                                 echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'logout']), 'Logout', true)->toHtml();

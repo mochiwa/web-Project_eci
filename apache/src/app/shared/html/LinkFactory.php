@@ -12,7 +12,10 @@ class LinkFactory {
     {
         $a=new Link($href,$text);
         $a->addStyle('nav__item');
-        if(strpos($_SERVER['REQUEST_URI'], strtolower($text)))
+        
+
+        
+        if($_SERVER['REQUEST_URI'] === $href)
         {
             $a->addStyle ('nav__item--selected');
         }
@@ -21,6 +24,5 @@ class LinkFactory {
             $a->addStyle('nav__item--last');
         }
         return $a;
-        
     }
 }
