@@ -135,4 +135,19 @@ class ACLMiddlewareTest extends TestCase{
         $this->middleware->process($request, $handler);
     }
     
+    
+    function test_process_checkIfCurrentRoleCanUseAfunctionFromAnAdminPath(){
+        $request=$request=$this->requestWithRoute('parking.view','admin',['action'=>'create']);
+        $user=$this->createMock(User::class);
+        $user->expects($this->once())->method('isAdmin')->willReturn(false);
+        $this->session->expects($this->once())->method('get')->with(SessionManager::CURRENT_USER_KEY)->willReturn($user);
+        $this->acl->expects($this->once())->method('getRole')->with('user')->willReturn(Role::of('visitor'));
+        
+        $this->acl->expects($this->once())->method('isAllowed')->with(Role::of('user'), Rule::Allow(AbstractTarget::URL('admin')))->willReturn(false);
+        
+        
+        $handler=$this->mockHandler();
+        $handler->expects($this->once())->method('handle')->with($request->withAttribute(Route::class, null));
+        $this->middleware->process($request, $handler);
+    }
 }

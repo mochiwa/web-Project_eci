@@ -19,9 +19,16 @@ class SignInRequest {
      */
     private $password;
     
-    public function __construct($username, $password) {
+    /**
+     * set if save the user in cookie
+     * @var bool 
+     */
+    private $storeInCookie;
+    
+    public function __construct(string $username,string $password,bool $storeInCookie=true) {
         $this->username = $username;
         $this->password = $password;
+        $this->storeInCookie=$storeInCookie;
     }
     
     public static function fromPost(array $post):self
@@ -43,6 +50,11 @@ class SignInRequest {
             'username' => $this->username,
         ];
     }
+
+    public function storeInCookie() : bool {
+        return $this->storeInCookie;
+    }
+
 
    
 
