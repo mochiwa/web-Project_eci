@@ -75,7 +75,13 @@
             
             "App\\Identity\\Application\\": "./src/app/identityModule/application",
             "App\\Identity\\Application\\Request\\": "./src/app/identityModule/application/request",
-            "App\\Identity\\Application\\Response\\": "./src/app/identityModule/application/response"
+            "App\\Identity\\Application\\Response\\": "./src/app/identityModule/application/response",
+            
+            
+            "App\\WebPage\\" : "./src/app/webPageModule",
+            "App\\WebPage\\Controller\\" : "./src/app/webPageModule/controller",
+            "App\\WebPage\\View\\" : "./src/app/webPageModule/view",
+            "App\\WebPage\\View\\Factory\\" : "./src/app/webPageModule/view/factory"
         }
     },
     

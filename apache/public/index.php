@@ -3,6 +3,7 @@
 use App\Application;
 use App\Article\ArticleModule;
 use App\Identity\IdentityModule;
+use App\WebPage\WebPageModule;
 use Framework\DependencyInjection\Container;
 use Framework\Middleware\ACLMiddleware;
 use Framework\Middleware\ErrorMiddleware;
@@ -22,12 +23,13 @@ $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php')
 
 $app = new Application($container);
 
-$app->addModule(ArticleModule::class)
+$app->addModule(WebPageModule::class)
+    ->addModule(ArticleModule::class)
     ->addModule(IdentityModule::class);
         
 $app->pipe(LastSlashRemoverMiddleware::class)
     ->pipe(RouterMiddleware::class)
-    ->pipe(ACLMiddleware::class)
+    //->pipe(ACLMiddleware::class)
     ->pipe(RouteDispatcherMiddleware::class)
     ->pipe(ErrorMiddleware::class);
 

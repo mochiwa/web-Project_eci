@@ -21,9 +21,9 @@ use App\Shared\Html\LinkFactory;
                         <h2><a class="nav-logo__item" href="">-LOGO-</a></h2>
                     </div>
                     <nav class="nav">
-                        <?= LinkFactory::topNavLink($router->generateURL('home'), 'Home')->toHtml() ?>
+                        <?= LinkFactory::topNavLink($router->generateURL('webPage.home'), 'Home')->toHtml() ?>
                         <?= LinkFactory::topNavLink($router->generateURL('parking.home'), 'Parking')->toHtml() ?>
-                        <?= LinkFactory::topNavLink($router->generateURL('contact'), 'Contact')->toHtml() ?>
+                        <?= LinkFactory::topNavLink($router->generateURL('webPage.contact'), 'Contact')->toHtml() ?>
                     </nav>
                 </div>
 
