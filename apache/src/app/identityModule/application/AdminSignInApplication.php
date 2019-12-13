@@ -34,8 +34,12 @@ class AdminSignInApplication extends AbstractUserApplication{
        try{
            $username= Username::of($request->getUsername());
            $password= Password::of($request->getPassword());
-           
-           $this->authentication->adminAuthentication($username, $password);
+           $user=$this->authentication->authentication($username, $password);
+           $this->authentication->setConnectedUserInSession($user);
+           if(!$user->isAdmin()){
+               $this->authentication->logout();
+               $this->errors=['authentication'=>'Username or password incorrect'];
+           }
        } catch (AuthenticationException $ex) {
             $this->errors=['authentication'=>'Username or password incorrect'];
        }finally{

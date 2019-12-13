@@ -102,5 +102,7 @@ abstract class UserRepositoryTest extends TestCase{
         $userFound=$this->repository->findUserByUsername($user->username());
         $this->assertSame($user, $userFound);
     }
+ 
+    
     
 }
