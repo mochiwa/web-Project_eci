@@ -50,13 +50,16 @@ class AuthenticationServiceTest extends TestCase{
         $this->expectException(AuthenticationException::class);
         $this->authentication->authentication(Username::of('aUsername'), Password::secure('aPassword'));
     }
-    
-    function test_isUserConnected_shouldReturnTrue_whenAUserIsAlreadyConnectedInSession()
-    {
-        $this->sessionManager->expects($this->once())->method('get')->willReturn(UserBuilder::of()->build());
+    function test_authentication_shouldThrowAuthenticationException_userIsNotActived(){
+        $user=$this->createMock(User::class);
+        $this->userRepository->expects($this->once())->method('findUserByUsername')->willReturn($user);
+        $user->expects($this->once())->method('isPasswordMatch')->willReturn(true);
+        $user->expects($this->once())->method('isActived')->willReturn(false);
         
-        $this->assertTrue($this->authentication->isUserConnected());
+        $this->expectException(AuthenticationException::class);
+        $this->authentication->authentication(Username::of('aUsername'), Password::secure('aPassword'));
     }
+    
     
     function test_authentication_shouldThrowAuthenticationException_WhenUserIsAlreadyConnectedInSession()
     {
@@ -75,7 +78,8 @@ class AuthenticationServiceTest extends TestCase{
         $this->userRepository->expects($this->once())->method('findUserByUsername')->willReturn($user);
         $user->expects($this->once())->method('isPasswordMatch')->willReturn(true);
         $this->sessionManager->expects($this->once())->method('get')->willReturn(null);
-        
+                $user->expects($this->once())->method('isActived')->willReturn(true);
+
         $userAuthenticated=$this->authentication->authentication(Username::of('aUsername'), Password::secure('aPassword'));
         $this->assertSame($user, $userAuthenticated);
     }
@@ -119,6 +123,8 @@ class AuthenticationServiceTest extends TestCase{
         $this->userRepository->expects($this->once())->method('findUserByUsername')->willReturn($user);
         $user->expects($this->once())->method('isPasswordMatch')->willReturn(true);
         $this->sessionManager->expects($this->once())->method('get')->willReturn(null);
+                $user->expects($this->once())->method('isActived')->willReturn(true);
+
         
         
         $this->authentication->authenticateByCookie();
@@ -152,6 +158,14 @@ class AuthenticationServiceTest extends TestCase{
         $this->expectException(AuthenticationException::class);
         
         $this->authentication->setConnectedUserInCookie(UserBuilder::of()->build());
+    }
+    
+    
+    function test_isUserConnected_shouldReturnTrue_whenAUserIsAlreadyConnectedInSession()
+    {
+        $this->sessionManager->expects($this->once())->method('get')->willReturn(UserBuilder::of()->build());
+        
+        $this->assertTrue($this->authentication->isUserConnected());
     }
     
    

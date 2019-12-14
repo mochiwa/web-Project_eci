@@ -55,9 +55,17 @@ class AdminController extends AbstractController implements IAdminController {
         if (!$this->isPostRequest($request)) {
             return $this->buildResponse($this->viewBuilder->build('@user/adminSignIn'), 200);
         }
-
-     
+        
+        $appRequest= SignInRequest::fromPost($request->getParsedBody());
+        $appService=$this->container->get(\App\Identity\Application\AdminSignInApplication::class);
+        $appResponse= $appService($appRequest);
+        if($appResponse->hasErrors())
+        {
+            $body=$this->viewBuilder->build('@user/adminSignIn',['errors'=>$appResponse->getErrors()]);
+            return $this->buildResponse($body, 400);
+        }
         return $this->redirectTo(self::INDEX, 200);
+     
     }
 
 }

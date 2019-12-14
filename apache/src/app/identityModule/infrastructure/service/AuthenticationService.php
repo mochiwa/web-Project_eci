@@ -43,7 +43,7 @@ class AuthenticationService {
     function authentication(Username $username, Password $password): User {
         try {
             $user = $this->userRepository->findUserByUsername($username);
-            if ($user->isPasswordMatch($password) && !$this->isUserConnected()) {
+            if ($user->isPasswordMatch($password) && !$this->isUserConnected() && $user->isActived()) {
                 return $user;
             }
         } catch (EntityNotFoundException $ex) {
