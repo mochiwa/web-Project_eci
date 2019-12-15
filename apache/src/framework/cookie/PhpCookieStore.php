@@ -18,7 +18,7 @@ class PhpCookieStore implements ICookieStore{
     }
 
     
-    public function setCookie(string $name, string $value = '', int $expire = 1, string $path = '', string $domain = '', string $secure = '', bool $httponly = false) {
+    public function setCookie(string $name, string $value = '', int $expire = 1, string $path = '/', string $domain = '', string $secure = '', bool $httponly = false) {
         setcookie($name,$value,$expire,$path,$domain,$secure,$httponly);
     }
 

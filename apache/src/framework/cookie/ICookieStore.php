@@ -17,7 +17,7 @@ interface ICookieStore {
      * @param string $secure
      * @param bool $httponly
      */
-    function setCookie(string $name,string $value='',int $expire=1,string $path='',string $domain='',string $secure='',bool $httponly=false);
+    function setCookie(string $name,string $value='',int $expire=1,string $path='/',string $domain='',string $secure='',bool $httponly=false);
     /***
      * Should return the cookie store
      */

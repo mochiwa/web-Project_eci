@@ -42,7 +42,7 @@ class CookieManager {
      * @param bool $httponly
      * @throws CookieStoreException
      */
-    public function addCookie(string $cookieName, $value = '', int $expire = 1, string $path = '', string $domain = '', string $secure = '', bool $httponly = false){
+    public function addCookie(string $cookieName, $value = '', int $expire = 1, string $path = '/', string $domain = '', string $secure = '', bool $httponly = false){
         if($this->hasCookie($cookieName)){
             throw new CookieStoreException("A cookie with this name already exist in cookie store");
         }
@@ -59,7 +59,7 @@ class CookieManager {
      * @param string $secure
      * @param bool $httponly
      */
-    public function setCookie(string $cookieName, $value='' , int $expire = 1, string $path = '', string $domain = '', string $secure = '', bool $httponly = false){
+    public function setCookie(string $cookieName, $value='' , int $expire = 1, string $path = '/', string $domain = '', string $secure = '', bool $httponly = false){
         $this->cookieStore->setCookie($cookieName,
             is_array($value) ? json_encode($value) : $value ,
             $expire,

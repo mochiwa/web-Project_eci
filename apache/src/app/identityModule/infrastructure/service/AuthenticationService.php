@@ -127,7 +127,7 @@ class AuthenticationService {
             'username' => $user->username()->usernameToString(),
             'password' => $user->password()->toString()
         ];
-        $this->cookieManager->addCookie(self::COOKIE_CONNECTED_USER, json_encode($userInformation), $time);
+        $this->cookieManager->addCookie(self::COOKIE_CONNECTED_USER, json_encode($userInformation), $time+time(),'/');
     }
 
 }
