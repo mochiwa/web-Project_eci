@@ -14,9 +14,10 @@ return[
         'admin'=>[
             ACL::ALLOW_INDEX=>[
                 AbstractTarget::URL('admin')
+        
             ],
             ACL::DENY_INDEX=>[
-                
+                AbstractTarget::ControllerAction(UserController::class,'register')
             ]
         ],
         'user'=>[
@@ -26,7 +27,7 @@ return[
             ACL::DENY_INDEX=>[
                 AbstractTarget::ControllerAction(UserController::class,'register'),
                 AbstractTarget::ControllerAction(UserController::class,'activation'),
-                AbstractTarget::ControllerAction(UserController::class,'signIn')
+                AbstractTarget::ControllerAction(UserController::class,'signIn'),
             ]
         ],
         'visitor'=>[
@@ -39,7 +40,6 @@ return[
                 AbstractTarget::Controller(ArticleController::class)
             ],
             ACL::DENY_INDEX=>[
-                
             ]
         ],
     ]

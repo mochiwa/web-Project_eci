@@ -21,6 +21,7 @@ class IdentityModule extends AbstractModule{
         $router->map('GET|POST', '/user/[a:action]', UserController::class,'user');
         $router->map('GET|POST', '/user/[a:action]-[a:id]', UserController::class,'user.selected');
         
+        
         $router->map('GET|POST', '/admin/[a:action]', AdminController::class,'user.special');
         
         $viewBuilder->addPath('user', __DIR__.'/view');

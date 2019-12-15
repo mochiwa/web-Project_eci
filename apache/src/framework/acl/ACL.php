@@ -114,12 +114,8 @@ class ACL {
             throw new ACLException("Cannot check if the role is allowed, cause the role not found");
         }
         if(!$this->hasRuleFor($rule, $role)){
-            
             return $this->isLessRoleAllowed($role,$rule);
         }
-        
-        
-        
         return $this->getRuleLinkedToRole($rule,$role)->isAllowed();
     }
     
@@ -136,6 +132,7 @@ class ACL {
         }
         return null;
     }
+    
 
     /**
      * Return all roles

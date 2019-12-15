@@ -206,4 +206,13 @@ class ACLTest extends TestCase{
         $this->assertTrue($this->acl->isAllowed(Role::of('user',2), Rule::Allow(AbstractTarget::Controller('user'))));
         $this->assertTrue($this->acl->isAllowed(Role::of('user',2), Rule::Allow(AbstractTarget::ControllerAction('user','create'))));
     }
+    
+    
+    
+    
+    
+    
+    
+    
+   
 }

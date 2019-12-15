@@ -36,11 +36,18 @@ class ACLMiddleware implements MiddlewareInterface{
         $this->acl = $acl;
     }
     
+    /**
+     * If the request hasn't a route then send to next handler,
+     * 
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     * @return ResponseInterface
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $route=$request->getAttribute(Route::class);
         
         if(!$route){
-            return $handler->handle($request,$handler);
+            return $handler->handle($request);
         }
         
         $currentRole= $this->getCurrentRole();
@@ -53,26 +60,32 @@ class ACLMiddleware implements MiddlewareInterface{
         }
         
         
-        return $handler->handle($request,$handler);
+        return $handler->handle($request);
         
     }
     
-    
+    /**
+     * Determine which role should be returned :
+     *  Visitor: When session has not an user
+     *  User : When session has an user
+     *  Admin : When user->idAdmin = true
+     * @return Role
+     */
     private function getCurrentRole():Role{
         $user=$this->session->get(SessionManager::CURRENT_USER_KEY);
-        if($user===null){
+        
+        if(!$user){
             return $this->acl->getRole('visitor');
         }elseif($user->isAdmin()){
-            return $currentRole= $this->acl->getRole ('admin');
+            return $this->acl->getRole ('admin');
         }
-        return $currentRole= $this->acl->getRole ('user');
+        return $this->acl->getRole ('user');
     }
     
     private function getRuleForRole(Route $route,Role $role):Rule{
-        
         if(preg_match('/admin/', $route->name())){
             return Rule::Allow(AbstractTarget::URL('admin'));
-        }elseif(isset ($route->params()['action'])){
+        }elseif(isset($route->params()['action'])){
             $rule=Rule::Allow(AbstractTarget::ControllerAction($route->target(),$route->params()['action']));
             return $this->isDenyRule($rule, $role) ?  Rule::Invert($rule) : $rule;
         }else{
@@ -82,7 +95,8 @@ class ACLMiddleware implements MiddlewareInterface{
     
     private function isDenyRule(Rule $rule,Role $currentRole) : bool
     {
-        return $this->acl->hasRuleFor(Rule::Invert($rule), $currentRole);
+        $r= Rule::Allow(AbstractTarget::Controller($rule->getTarget()->getName()));
+        return $this->acl->hasRuleFor(Rule::Invert($rule), $currentRole) || $this->acl->hasRuleFor(Rule::Invert($r), $currentRole) ;
     }
 
 }

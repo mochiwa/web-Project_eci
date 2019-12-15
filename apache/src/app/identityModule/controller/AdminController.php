@@ -18,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class AdminController extends AbstractController implements IAdminController {
-    const INDEX = "/home";
+    const INDEX = "/admin/signIn";
     /**
      * @var IViewBuilder 
      */
@@ -39,6 +39,7 @@ class AdminController extends AbstractController implements IAdminController {
      * @return ResponseInterface
      */
     public function __invoke(RequestInterface $request): ResponseInterface {
+        
         $action = $request->getAttribute('action');
         if (method_exists(IAdminController::class, $action) && is_callable([$this, $action])) {
             return call_user_func([$this, $action], $request);
