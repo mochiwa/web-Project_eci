@@ -66,7 +66,11 @@ class AdminController extends AbstractController implements IAdminController {
             return $this->buildResponse($body, 400);
         }
         return $this->redirectTo(self::INDEX, 200);
-     
+    }
+    
+    
+    public function adminPanel(RequestInterface $request): ResponseInterface {
+        return $this->buildResponse($this->viewBuilder->build('@user/adminPanel'));
     }
 
 }

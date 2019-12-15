@@ -12,4 +12,5 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface IAdminController {
     public function signIn(RequestInterface $request): ResponseInterface;
+    public function adminPanel(RequestInterface $request): ResponseInterface;
 }

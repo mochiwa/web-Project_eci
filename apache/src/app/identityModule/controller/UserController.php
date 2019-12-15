@@ -159,12 +159,21 @@ class UserController extends AbstractController implements IUserController{
         return $this->redirectTo(self::INDEX, 200);
     }
     
-    
+    /**
+     * Launch the sign out process
+     * @param RequestInterface $request
+     * @return ResponseInterface
+     */
     public function logout(RequestInterface $request) : ResponseInterface
     {
         $appRequest= LogoutRequest::of();
         $appService=$this->container->get(LogoutApplication::class);
         $appResponse= $appService($appRequest);
         return $this->redirectTo(self::INDEX, 200);
+    }
+    
+    public function personalSpace(RequestInterface $request) : ResponseInterface
+    {
+        
     }
 }

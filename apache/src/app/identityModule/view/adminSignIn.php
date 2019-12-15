@@ -26,4 +26,4 @@ $flashBox= DefaultFlashBoxFactory::of($session->flash());
     <?= $flashBox->toHtml()?>
     <h1 class="block__title block__title-center"> Administrator Sign in </h1>
     <?= $form->toHtml() ;?>
-</section
+</section>

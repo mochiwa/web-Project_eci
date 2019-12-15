@@ -1,6 +1,7 @@
 <?php
-
 use App\Shared\Html\LinkFactory;
+
+$connectedUser=$session->get(\Framework\Session\SessionManager::CURRENT_USER_KEY);
 
 ?>
 <!DOCTYPE html>
@@ -30,12 +31,19 @@ use App\Shared\Html\LinkFactory;
                 <div class="nav-top nav-top-right">
                     <nav class="nav">
                         <?php
-                            if($session->get(\Framework\Session\SessionManager::CURRENT_USER_KEY)===null)
+                            if($connectedUser===null)
                             {
                                 echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'signIn']), 'Sign In')->toHtml();
                                 echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'register']), 'Register', true)->toHtml();
                             }
                             else{
+                                
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'personalSpace']), 'My Account')->toHtml();
+                                if($connectedUser->isAdmin()){
+                                    echo LinkFactory::topNavLink($router->generateURL('user.admin',['action'=>'adminPanel']), 'Control panel')->toHtml();
+                                }
+                                
+                                
                                 echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'logout']), 'Logout', true)->toHtml();
                             }
                         ?>
