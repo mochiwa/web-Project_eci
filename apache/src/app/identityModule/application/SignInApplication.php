@@ -34,7 +34,11 @@ class SignInApplication extends AbstractUserApplication{
             $username= Username::of($request->getUsername());
             $password= Password::secure($request->getPassword());
             
-            $this->authenticationService->authentication($username, $password);
+            $user=$this->authenticationService->authentication($username, $password);
+            $this->authenticationService->setConnectedUserInSession($user);
+            if($request->storeInCookie()){
+                $this->authenticationService->setConnectedUserInCookie($user);
+            }
         } catch (InvalidArgumentException $input){
             $this->errors=['authentication'=>'Username or password incorrect'];
         } catch (AuthenticationException $authentication) {

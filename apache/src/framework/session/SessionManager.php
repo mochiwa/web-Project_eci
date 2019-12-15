@@ -86,4 +86,14 @@ class SessionManager {
         $this->set(self::FLASH_KEY, $message);
     }
     
+    /**
+     * Return true if something exist at key in session
+     * @see SessionManager::get
+     * @param string $key
+     * @return bool
+     */
+    public function has(string $key):bool{
+        return $this->get($key) != null;
+    }
+    
 }

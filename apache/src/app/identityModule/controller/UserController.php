@@ -24,7 +24,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class UserController extends AbstractController implements IUserController{
-    const INDEX="home";
+    const INDEX="/home";
     
     /**
      * @var IViewBuilder 

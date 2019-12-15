@@ -19,6 +19,11 @@ class CookieManager {
         $this->cookieStore=$cookieStore;
     }
     
+    /**
+     * Return true if the cookie store has the cookie
+     * @param string $cookieName
+     * @return bool
+     */
     public function hasCookie(string $cookieName) : bool
     {
         return isset($this->cookieStore->getStore()[$cookieName]);

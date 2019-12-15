@@ -1,6 +1,7 @@
 <?php
 
 use App\Article\Controller\ArticleController;
+use App\Identity\Controller\AdminController;
 use App\Identity\Controller\UserController;
 use App\WebPage\Controller\webPageController;
 use Framework\Acl\AbstractTarget;
@@ -13,9 +14,11 @@ return[
         'admin'=>[
             ACL::ALLOW_INDEX=>[
                 AbstractTarget::URL('admin')
+        
             ],
             ACL::DENY_INDEX=>[
-                
+                AbstractTarget::ControllerAction(UserController::class,'register'),
+                AbstractTarget::ControllerAction(App\Article\Controller\AdminArticleController::class,'register')
             ]
         ],
         'user'=>[
@@ -25,7 +28,7 @@ return[
             ACL::DENY_INDEX=>[
                 AbstractTarget::ControllerAction(UserController::class,'register'),
                 AbstractTarget::ControllerAction(UserController::class,'activation'),
-                AbstractTarget::ControllerAction(UserController::class,'signIn')
+                AbstractTarget::ControllerAction(UserController::class,'signIn'),
             ]
         ],
         'visitor'=>[
@@ -34,10 +37,10 @@ return[
                 AbstractTarget::ControllerAction(UserController::class,'register'),
                 AbstractTarget::ControllerAction(UserController::class,'signIn'),
                 AbstractTarget::ControllerAction(UserController::class,'activation'),
+                AbstractTarget::ControllerAction(AdminController::class,'signIn'),
                 AbstractTarget::Controller(ArticleController::class)
             ],
             ACL::DENY_INDEX=>[
-                
             ]
         ],
     ]

@@ -49,4 +49,5 @@ interface IUserRepository {
      * @param \App\Identity\Model\User\Username $username
      */
     function findUserByUsername(Username $username) : User;
+    
 }

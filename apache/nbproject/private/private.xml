@@ -12,10 +12,8 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/identityModule/infrastructure/service/AuthenticationService.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/cookie/CookieManager.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/framework/cookie/CookieManagerTest.php</file>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/app/identityModule/infrastructure/service/AuthenticationServiceTest.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/framework/middleware/ACLMiddlewareTest.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/framework/acl/ACLTest.php</file>
         </group>
     </open-files>
 </project-private>

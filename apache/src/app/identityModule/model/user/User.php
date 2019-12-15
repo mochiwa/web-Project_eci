@@ -36,13 +36,19 @@ class User {
      */
     private $activation;
     
+    /**
+     * Todo : will be refactored later with the integrationProject
+     * @var bool 
+     */
+    private $isAdmin;
  
-    public function __construct(UserId $id,Email $email, Username $username, Password $password, UserActivation $activation) {
+    public function __construct(UserId $id,Email $email, Username $username, Password $password, UserActivation $activation,bool $isAdmin=false) {
         $this->id=$id;
         $this->email = $email;
         $this->username = $username;
         $this->password = $password;
         $this->activation=$activation;
+        $this->isAdmin=$isAdmin;
     }
     
     public static function of(UserId $id,Email $email, Username $username, Password $password, UserActivation $activation) : self
@@ -97,6 +103,6 @@ class User {
      */
     public function isAdmin():bool
     {
-        return false;
+        return $this->isAdmin;
     }
 }
