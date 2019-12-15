@@ -6,19 +6,17 @@ use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\EntityNotFoundException;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Title;
+use App\Shared\Infrastructure\AbstractInMemoryRepository;
 
 /**
  * Description of InMemoryArticleRepository
  *
  * @author mochiwa
  */
-class InMemoryArticleRepository extends AbstractInMemoryFactory implements IArticleRepository {
-    //private $articles=[];
-    
+class InMemoryArticleRepository extends AbstractInMemoryRepository implements IArticleRepository {
     public function __construct() {
         parent::__construct('Article');
         $this->load();
-       // $this->articles= unserialize(file_get_contents( 'data.txt' ));
         
     }
     

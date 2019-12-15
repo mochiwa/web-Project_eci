@@ -28,5 +28,4 @@ class FlashBoxFactory extends AbstractFlashBoxFactory{
     public function getMessageStyle(): string {
         return 'flashBox__message';
     }
-
 }

@@ -53,13 +53,22 @@ class DefaultFormFactory extends AbstractFormFactory{
     public function sectionErrors(array $errors=[]): ?HtmlTag {
         $div= HtmlTag::make('div')->setId($this->id.'section-errors');
         foreach ($errors as $fieldErrors) {
-            $ul= HtmlTag::make('ul');
-            foreach ($fieldErrors as $error) {
-                $ul->addChild(HtmlTag::make('li')->addText($error));
-            }
-            $div->addChild($ul);
+            $div->addChild($this->buildBlockErrors($fieldErrors));
         }
         return $div;
+    }
+    private function buildBlockErrors($errors) : HtmlTag
+    {
+        $ul = HtmlTag::make('ul');
+        if (is_array($errors)) {
+            foreach ($errors as $error)
+            {
+                $ul->addChild(HtmlTag::make('li')->addText($error));
+            }
+        } else {
+            $ul->addChild(HtmlTag::make('li')->addText($errors));
+        }
+        return $ul;
     }
 
     public function submit(string $text): Input {

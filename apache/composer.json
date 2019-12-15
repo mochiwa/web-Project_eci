@@ -16,20 +16,26 @@
             "Framework\\Html\\" : "./src/framework/html",
             "Framework\\Html\\Factory\\" : "./src/framework/html/factory",
             "Framework\\Module\\" : "./src/framework/module",
+            "Framework\\Controller\\" : "./src/framework/controller",
             "Framework\\Middleware\\" : "./src/framework/middleware",
             "Framework\\Validator\\" : "./src/framework/validator",
             "Framework\\Session\\" : "./src/framework/session",
             "Framework\\FileManager\\" : "./src/framework/fileManager",
             "Framework\\Paginator\\" : "./src/framework/paginator",
+            "Framework\\Connection\\" : "./src/framework/connection",
+            "Framework\\Acl\\" : "./src/framework/acl",
+            "Framework\\Cookie\\" : "./src/framework/cookie",
+            
             
             "App\\" : "./src/app",
             "App\\Shared\\" : "./src/app/shared",
-            "App\\Html\\" : "./src/app/html",
+            "App\\Shared\\Html\\" : "./src/app/shared/html",
+            "App\\Shared\\Html\\Factory\\" : "./src/app/shared/html/factory",
+            "App\\Shared\\Application\\" : "./src/app/shared/application",
+            "App\\Shared\\Infrastructure\\" : "./src/app/shared/infrastructure",
+            "App\\Shared\\Model\\" : "./src/app/shared/model",
             
-            
-            "App\\User\\": "./src/app/user",
-            "App\\User\\Controller\\": "./src/app/user/controller",
-            "App\\User\\View\\": "./src/app/user/view",
+           
             
             
             "App\\Article\\" : "./src/app/articleModule",
@@ -41,7 +47,6 @@
             "App\\Article\\Application\\Service\\Dto\\" : "./src/app/articleModule/application/service/dto",
             
             "App\\Article\\Model\\" : "./src/app/articleModule/model",
-            
             "App\\Article\\Model\\Article\\" : "./src/app/articleModule/model/article",
             "App\\Article\\Model\\Article\\Service\\" : "./src/app/articleModule/model/article/service",
             "App\\Article\\Model\\Article\\Service\\Request\\" : "./src/app/articleModule/model/article/service/request",
@@ -52,9 +57,31 @@
             "App\\Article\\view\\ViewFactory\\" : "./src/app/articleModule/view/viewFactory",
 
             "App\\Article\\Validation\\" : "./src/app/articleModule/validation",
-            "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory"
+            "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory",
+            
+            "App\\Identity\\": "./src/app/identityModule",
+            "App\\Identity\\Controller\\": "./src/app/identityModule/controller",
+            "App\\Identity\\Infrastructure\\": "./src/app/identityModule/infrastructure",
+            "App\\Identity\\Infrastructure\\Persistance\\": "./src/app/identityModule/infrastructure/persistance",
+            "App\\Identity\\Infrastructure\\Validation\\": "./src/app/identityModule/infrastructure/validation",
+            "App\\Identity\\Infrastructure\\Service\\": "./src/app/identityModule/infrastructure/service",
+            "App\\Identity\\Model\\": "./src/app/identityModule/model",
+            "App\\Identity\\Model\\User\\": "./src/app/identityModule/model/user",
+            "App\\Identity\\Model\\User\\Service\\": "./src/app/identityModule/model/user/service",
+            "App\\Identity\\Model\\User\\Service\\Request\\": "./src/app/identityModule/model/user/service/request",
+            "App\\Identity\\Model\\User\\Service\\Response\\": "./src/app/identityModule/model/user/service/response",
+            "App\\Identity\\view\\": "./src/app/identityModule/view",
+            "App\\Identity\\view\\Factory\\": "./src/app/identityModule/view/factory",
+            
+            "App\\Identity\\Application\\": "./src/app/identityModule/application",
+            "App\\Identity\\Application\\Request\\": "./src/app/identityModule/application/request",
+            "App\\Identity\\Application\\Response\\": "./src/app/identityModule/application/response",
             
             
+            "App\\WebPage\\" : "./src/app/webPageModule",
+            "App\\WebPage\\Controller\\" : "./src/app/webPageModule/controller",
+            "App\\WebPage\\View\\" : "./src/app/webPageModule/view",
+            "App\\WebPage\\View\\Factory\\" : "./src/app/webPageModule/view/factory"
         }
     },
     
@@ -78,12 +105,17 @@
             "Test\\Framework\\HtmlBuilder\\" : "./test/framework/htmlBuilder",
             "Test\\Framework\\Html\\" : "./test/framework/html",
             "Test\\Framework\\FileManager\\" : "./test/framework/fileManager",
+            "Test\\Framework\\Cookie\\" : "./test/framework/cookie",
             
             
             "Test\\App\\": "./test/app/",
             "Test\\App\\Shared\\" : "./test/app/shared",
+            "Test\\App\\Shared\\Infrastructure\\" : "./test/app/shared/infrastructure",
             "Test\\App\\Article\\Model\\Article\\" : "./test/app/articleModule/model/article",
-            "Test\\App\\Article\\Infrastructure\\Persistance\\" : "./test/app/articleModule/infrastructure/persistance"
+            "Test\\App\\Article\\Infrastructure\\Persistance\\" : "./test/app/articleModule/infrastructure/persistance",
+            
+            "Test\\App\\Identity\\Helper\\" : "./test/app/identityModule/helper",
+            "Test\\App\\Identity\\Model\\User\\" : "./test/app/identityModule/model/user"
 
         }
     },

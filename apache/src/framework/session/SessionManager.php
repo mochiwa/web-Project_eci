@@ -7,6 +7,7 @@ namespace Framework\Session;
  */
 class SessionManager {
     const FLASH_KEY='flash';
+    const CURRENT_USER_KEY='user';
     private $session;
     
     function __construct(ISession $session)
@@ -71,7 +72,7 @@ class SessionManager {
      */
     public function flash(string $key= self::FLASH_KEY) : FlashMessage
     {
-        $data=$this->get($key);
+        $data=$this->get($key);        
         $this->delete($key);
         return $data ?? FlashMessage::null();
     }
@@ -83,6 +84,16 @@ class SessionManager {
     public function setFlash(FlashMessage $message)
     {
         $this->set(self::FLASH_KEY, $message);
+    }
+    
+    /**
+     * Return true if something exist at key in session
+     * @see SessionManager::get
+     * @param string $key
+     * @return bool
+     */
+    public function has(string $key):bool{
+        return $this->get($key) != null;
     }
     
 }

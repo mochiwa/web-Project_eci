@@ -1,13 +1,16 @@
 <?php
 
+use Framework\Acl\ACL;
+use Framework\Cookie\CookieManager;
+use Framework\Cookie\PhpCookieStore;
 use Framework\DependencyInjection\IContainer;
+use Framework\Middleware\ACLMiddleware;
 use Framework\Middleware\IMiddlewareDispatcher;
 use Framework\Middleware\MiddlewareDispatcher;
 use Framework\Renderer\IViewBuilder;
 use Framework\Renderer\ViewBuilder;
 use Framework\Router\IRouter;
 use Framework\Router\Router;
-use Framework\Session\ISession;
 use Framework\Session\PhpSession;
 use Framework\Session\SessionManager;
 
@@ -15,8 +18,16 @@ return [
     IContainer::class => function($di){return $di;},
     IRouter::class => function(){return new Router();},
     IMiddlewareDispatcher::class => function(){return new MiddlewareDispatcher();},
-    ISession::class => function(){return new SessionManager(new PhpSession());},
+    
+    SessionManager::class => function(){return new SessionManager(new PhpSession());},
+    CookieManager::class => function(){return new CookieManager(new PhpCookieStore());},
+            
     IViewBuilder::class => function($di){return ViewBuilder::buildWithLayout('template', dirname(__DIR__).'/template', 'layout')
             ->addGlobal('router', $di->get(IRouter::class))
-            ->addGlobal('session', $di->get(ISession::class));}
+            ->addGlobal('session', $di->get(SessionManager::class));},
+                    
+    ACLMiddleware::class=>function($di){ return new ACLMiddleware(
+            $di->get(SessionManager::class),
+            ACL::fromArray(include_once 'acl.php')
+        );}
 ];

@@ -1,5 +1,8 @@
-<?
-use App\Html\LinkFactory;
+<?php
+use App\Shared\Html\LinkFactory;
+
+$connectedUser=$session->get(\Framework\Session\SessionManager::CURRENT_USER_KEY);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,16 +22,31 @@ use App\Html\LinkFactory;
                         <h2><a class="nav-logo__item" href="">-LOGO-</a></h2>
                     </div>
                     <nav class="nav">
-                        <?= LinkFactory::topNavLink($router->generateURL('home'), 'Home')->toHtml() ?>
+                        <?= LinkFactory::topNavLink($router->generateURL('webPage.home'), 'Home')->toHtml() ?>
                         <?= LinkFactory::topNavLink($router->generateURL('parking.home'), 'Parking')->toHtml() ?>
-                        <?= LinkFactory::topNavLink($router->generateURL('contact'), 'Contact')->toHtml() ?>
+                        <?= LinkFactory::topNavLink($router->generateURL('webPage.contact'), 'Contact')->toHtml() ?>
                     </nav>
                 </div>
 
                 <div class="nav-top nav-top-right">
                     <nav class="nav">
-                            <?= LinkFactory::topNavLink($router->generateURL('user.signIn'), 'Sign In')->toHtml() ?>
-                            <?= LinkFactory::topNavLink($router->generateURL('user.signUp'), 'Sign Up', true)->toHtml() ?>
+                        <?php
+                            if($connectedUser===null)
+                            {
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'signIn']), 'Sign In')->toHtml();
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'register']), 'Register', true)->toHtml();
+                            }
+                            else{
+                                
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'personalSpace']), 'My Account')->toHtml();
+                                if($connectedUser->isAdmin()){
+                                    echo LinkFactory::topNavLink($router->generateURL('user.admin',['action'=>'adminPanel']), 'Control panel')->toHtml();
+                                }
+                                
+                                
+                                echo LinkFactory::topNavLink($router->generateURL('user',['action'=>'logout']), 'Logout', true)->toHtml();
+                            }
+                        ?>
                     </nav>
                 </div>
             </section>

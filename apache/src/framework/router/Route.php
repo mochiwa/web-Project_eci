@@ -52,4 +52,7 @@ class Route {
         return $this->params;
     }
 
+    public function name():string{
+        return $this->name;
+    }
 }
