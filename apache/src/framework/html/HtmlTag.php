@@ -3,7 +3,8 @@
 namespace Framework\Html;
 
 /**
- * Description of HtmlTag
+ * This class is responsible to generate html tag
+ * with children and attribute
  *
  * @author mochiwa
  */
@@ -205,16 +206,24 @@ class HtmlTag {
     {
         return key_exists($attributeName, $this->attributes);
     }
-    
+    /**
+     * Return the count of children contained
+     * @return int
+     */
     public function childrenCount():int
     {
         return sizeof($this->children);
     }
     
+    /**
+     * Search child that have the id attribute
+     * @param string $id
+     * @return \Framework\Html\HtmlTag|null
+     */
     public function searchChildById(string $id) : ?HtmlTag
     {
-        foreach ($this->children as $child) {
-                    
+        foreach ($this->children as $child)
+        {
             if($child instanceof self)
             {
                 if($child->getId()===$id)
@@ -223,15 +232,17 @@ class HtmlTag {
                 }
                 elseif($child->childrenCount())
                 {
-                   $search=$child->searchChildById($id);
-                   if($search != null )
-                       return $search;
+                    return $child->searchChildById($id);
                 }
             }
         }
         return null;
     }
     
+    /**
+     * Set the tag name
+     * @param string $name
+     */
     protected function setName(string $name)
     {
         $this->name=$name;

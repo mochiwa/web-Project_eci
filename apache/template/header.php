@@ -59,3 +59,4 @@ $connectedUser=$session->get(\Framework\Session\SessionManager::CURRENT_USER_KEY
             </section>
         </header>
         <main class="container container-content">
+            
