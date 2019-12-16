@@ -23,7 +23,7 @@ $connectedUser=$session->get(\Framework\Session\SessionManager::CURRENT_USER_KEY
                     </div>
                     <nav class="nav">
                         <?= LinkFactory::topNavLink($router->generateURL('webPage.home'), 'Home')->toHtml() ?>
-                        <?= LinkFactory::topNavLink($router->generateURL('parking.home'), 'Parking')->toHtml() ?>
+                        <?= LinkFactory::topNavLink($router->generateURL('article'), 'Parking')->toHtml() ?>
                         <?= LinkFactory::topNavLink($router->generateURL('webPage.contact'), 'Contact')->toHtml() ?>
                     </nav>
                 </div>

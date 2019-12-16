@@ -1,51 +1,43 @@
 <?php
 
-use App\Article\view\ViewFactory\FlashBoxFactory;
 use App\Article\view\ViewFactory\PaginationFactory;
-use Framework\Html\FlashBox;
 use Framework\Html\Pagination;
+
 ?>
 
 <section class="block">
-    <?php
-        $box=new FlashBox(new FlashBoxFactory($session->flash()));
-        echo $box->toHtml();
-    ?>
-    
-   
-    
-<h1 class="block__title block__title-center"> Article management </h1>
-<a class="button button table__button" href="<?= $router->generateURL('parking.admin',['action'=>'create'])?>">Create a new article</a>
-    
-<table class="table">
-    <thead>
-        <tr class="table-header">
-           <th class="table-header__item">Article</th>
-           <th class="table-header__item table-header__item--hidden">Publish date</th>
-           <th class="table-header__item table-header__item--hidden">Last update</th>
-           <th class="table-header__item">Command</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach($articles as $key => $article) {?>
-        <tr class="table-article <?= $key%2===0 ? 'table-article--odd' : '' ?>">
-            <td class="table-article__item table-article__item-title"><?= $article->getTitle() ?></td>
-            <td class="table-article__item table-article__item-date "><?= $article->getCreationDate() ?></td>
-            <td class="table-article__item table-article__item-date "><?= $article->getLastUpdateDate()?></td>
-            <td lass="table-article__item">
-                <a class="button table__button" href="<?= $router->generateURL('parking.admin.article',['action'=>'edit','id'=>$article->getId()]) ?>">Edit</a>
-                <a class="button table__button" href="<?= $router->generateURL('parking.admin.article',['action'=>'delete','id'=>$article->getId()]) ?>">Delete</a>
-            </td>
-        </tr>
-        <?php } ?>
-    </tbody>
-</table>
+<h1 class="block__title block__title-center"> Parkings </h1>
+    <?php foreach ($articles as $article) { ?>
+    <article class="block article article-preview">
+        <header class="article-preview-header">
+            <h2 class="article__title"><a href="<?= $router->generateURL('article.selected',['action'=>'show','id'=>$article->getId()]) ?>"><?= $article->getTitle() ?></a></h2>
+            <img class="article-preview__thumbnail" src="../upload/article/<?= $article->getPicture() ?>">
+        </header>
+        <div class="article-preview-main">
 
+           <table class="attribute_map">
+            <?php foreach ($article->getAttributes() as $key => $value){?>
+                   <tr class="attribute_map-element">
+                       <td class="attribute_map-element__key"><?=$key?></td>
+                       <td class="attribute_map-element__value"><?=$value?></td>
+                   </tr>
+
+            <?php } ?>
+           </table>
+
+            <p class="article__description"><?= $article->getDescription() ?></p>
+        </div>
+
+        <footer class="article-preview-footer">
+            <a class="button" href="<?= $router->generateURL('article.selected',['action'=>'show','id'=>$article->getId()]) ?>"> more </a>
+        </footer>
+    </article>
+    <?php } ?>
     <div class="container container-center">
         <?php
-        $paginator= new Pagination(new PaginationFactory($router,'parking.admin.page'),$pagination);
+        $paginator= new Pagination(new PaginationFactory($router,'parking.page'),$pagination);
         echo $paginator->toHtml();
         ?>
     </div>
-    
 </section>
+

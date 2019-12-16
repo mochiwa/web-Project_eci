@@ -40,7 +40,7 @@ class AdminArticleController {
         $appResponse=$appService->execute($request->getAttribute('page') ?? '1');
         
         $httpResponse=new Response(200);
-        $httpResponse->getBody()->write($this->viewBuilder->build('@article/index',
+        $httpResponse->getBody()->write($this->viewBuilder->build('@article/admin/index',
             ['articles' => $appResponse->getArticles(),
             'pagination'=>$appResponse->getPagination()]));
         return $httpResponse;
@@ -51,7 +51,7 @@ class AdminArticleController {
         if($request->getMethod()!=='POST')
         {
             $response = new Response(200);
-            $response->getBody()->write($this->viewBuilder->build('@article/createArticle'));
+            $response->getBody()->write($this->viewBuilder->build('@article/admin/createArticle'));
             return $response;
         }
         
@@ -62,7 +62,7 @@ class AdminArticleController {
         
         if($response->hasErrors())
         {
-            return $this->responseWithErrors('@article/createArticle',
+            return $this->responseWithErrors('@article/admin/createArticle',
                 ['errors'=>$response->getErrors(),'article'=>$response->getArticle()]);
         }
         return $this->redirectToIndex(200);
@@ -80,7 +80,7 @@ class AdminArticleController {
         if($response->isEdited() || $response->isArticleNotFound()){
             return $this->redirectToIndex();
         }
-        return $this->responseWithErrors('@article/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);
+        return $this->responseWithErrors('@article/admin/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);
     }
      
     
@@ -133,6 +133,6 @@ class AdminArticleController {
     private function redirectToIndex(int $code=200) : ResponseInterface
     {
         $response = new Response($code);
-        return $response->withHeader('Location', '/parking/admin/index');
+        return $response->withHeader('Location', '/admin/parking/index');
     }
 }
