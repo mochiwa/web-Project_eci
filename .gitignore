@@ -5,3 +5,5 @@ apache/vendor/
 nbproject/
 ./apache/public/inMemory/*
 ./apache/public/upload/*
+apache/public/inMemory/
+apache/public/upload/
