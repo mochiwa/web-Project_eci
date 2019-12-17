@@ -26,9 +26,9 @@ class Container  implements IContainer{
     /**
      * Append a class reference in the container.
      * @param string   $key   the key to found class ,(recommended to use ::class)
-     * @param callable $closure function that call the class with your own parameter
+     * @param callable|string $closure function or string  that call the class with your own parameter
      */
-    public function set(string $key, callable $closure) {
+    public function set(string $key,  $closure) {
         $this->container[$key] = $closure;
     }
 
@@ -36,10 +36,8 @@ class Container  implements IContainer{
      * allow to load multiple definition from an array
      * @param array $definitions
      */
-    public function appendDefinition(array $definitions)
-    {
-        foreach ($definitions as $key => $value)
-        {
+    public function appendDefinition(array $definitions){
+        foreach ($definitions as $key => $value){
             $this->set($key, $value);
         }
     }
@@ -50,7 +48,10 @@ class Container  implements IContainer{
      * @return mixed
      */
     public function get($key) {
-        if(!array_key_exists($key, $this->instances))
+        if($this->hasConstants($key)){
+            return $this->container[$key];
+        }
+        elseif(!array_key_exists($key, $this->instances))
         {
             if($this->has($key))
             {
@@ -64,8 +65,26 @@ class Container  implements IContainer{
         return $this->instances[$key];
     }
 
+    /**
+     * Return true when the <b>container</b> contains the key
+     * @param type $key
+     * @return bool
+     */
     public function has($key): bool {
         return array_key_exists($key, $this->container);
+    }
+    
+    /**
+     * Return true when the <b>container</b> contains the key and the value
+     * contained is not a Closure\callable
+     * @param string $key
+     * @return boolean
+     */
+    public function hasConstants(string $key){
+        if($this->has($key)){
+            return ! ($this->container[$key] instanceof \Closure);
+        }
+        return false;
     }
     
     /**
@@ -75,8 +94,9 @@ class Container  implements IContainer{
      */
     public function make($key) 
     {
-        if($this->has($key))      
+        if($this->has($key)){      
             return $this->container[$key]();
+        }
         return $this->resolve($key);
         
     }

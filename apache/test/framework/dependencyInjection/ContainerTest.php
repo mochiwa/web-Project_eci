@@ -40,7 +40,6 @@ class ContainerTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($idExpected,$idActual);
     }
     
-    
     public function test_make_shouldReturnANewInstanceEachTime()
     {
         $this->container->set(Foo::class, function(){return new Foo();});
@@ -68,6 +67,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase {
         $this->container->get('notExisting');
     }
    
+    public function test_hasConstants_shouldReturnTrue_whenContainerHasAValueNotCallable(){
+        $this->container->set('aKey', 'a word');
+        $this->assertTrue($this->container->hasConstants('aKey'));
+    }
     
-    
+    public function test_get_shouldReturnAStringValue_whenStringWasSetted(){
+        $this->container->set('aKey', 'a word');
+        $this->assertEquals('a word', $this->container->get('aKey'));
+    }
 }
