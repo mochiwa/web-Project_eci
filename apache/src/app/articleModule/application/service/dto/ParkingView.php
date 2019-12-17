@@ -87,6 +87,10 @@ class ParkingView {
                  $post['creationDate'] ?? '' , $post['lastUpdateDate'] ?? '');
     }
     
+    public static function empty():self{
+        return new self('','','',[],'','','');
+    }
+    
     public function getId() :string {
         return htmlentities($this->id);
     }

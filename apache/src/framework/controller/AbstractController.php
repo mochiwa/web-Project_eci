@@ -36,14 +36,7 @@ abstract class AbstractController {
      * @param RequestInterface $request
      * @return ResponseInterface
      */
-    public function __invoke(RequestInterface $request) : ResponseInterface{
-        $action=$request->getAttribute('action');
-        
-        if(method_exists($this, $action) && is_callable([$this,$action])){
-                return call_user_func([$this,$action],$request);
-        }
-        return $this->redirectTo(self::INDEX);
-    }
+    public abstract function __invoke(RequestInterface $request) : ResponseInterface;
     
     
     /**
