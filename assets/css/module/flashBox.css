@@ -8,5 +8,8 @@
 		background-color: green;
 	}
 	.flashBox__message{
-
+		text-align: center;
+		color: white;
+		font-size: 1.2em;
+		padding: 10px;
 	}

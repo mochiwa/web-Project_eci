@@ -1,7 +1,7 @@
 <div class="block article">
     <header class="article-header">
         <h2 class="article__title"><?= $article->getTitle() ?></h2>
-        <img class="article__thumbnail" src="../upload/article/<?= $article->getPicture() ?>">
+        <img class="article__picture" src="../upload/article/<?= $article->getPicture() ?>">
     </header>
     
     <div class="article-main">
@@ -19,7 +19,7 @@
         </section>
         <section class="article-section article-section-description">
             <h3 class="article-section__title"> Description </h3>
-            <p><?= $article->getDescription() ?></p>
+            <p class="article__description"><?= $article->getDescription() ?></p>
         </section>
     </div>
     

@@ -11,6 +11,7 @@
 @import url("layout/l-nav.css");
 @import url("layout/l-form.css");
 @import url("layout/l-table.css");
+@import url("layout/l-article.css");
 
 /***********************************\
 			   Module
@@ -27,6 +28,8 @@
 @import url('module/table.css');
 @import url('module/flashBox.css');
 @import url('module/pagination.css');
+
+@import url('module/article.css');
 
 /***********************************\
 			   State

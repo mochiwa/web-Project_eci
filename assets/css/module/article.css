@@ -1,0 +1,129 @@
+/**
+ *<article>
+ *	<article-header>
+ *		<article__title>
+ *		<article__picture>
+ *  <article-main>
+ *  	<article-section article-section-XXXX>
+ *  		<article-section-title>
+ *  		<article__description>
+ *  		<.....>
+ *  <article-footer>
+ */
+.article{
+	
+}
+	.article-section{
+		padding: 5px;
+	}
+	.article-section__title{
+		margin: 10px 0;
+
+		text-align: center;
+		font-size :  1.8em;
+		text-decoration: underline;
+	}
+
+	.article-header{	
+	}
+		.article__title{
+			text-align: center;
+			font-size: 3em;
+			padding: 20px 0;
+		}
+		.article__picture{
+			width: 100%;
+		}
+
+
+	.article-main{
+
+	}
+
+		.article-section-information{
+
+		}
+
+		.article-section-description{
+
+		}
+			.article__description{
+				text-align: center;
+				padding: 20px;
+			}
+
+
+	.article-footer{
+		padding: 10px;
+	}
+
+@media only screen and (min-width: 700px){
+	.article__picture{
+			display: block;
+			margin: auto;
+			max-width: 600px; 
+			max-height: 400px;
+
+			-webkit-box-shadow:0 0 24px 0 rgba(0,0,0,0.2);
+			-moz-box-shadow: 0 0 24px 0 rgba(0,0,0,0.2);
+			box-shadow: 0 0 24px 0 rgba(0,0,0,0.2);
+		}
+}
+
+
+
+/**
+ * Represent the attribute list of an article like:
+ * 		key : value ;
+ * 		city : Liege;
+ */
+.attribute_map{
+	margin: auto;
+}
+	.attribute_map-element{
+
+	}
+		.attribute_map-element__key{
+			font-weight: 600;
+			border-bottom: 1px solid black;
+		}
+		.attribute_map-element__key:after{
+			content: ':';
+			float: right ;
+			padding-left: 2px;
+		}
+		.attribute_map-element__value{
+			padding-left: 5px;
+		}
+
+
+/************************************************/
+.container-article_preview{
+	flex-direction: column;
+}
+
+.article_preview{
+	margin :  10px;
+}
+
+	.article_preview-header{
+
+	}
+		.article_preview-header .article__title{
+			font-size: 2em;
+			padding-left: 15px;
+			text-align: left;
+			text-decoration: none;
+		}
+	.article_preview-main{
+
+	}
+
+
+
+
+@media only screen and (min-width: 700px){
+	.container-article_preview{
+		flex-direction: row;
+	}
+}

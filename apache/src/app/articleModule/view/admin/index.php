@@ -8,11 +8,15 @@ use Framework\Html\Pagination;
 
 <section class="block">
     <?php
-        $box=new FlashBox(new FlashBoxFactory($session->flash()));
-        echo $box->toHtml();
+    
+        $message=$session->flash();
+        if(!empty($message->getMessage())){
+            $box=new FlashBox(new FlashBoxFactory($message));
+            echo $box->toHtml();
+        }
+       
     ?>
     
-   
     
 <h1 class="block__title block__title-center"> Article management </h1>
 <a class="button button table__button" href="<?= $router->generateURL('parking.admin',['action'=>'create'])?>">Create a new article</a>

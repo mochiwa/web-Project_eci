@@ -29,7 +29,7 @@ $app->addModule(WebPageModule::class)
         
 $app->pipe(LastSlashRemoverMiddleware::class)
     ->pipe(RouterMiddleware::class)
-    //->pipe(ACLMiddleware::class)
+    ->pipe(ACLMiddleware::class)
     ->pipe(RouteDispatcherMiddleware::class)
     ->pipe(ErrorMiddleware::class);
 

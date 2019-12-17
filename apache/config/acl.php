@@ -38,7 +38,9 @@ return[
                 AbstractTarget::ControllerAction(UserController::class,'signIn'),
                 AbstractTarget::ControllerAction(UserController::class,'activation'),
                 AbstractTarget::ControllerAction(AdminController::class,'signIn'),
-                AbstractTarget::Controller(ArticleController::class)
+                AbstractTarget::ControllerAction(ArticleController::class,'show'),
+                AbstractTarget::ControllerAction(ArticleController::class,'index'),
+                AbstractTarget::Controller(ArticleController::class),
             ],
             ACL::DENY_INDEX=>[
             ]

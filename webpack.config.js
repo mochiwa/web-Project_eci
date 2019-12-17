@@ -2,10 +2,10 @@ const path=require('path')
 const {CleanWebpackPlugin}  = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const TerserJSPlugin=require('terser-webpack-plugin')
+const TerserJSPlugin=require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-
+const ASSET_PATH = process.env.ASSET_PATH || '/dist/';
 
 module.exports = (env, argv) => {
 	const isDevMode=(argv.mode==='development')
@@ -16,7 +16,7 @@ module.exports = (env, argv) => {
 
 		output:{
 			path: path.resolve('./apache/public/dist/'),
-			publicPath: "./dist/",
+			publicPath: ASSET_PATH,
 			//filename: isDevMode ? '[name].js' : '[name].[chunkhash:8].js'
 			filename: '[name].js'
 		},

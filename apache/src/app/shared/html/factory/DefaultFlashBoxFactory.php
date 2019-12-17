@@ -24,7 +24,7 @@ class DefaultFlashBoxFactory extends AbstractFlashBoxFactory{
     }
     
     public function getBoxStyle(): string {
-        return 'flashBox';
+        return $this->message->getIsError() ? 'flashBox flashBox-error' : 'flashBox flashBox-success';
     }
 
     public function getMessage(): string {

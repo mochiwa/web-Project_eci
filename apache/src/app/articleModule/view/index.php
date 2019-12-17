@@ -5,17 +5,17 @@ use Framework\Html\Pagination;
 
 ?>
 
-<section class="block">
-    <h1 class="block__title block__title-center"> Our parking places</h1>
-    <div class="container container-center">
+    <h2 class="block__title block__title-center"> Our parking places</h2>
+    
+    <div class="container container-center container-article_preview">
+        
         <?php foreach ($articles as $article) { ?>
-        <article class="block article article-preview">
-            <header class="article-preview-header">
+        <article class="block article article_preview">
+            <header class="article_preview-header">
                 <h2 class="article__title"><a href="<?= $router->generateURL('article.selected',['action'=>'show','id'=>$article->getId()]) ?>"><?= $article->getTitle() ?></a></h2>
-                <img class="article-preview__thumbnail" src="../upload/article/<?= $article->getPicture() ?>">
+                <img class="article__picture" src="../upload/article/<?= $article->getPicture() ?>">
             </header>
-            <div class="article-preview-main">
-
+            <div class="article_preview-main">
                <table class="attribute_map">
                 <?php foreach ($article->getAttributes() as $key => $value){?>
                        <tr class="attribute_map-element">
@@ -25,11 +25,10 @@ use Framework\Html\Pagination;
 
                 <?php } ?>
                </table>
-
                 <p class="article__description"><?= $article->getDescription() ?></p>
             </div>
 
-            <footer class="article-preview-footer">
+            <footer class="article_preview-footer">
                 <a class="button" href="<?= $router->generateURL('article.selected',['action'=>'show','id'=>$article->getId()]) ?>"> more </a>
             </footer>
         </article>
@@ -41,5 +40,4 @@ use Framework\Html\Pagination;
         echo $paginator->toHtml();
         ?>
     </div>
-</section>
 

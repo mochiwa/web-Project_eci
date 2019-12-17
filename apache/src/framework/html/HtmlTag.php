@@ -232,7 +232,9 @@ class HtmlTag {
                 }
                 elseif($child->childrenCount())
                 {
-                    return $child->searchChildById($id);
+                    $tmp= $child->searchChildById($id);
+                    if($tmp!==null)
+                        return $tmp;
                 }
             }
         }
