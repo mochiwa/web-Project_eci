@@ -15,7 +15,12 @@ use Framework\Router\IRouter;
 class ArticleModule extends AbstractModule {
     const DEFINITION = __DIR__ . '/config.php';
     
-    public function __construct(IRouter $router, IViewBuilder $viewBuilder) {
+    public function __construct(\Framework\DependencyInjection\IContainer $di) {
+        
+        $router=$di->get(IRouter::class);
+        $viewBuilder=$di->get(IViewBuilder::class);
+        
+        
         $router->map('GET', '/parking/[a:action]?', ArticleController::class, 'article');
         $router->map('GET|POST', '/parking/[a:action]-[a:id]', ArticleController::class, 'article.selected');
         $router->map('GET', '/parking/[a:action]-page-[a:page]?', ArticleController::class, 'parking.page');

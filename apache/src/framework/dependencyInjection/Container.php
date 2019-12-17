@@ -22,7 +22,6 @@ class Container  implements IContainer{
     }
     
     
-    
     /**
      * Append a class reference in the container.
      * @param string   $key   the key to found class ,(recommended to use ::class)
