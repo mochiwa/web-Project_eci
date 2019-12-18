@@ -2,10 +2,14 @@
 {% macro input(name,label,value,type='text',classes) %}
     <div id="div-{{ name }}" class="">
         <label id="label-{{ name }}" class="" for="{{ name }}"> {{ label }} </label>
-        <input id="input-{{ name }}" class=""  name="{{ name }}" type="{{ type }}" value="{{ value }}" />
+        <input id="input-{{ name }}" class="form__input"  name="{{ name }}" type="{{ type }}" value="{{ value }}" />
     </div>
 {% endmacro %}
 
 {% macro button(name,value,type='submit',classes) %}
-   <input id="input-{{ name }}" class="{{ classes }}" type="{{ type }}" value="{{ value }}" />
+   <input id="input-{{ name }}" class="button" type="{{ type }}" value="{{ value }}" />
+{% endmacro %}
+
+{% macro link(value,href,classes) %}
+   <a  href="{{ href }}" class="{{ classes }}" />{{ value }}</a>
 {% endmacro %}
