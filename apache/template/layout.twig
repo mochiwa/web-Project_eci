@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+            <title>{% block title %}{% endblock %} - JohnCar</title>
+            <meta name="description" content="sightseeing the most beautiful parkings from belgium">
+            <meta charset="utf-8">
+            <link rel="stylesheet" type="text/css" href="/dist/app.css">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container container-main">
+            <header class="container container-header">
+                {% block header %}
+                    {% include 'topNavBar.twig' %}
+                    <section class="main-header">
+                        <div class="main-header-textArea">
+                            <h2 class="main-header-textArea__title">John car</h2>
+                            <p class="main-header-textArea__subtitle">sightseeing the most beautiful parking from Belgium</p>
+                        </div>
+                    </section>
+                {% endblock %}
+            </header>
+            <main class="container container-content">
+                {% block content %}{% endblock %}
+            </main>
+            <footer  class="container container-footer">
+                {% block footer %}{% endblock %}
+            </footer>
+            <script type="text/javascript" src="/dist/app.js"></script>
+        </div>
+    </body>
+</html>
+
+

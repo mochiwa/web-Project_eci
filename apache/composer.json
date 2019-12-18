@@ -93,7 +93,8 @@
         "altorouter/altorouter": "^2.0.1",
         "http-interop/response-sender": "^1.0",
         "psr/container": "^1.0",
-        "vlucas/valitron": "^1.4"
+        "vlucas/valitron": "^1.4",
+        "twig/twig":"^2.0"
     },
     
     

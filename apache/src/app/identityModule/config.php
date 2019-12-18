@@ -12,10 +12,12 @@ use App\Identity\Model\User\IUserRepository;
 use App\Identity\Model\User\Service\UserProviderService;
 use App\Shared\Infrastructure\InMemoryTransaction;
 use Framework\Connection\AtomicRemoteOperation;
+use Framework\Renderer\IViewBuilder;
 use Framework\Session\SessionManager;
 
 return [
     IUserRepository::class => function(){return new InMemoryUserRepository();},
+    
     AtomicRemoteOperation::class => function($di){
         return new AtomicRemoteOperation(new InMemoryTransaction($di->get(IUserRepository::class)));},
     

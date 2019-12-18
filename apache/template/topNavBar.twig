@@ -1,0 +1,40 @@
+{% block header %}
+    <section class="nav-top" id="mainTopNavBar">
+
+        <div class="nav-top nav-top-left">
+            <div class="nav-logo">	
+                <h2><a class="nav-logo__item" href="">-LOGO-</a></h2>
+            </div>
+
+            <nav class="nav">
+                {{  _self.navItem('home','webPage.home') }} 
+                {{  _self.navItem('parking','article',{'action': 'index'}) }} 
+                {{  _self.navItem('contact','webPage.contact') }} 
+            </nav>
+        </div>
+
+
+        <div class="nav-top nav-top-right">
+            <nav class="nav">
+                {% if user is not connected %}
+                    {{  _self.navItem('sign in','user',{'action':'signIn'}) }} 
+                    {{  _self.lastnavItem('register','user',{'action':'register'}) }}
+                {% else %}
+                    {{  _self.lastnavItem('logout','user',{'action':'logout'}) }} 
+                {% endif %}
+            </nav>
+        </div>
+    </section>
+{% endblock header %}
+
+    {% macro navItem(text,href ,action={}) %}
+        {% set url = router(href,action) %}
+        {% set style = url is currentLink ? 'nav__item--selected'  %}
+        <a class="nav__item {{ style }}" href="{{ url }}">{{ text|capitalize }}</a>
+    {% endmacro navItem %}
+
+    {% macro lastnavItem(text,href ,action={}) %}
+        {% set url = router(href,action) %}
+        {% set style = url is currentLink ? 'nav__item--selected'  %}
+        <a class="nav__item {{ style }} nav__item--last" href="{{ url }}">{{ text|capitalize }}</a>
+    {% endmacro lastnavItem %}

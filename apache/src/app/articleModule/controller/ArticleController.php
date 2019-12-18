@@ -43,7 +43,7 @@ class ArticleController extends AbstractController implements IArticleController
 
     public function index(RequestInterface $request): ResponseInterface {
         $appService=$this->container->get(IndexArticleApplication::class);
-        $appResponse=$appService->execute($request->getAttribute('page') ?? '1',10);
+        $appResponse=$appService->execute($request->getAttribute('page') ?? '1',2);
         
         $httpResponse=new Response(200);
         $httpResponse->getBody()->write($this->viewBuilder->build('@article/index',
