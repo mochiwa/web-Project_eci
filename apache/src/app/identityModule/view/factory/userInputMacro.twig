@@ -1,0 +1,11 @@
+
+{% macro input(name,label,value,type='text',classes) %}
+    <div id="div-{{ name }}" class="">
+        <label id="label-{{ name }}" class="" for="{{ name }}"> {{ label }} </label>
+        <input id="input-{{ name }}" class=""  name="{{ name }}" type="{{ type }}" value="{{ value }}" />
+    </div>
+{% endmacro %}
+
+{% macro button(name,value,type='submit',classes) %}
+   <input id="input-{{ name }}" class="{{ classes }}" type="{{ type }}" value="{{ value }}" />
+{% endmacro %}

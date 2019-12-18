@@ -27,5 +27,21 @@ class SessionTwigExtension extends AbstractExtension{
     {
         return $this->session->has(SessionManager::CURRENT_USER_KEY);
     }
+    
+    /**
+     * Return the flash message contained in session
+     * @return string
+     */
+    public function flashMessage() : string{
+        return $this->session->flash();
+    }
+    
+    /**
+     * Return true if the session contain flash message
+     * @return string
+     */
+    public function hasFlashMessage() : bool{
+        return $this->session->has(SessionManager::FLASH_KEY);
+    }
 
 }

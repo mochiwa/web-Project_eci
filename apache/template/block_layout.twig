@@ -1,0 +1,10 @@
+{% extends "layout.twig" %}
+
+
+{% block mainContent %}
+    <section class="block">
+        <h1 class="block__title block__title-center">{% block content_title %}{% endblock content_title %}</h1>
+        {% block content %}
+        {% endblock content %}
+    <section>
+{% endblock mainContent %}

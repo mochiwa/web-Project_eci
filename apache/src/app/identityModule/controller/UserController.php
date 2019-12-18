@@ -130,7 +130,7 @@ class UserController extends AbstractController implements IUserController{
         
         if($appResponse->hasErrors())
         {
-            $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
+            $body=$this->viewBuilder->build('@user/signIn',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
         return $this->redirectTo('/user/signIn');
@@ -145,7 +145,7 @@ class UserController extends AbstractController implements IUserController{
     {
         if(!$this->isPostRequest($request))
         {
-            return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
+            return $this->buildResponse($this->viewBuilder->build('@user/signIn'), 200);
         }
         
         $appRequest= SignInRequest::fromPost($request->getParsedBody());
@@ -153,7 +153,7 @@ class UserController extends AbstractController implements IUserController{
         $appResponse= $appService($appRequest);
         if($appResponse->hasErrors())
         {
-            $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
+            $body=$this->viewBuilder->build('@user/signIn',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
         return $this->redirectTo(self::INDEX, 200);

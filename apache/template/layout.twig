@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         {% block head %}
-            <title>{% block title %}{% endblock %} - JohnCar</title>
+            <title>{% block head_title %}{% endblock head_title %} - JohnCar</title>
             <meta name="description" content="sightseeing the most beautiful parkings from belgium">
             <meta charset="utf-8">
             <link rel="stylesheet" type="text/css" href="/dist/app.css">
@@ -22,7 +22,7 @@
                 {% endblock %}
             </header>
             <main class="container container-content">
-                {% block content %}{% endblock %}
+                {% block mainContent %}{% endblock mainContent%}
             </main>
             <footer  class="container container-footer">
                 {% block footer %}{% endblock %}

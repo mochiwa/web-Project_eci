@@ -1,0 +1,22 @@
+{% extends "block_layout.twig" %}
+
+{% block head_title %} Sign in {% endblock head_title %}
+
+{% block content_title %}Sign in{% endblock content_title %}       
+{% block content %}
+    <form class="form" action="{{ router('user' , {'action': 'signIn' }) }}" method="post">
+        <div class="form-section form-section-filds"> 
+            {{  forms.input('username','Your username',user.username,'text' }}
+            {{  forms.input('password','Your password',user.password,'text' }}
+        </div>
+        <div class="form-section form-section-buttons"> 
+            {{  forms.button('sign in','Sign In','submit','button') }}
+        </div> 
+    </form>
+{% endblock content %}    
+         
+         
+
+
+
+
