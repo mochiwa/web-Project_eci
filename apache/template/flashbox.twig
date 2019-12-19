@@ -1,0 +1,11 @@
+{% macro flashBox(flashMessage) %}
+    {% if flashMessage.isError %}
+        {% set style='flashBox flashBox-error' %}
+    {% else %}
+        {% set style='flashBox flashBox-success' %}
+    {% endif %}
+    
+    <div class="{{ style }}">
+        <p class="flashBox__message">{{ flashMessage.message|raw }}</p>
+    </div>
+{% endmacro %}
