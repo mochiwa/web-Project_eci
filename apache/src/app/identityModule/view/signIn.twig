@@ -20,7 +20,7 @@
     <form class="form" action="{{ router('user' , {'action': 'signIn' }) }}" method="post">
         <div class="form-section form-section-fields"> 
             {{  userForm.input('username','Your username',user.username,'text') }}
-            {{  userForm.input('password','Your password',user.password,'text') }}
+            {{  userForm.input('password','Your password',user.password,'password') }}
         </div>
         <div class="form-section form-section-buttons"> 
             {{  userForm.button('sign in','Sign In','submit','button') }}
