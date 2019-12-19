@@ -1,0 +1,54 @@
+{#
+    The macro are responsible to create different component
+    for an user form
+#}
+
+
+{#
+    Create an input for user form with :
+    @name   : the input name
+    @label  : the label value
+    @value  : the value to insert into the field
+    @type   : the input type , text by default
+#}
+{% macro input(name,label,value,type='text') %}
+    <div id="div-{{ name }}" class="form-section">
+        <label id="label-{{ name }}" class="form__item" for="{{ name }}"> {{ label }} </label>
+        <input id="input-{{ name }}" class="form__input"  name="{{ name }}" type="{{ type }}" value="{{ value }}" />
+    </div>
+{% endmacro %}
+
+{#
+    Create a button for user form with :
+    @value   : the value printed on button
+    @type    : the input type , text by default
+#}
+{% macro button(value,classes) %}
+    <input id="input-{{ name }}" class="button form__button " type="submit" value="{{ value }}" />
+{% endmacro %}
+
+{#
+    Create a link for user form with :
+    @value   : the printed value between tag
+    @href    : the link
+    @classes : the css class
+#}
+{% macro link(value,href,classes) %}
+    <a  href="{{ href }}" class="{{ classes }}">{{ value }}</a>
+{% endmacro %}
+
+{#
+    Create a section error with a <p> for each error:
+    @errors   :  array of errors
+#}
+{% macro errorSection(errors) %}
+    <div class="form-section-errors">
+        {% for error in errors %}
+            {% if error is iterable %}
+                {{ _self.errorSection(error) }}
+            {% else %}
+                <p class="form-field-error-message"> {{ error }}</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endmacro %}
