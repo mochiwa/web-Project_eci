@@ -127,16 +127,23 @@ class InMemoryArticleRepository extends AbstractInMemoryRepository implements IA
         $this->data[$article->id()->idToString()]=$article;
         $this->commit();
     }
+   
+
     /**
-     * Return the size of data[]
+     * return an array on data like [begin , ... ,end]
+     * @param int $beginningIndex
+     * @param int $endingIndex
+     * @return array
+     */
+    public function getASetOfArticles(int $beginningIndex, int $endingIndex): array {
+        return array_slice($this->data, $beginningIndex,$endingIndex);
+    }
+    /**
+     * Return count of article in datas
      * @return int
      */
-    public function dataCount(): int {
-       return sizeof($this->data);
-    }
-
-    public function getForPagination(int $current, int $max): array {
-        return array_slice($this->data, $current,$max);
+    public function sizeof(): int {
+        return sizeof($this->data);
     }
 
 }

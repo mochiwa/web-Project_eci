@@ -42,7 +42,8 @@ class IndexApplication {
     public function __construct(IArticleRepository $repository, IRouter $router) {
         $this->repository = $repository;
         $this->router=$router;
-        $this->paginator=new Paginator($this->repository,self::DEFAULT_MAX_ARTICLE_PER_PAGE);
+        $this->paginator=new \App\Article\Infrastructure\Service\ParkingPaginatorService($this->repository);
+        //$this->paginator=new Paginator($this->repository,self::DEFAULT_MAX_ARTICLE_PER_PAGE);
     }
 
     /**
@@ -53,11 +54,12 @@ class IndexApplication {
      * @return IndexResponse
      */
     public function __invoke(IndexRequest $request): IndexResponse {
-        $this->paginator->setMaxDataPerPage($this->getArticlePerPage($request));
+        //$this->paginator->setMaxDataPerPage($this->getArticlePerPage($request));
         $currentPage = $this->getCurrentPage($request);
-
-        $articles = $this->getArticles($currentPage);
-        $pagination=$this->paginator->getPagination($currentPage);
+        $maxArticlePerPage=$this->getArticlePerPage($request);
+        
+        $articles = $this->getArticles($currentPage,$maxArticlePerPage);
+        $pagination=$this->paginator->getPagination($currentPage,$maxArticlePerPage);
         $paginationPoco=$this->buildPaginationPoco($pagination,$request->getIndexURL());
 
         return IndexResponse::of($paginationPoco, $articles);
@@ -69,9 +71,9 @@ class IndexApplication {
      * @param int $currentPage
      * @return type
      */
-    private function getArticles(int $currentPage){
+    private function getArticles(int $currentPage,int $maxArticlePerPage){
         $articles = [];
-        foreach ($this->paginator->getDataForPage($currentPage) as $article) {
+        foreach ($this->paginator->getDataForPage($currentPage,$maxArticlePerPage) as $article) {
             $articles[] = ParkingPOCO::of($article);
         }
         return $articles;

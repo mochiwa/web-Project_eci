@@ -11,7 +11,7 @@ use Framework\Paginator\IPaginable;
  *
  * @author mochiwa
  */
-interface IArticleRepository extends IPaginable {
+interface IArticleRepository {
     /**
      * Return the next id available
      * @return ArticleId
@@ -70,4 +70,18 @@ interface IArticleRepository extends IPaginable {
      * @return void
      */
     public function update(Article $article): void;
+    
+    /**
+     * Should return a set of article from [beginning,...,ending]
+     * @param int $beginningIndex
+     * @param int $endingIndex
+     * @return array
+     */
+    public function getASetOfArticles(int $beginningIndex,int $endingIndex):array;
+    
+    /**
+     * should return the count of article  stored in repository
+     * @return int
+     */
+    public function sizeof(): int;
 }
