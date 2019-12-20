@@ -1,11 +1,14 @@
 <?php
 namespace App\Article\Application;
 
+use App\Article\Application\Poco\PaginationPoco;
 use App\Article\Application\Poco\ParkingPOCO;
 use App\Article\Application\Request\IndexRequest;
 use App\Article\Application\Response\IndexResponse;
 use App\Article\Model\Article\IArticleRepository;
+use Framework\Paginator\Pagination;
 use Framework\Paginator\Paginator;
+use Framework\Router\IRouter;
 
 /**
  * This application is responsible to get article list from the repository
@@ -24,9 +27,16 @@ class IndexApplication {
      * @var IArticleRepository 
      */
     private $repository;
+    
+    /**
+     *
+     * @var IRouter
+     */
+    private $router;
 
-    public function __construct(IArticleRepository $repository) {
+    public function __construct(IArticleRepository $repository, IRouter $router) {
         $this->repository = $repository;
+        $this->router=$router;
     }
 
     /**
@@ -45,8 +55,29 @@ class IndexApplication {
         foreach ($paginator->getDataForPage($currrentPage) as $article) {
             $articles[] = ParkingPOCO::of($article);
         }
-        $response = new IndexResponse($paginator->getPagination($currrentPage), $articles);
+        
+        $pagination=$paginator->getPagination($currrentPage);
+        
+        
+        $response = new IndexResponse($this->buildPaginationPoco($pagination,$request->getIndexURL()), $articles);
         return $response;
+    }
+    
+    
+    private function buildPaginationPoco(Pagination $pagination,string $url){
+        $pageLinks=[];
+        foreach ($pagination->getPages() as $key => $page) {
+            $pageLinks[strval($page)]=$this->getPageLink($page,$url);
+        }
+        return PaginationPoco::of($pagination->getCurrentPage(),
+                $pageLinks,
+                $this->getPageLink($pagination->getPrevious(),$url),
+                $this->getPageLink($pagination->getNext(),$url));
+    }
+    
+    private function getPageLink(string $page,string $url): string
+    {
+        return $this->router->generateURL($url, ['action'=>'index','page'=>$page]);
     }
 
 }

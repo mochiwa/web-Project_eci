@@ -97,7 +97,7 @@ class Pagination {
      * and finish with the ending set , the current page will be always in the set
      * @return array
      */
-    public function  getLinks():array
+    public function  getPages():array
     {
         return $this->generateNewSetOfLinks($this->getBeginningPage());
     }
@@ -172,7 +172,6 @@ class Pagination {
             $minValue=($maxValue+1) - ($setSize*2);
            
             $minValue= $minValue<=1 ? $maxValue-$setSize-1 : $minValue; 
-             
         }
         else
         {

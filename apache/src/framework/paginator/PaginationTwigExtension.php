@@ -37,7 +37,7 @@ class PaginationTwigExtension extends AbstractExtension{
     }
 
     public function pages(Pagination $pagination){
-        return $pagination->getLinks();
+        return $pagination->getPages();
     }
     
     public function previousLink(Pagination $pagination,string $urlName,string $action,string $slug)

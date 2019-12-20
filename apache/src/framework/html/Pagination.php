@@ -24,7 +24,7 @@ class Pagination extends HtmlTag{
     public function toHtml(): string {
         $this->addChild($this->factory->toPrevious($this->pagination->getPrevious()));
         
-        foreach ($this->pagination->getLinks() as $page) {
+        foreach ($this->pagination->getPages() as $page) {
             $this->addChild($this->factory->page($page));
         }
         

@@ -1,6 +1,7 @@
 <?php
 namespace App\Article\Application\Response;
 
+use App\Article\Application\Poco\PaginationPoco;
 use Framework\Paginator\Pagination;
 
 /**
@@ -23,7 +24,7 @@ class IndexResponse extends AbstractApplicationResponse{
      */
     private $pagination;
     
-    public function __construct(Pagination $pagination,array $articles=[]) {
+    public function __construct(PaginationPoco $pagination,array $articles=[]) {
         parent::__construct();
         $this->articles = $articles;
         $this->pagination = $pagination;
@@ -34,7 +35,7 @@ class IndexResponse extends AbstractApplicationResponse{
         return $this->articles;
     }
     
-    public function getPagination() : Pagination {
+    public function getPagination() : PaginationPoco {
         return $this->pagination;
     }
 

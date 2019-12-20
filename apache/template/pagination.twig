@@ -1,9 +1,9 @@
-{% macro build(pagination,urlName='#',action='index',slug='page') %}
+{% macro build(pagination) %}
     <div class="pagination">
-        <a class="pagination__item" href="{{ previousLink(pagination,urlName,action,slug) }}"> {{ '<<'|escape }} </a>
-        {% for page in pagination.links %}
-            <a class="pagination__item {{ page == pagination.currentPage ? 'pagination__item--current' }}" href="{{ pageLink(pagination,urlName,action,slug) }}"> {{ page }}  </a>
+        <a class="pagination__item" href="{{ pagination.previousPage }}"> {{ '<<'|escape }} </a>
+        {% for key,page in pagination.setOfPage %}
+            <a class="pagination__item" href="{{ page }}"> {{ key }}  </a>
         {% endfor %}
-        <a class="pagination__item" href="{{ nextLink(pagination,urlName,action,slug) }}"> {{ '>>'|escape }} </a>
+        <a class="pagination__item" href="{{ pagination.nextPage }}"> {{ '>>'|escape }} </a>
     </div>
 {% endmacro %}

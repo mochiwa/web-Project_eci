@@ -8,18 +8,20 @@ namespace App\Article\Application\Request;
 class IndexRequest {
     private $articlePerPage;
     private $currentPage;
+    private $indexURL;
     
 
-    private function __construct( $articlePerPage, $currentPage) {
+    private function __construct( $articlePerPage, $currentPage,$indexUrl) {
         $this->articlePerPage = $articlePerPage;
         $this->currentPage = $currentPage;
+        $this->indexURL=$indexUrl;
     }
     
-    public static function of( $articlePerPage, $currentPage):self{
-        return new self($articlePerPage,$currentPage);
+    public static function of( $articlePerPage, $currentPage,string $url):self{
+        return new self($articlePerPage,$currentPage,$url);
     }
 
-        
+    
     public function getArticlePerPage() {
         return $this->articlePerPage;
     }
@@ -27,6 +29,13 @@ class IndexRequest {
     public function getCurrentPage(){
         return $this->currentPage;
     }
+    
+    public function getIndexURL() {
+        return $this->indexURL;
+    }
+
+
+    
 
 
     
