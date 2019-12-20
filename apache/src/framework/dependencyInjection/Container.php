@@ -23,12 +23,18 @@ class Container  implements IContainer{
     
     
     /**
-     * Append a class reference in the container.
+     * Append a class reference in the container,
+     * if the instances array contain an instance of the older value then unset it
      * @param string   $key   the key to found class ,(recommended to use ::class)
      * @param callable|string|array $content function or string  that call the class with your own parameter
      */
     public function set(string $key,  $content) {
         $this->container[$key] = $content;
+        
+        if(key_exists($key, $this->instances)){
+            unset($this->instances[$key]);
+        }
+        
     }
     
     /**
@@ -64,6 +70,8 @@ class Container  implements IContainer{
                 $this->set($key, $value);
             }
         }
+        
+        
     }
     /**
      * Return an instance linked to the key, it use lazy loading

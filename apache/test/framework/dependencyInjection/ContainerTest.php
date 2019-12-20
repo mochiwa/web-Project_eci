@@ -98,6 +98,14 @@ class ContainerTest extends TestCase {
         $this->assertTrue($this->container->hasConstants('aKey'));
         $this->assertEquals([1,2,3], $this->container->get('aKey'));
     }
+    
+    public function test_set_shouldReplaceTheInstance_whenContainerWasOverride()
+    {
+        $this->container->set(Foo::class, function(){return new Foo();});
+        $this->assertInstanceOf(Foo::class, $this->container->get(Foo::class));
+        $this->container->set(Foo::class, function(){return new Faa();});
+        $this->assertInstanceOf(Faa::class, $this->container->get(Foo::class));
+    }
 
     public function test_add_shouldAppendContent_whenContainerHasArrayOnKey()
     {

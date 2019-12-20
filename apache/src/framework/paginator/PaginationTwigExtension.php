@@ -33,10 +33,13 @@ class PaginationTwigExtension extends AbstractExtension{
             new \Twig\TwigFunction('previousLink',  [$this,'previousLink']),
             new \Twig\TwigFunction('pageLink',  [$this,'pageLink']),
             new \Twig\TwigFunction('nextLink',  [$this,'nextLink']),
+            new \Twig\TwigFunction('test',  [$this,'test']),
         ];
     }
 
-    
+    public function test(string $msg){
+        var_dump($msg);
+    }
     
     public function pages(Pagination $pagination){
         return $pagination->getLinks();
