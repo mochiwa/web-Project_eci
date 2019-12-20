@@ -29,13 +29,10 @@ return [
     'twig.extension' => [
        RouterTwigExtension::class,SessionTwigExtension::class
     ],
-            
-            
     TwigFactory::class => function($di){return new TwigFactory($di,new FilesystemLoader(dirname(__DIR__).'/template'));},
     IViewBuilder::class => function ($di){return $di->get(TwigFactory::class)($di->get('twig.extension'));},        
 
     ACLMiddleware::class=>function($di){ return new ACLMiddleware(
-            $di->get(SessionManager::class),
-            ACL::fromArray(include_once 'acl.php')
-        );}
+        $di->get(SessionManager::class),
+        ACL::fromArray(include_once 'acl.php'));}
 ];

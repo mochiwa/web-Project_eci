@@ -39,12 +39,4 @@ return [
                 $di->get(ActivationByLink::class),
                 $di->get(SessionManager::class));
     },
-    
-    
-    'twig.extension' => [IContainer::ADD =>[PaginationTwigExtension::class ]
-        
-    ],
-            
-      
-    IViewBuilder::class => function ($di){return $di->get(TwigFactory::class)($di->get('twig.extension'));},  
 ];

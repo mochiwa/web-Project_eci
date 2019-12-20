@@ -44,11 +44,25 @@
 {% macro errorSection(errors) %}
     <div class="form-section-errors">
         {% for error in errors %}
+            {{ _self.errorMessage(error) }}
+        {% endfor %}
+    </div>
+{% endmacro %}
+{#
+    Create <p> for each error:
+    @errors   :  array of errors
+#}
+{% macro errorMessage(errors={}) %}
+    {% if errors is not iterable %}
+        <p class="form-field-error-message"> {{ errors }}</p>   
+    {% else %}
+        {% for error in errors %}
             {% if error is iterable %}
-                {{ _self.errorSection(error) }}
+                {{ _self.errorMessage(error) }}
             {% else %}
                 <p class="form-field-error-message"> {{ error }}</p>
             {% endif %}
         {% endfor %}
-    </div>
+    {% endif %}
+
 {% endmacro %}
