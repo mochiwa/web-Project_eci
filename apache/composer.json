@@ -42,6 +42,10 @@
             "App\\Article\\Controller\\" : "./src/app/articleModule/controller",
             
             "App\\Article\\Application\\" : "./src/app/articleModule/application",
+            "App\\Article\\Application\\Request\\" : "./src/app/articleModule/application/request",
+            "App\\Article\\Application\\Response\\" : "./src/app/articleModule/application/response",
+            "App\\Article\\Application\\Poco\\" : "./src/app/articleModule/application/poco",
+            
             "App\\Article\\Application\\Service\\" : "./src/app/articleModule/application/service",
             "App\\Article\\Application\\Service\\Response\\" : "./src/app/articleModule/application/service/response",
             "App\\Article\\Application\\Service\\Request\\" : "./src/app/articleModule/application/service/request",

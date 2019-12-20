@@ -1,0 +1,38 @@
+{% extends "layout_block.twig" %}
+{% import 'pagination.twig' as pagination %}
+
+{% block head_title %}Parkings management{% endblock head_title %}
+{% block content_title %}<h1 class="block__title block__title-center"></h1>{% endblock content_title %}
+
+{% block content %}
+    <a class="button button table__button" href="{{ router('parking.admin',{'action':'create'}) }}">Create a new article</a>
+    <table class="table">
+        <thead>
+            <tr class="table-header">
+               <th class="table-header__item">Article</th>
+               <th class="table-header__item table-header__item--hidden">Publish date</th>
+               <th class="table-header__item table-header__item--hidden">Last update</th>
+               <th class="table-header__item">Command</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key,article in articles %}
+                <tr class="table-article {{ key is odd ? 'table-article--odd' }}">
+                <td class="table-article__item table-article__item-title">{{ article.title }}</td>
+                <td class="table-article__item table-article__item-date ">{{ article.creationDate }}</td>
+                <td class="table-article__item table-article__item-date ">{{ article.lastUpdateDate }}</td>
+                <td lass="table-article__item">
+                    <a class="button table__button" href="{{ router('parking.admin.selected',{'action':'edit','id':article.id}) }}">Edit</a>
+                    <a class="button table__button" href="{{ router('parking.admin.selected',{'action':'delete','id':article.id}) }}">Delete</a>
+                </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        
+    <div class="container container-center">
+        {{  pagination.build(pagination,'parking.admin.page','index','page') }}
+    </div>
+{% endblock content %}
+
+

@@ -2,11 +2,13 @@
 
 namespace App\Article\Controller;
 
+use App\Article\Application\IndexApplication;
+use App\Article\Application\Request\IndexRequest;
 use App\Article\Application\Service\CreateArticleApplication;
 use App\Article\Application\Service\DeleteArticleApplication;
 use App\Article\Application\Service\EditArticleApplication;
-use App\Article\Application\Service\IndexArticleApplication;
 use Exception;
+use Framework\Controller\AbstractCRUDController;
 use Framework\DependencyInjection\IContainer;
 use Framework\Renderer\IViewBuilder;
 use GuzzleHttp\Psr7\Response;
@@ -18,37 +20,58 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author mochiwa
  */
-class AdminArticleController {
+class AdminController extends AbstractCRUDController {
+    const INDEX="/admin/parking/";
+    
+    
     private $viewBuilder;
-    private $container;
+    
     function __construct(IContainer $container) {
-        $this->container=$container;
+        parent::__construct($container);
         $this->viewBuilder=$container->get(IViewBuilder::class);
     }
 
     public function __invoke(RequestInterface $request) : ResponseInterface{
         $action=$request->getAttribute('action');
         
-        if(method_exists($this, $action) && is_callable([$this,$action])){
+        if(method_exists(AbstractCRUDController::class, $action) && is_callable([$this,$action])){
                 return call_user_func([$this,$action],$request);
         }
-        return $this->redirectToIndex();
+        return $this->redirectTo(self::INDEX);
     }
 
-    private function index(RequestInterface $request) : ResponseInterface{
-        $appService=$this->container->get(IndexArticleApplication::class);
-        $appResponse=$appService->execute($request->getAttribute('page') ?? '1');
+    
+    
+    /*
+     * $appRequest=RegisterUserRequest::fromPost($request->getParsedBody());
+        $appService=$this->container->get(RegisterUserApplication::class);
+        $appResponse= call_user_func_array($this->atomicOperator,[$appService,[$appRequest]]);
         
-        $httpResponse=new Response(200);
-        $httpResponse->getBody()->write($this->viewBuilder->build('@article/admin/index',
+        if($appResponse->hasErrors())
+        {
+            $body=$this->viewBuilder->build('@user/register',[
+                'errors'=>$appResponse->getErrors(),
+                'user'=>$appResponse->getUserView()
+            ]);
+            return $this->buildResponse($body, 400);
+        }
+        return $this->requestActivation($appResponse->getUserView()->getUserName());
+     */
+    
+    
+    protected function index(RequestInterface $request) : ResponseInterface{
+        $appRequest= IndexRequest::of($request->getAttribute('articlePerPage'), $request->getAttribute('page'));
+        $appService=$this->container->get(IndexApplication::class);
+        $appResponse= call_user_func($appService,$appRequest);
+        
+        return $this->buildResponse($this->viewBuilder->build('@article/admin/index',
             ['articles' => $appResponse->getArticles(),
             'pagination'=>$appResponse->getPagination()]));
-        return $httpResponse;
     }
     
     
-    private function create(RequestInterface $request): ResponseInterface{
-        if($request->getMethod()!=='POST')
+    protected function create(RequestInterface $request): ResponseInterface{
+       /* if($request->getMethod()!=='POST')
         {
             $response = new Response(200);
             $response->getBody()->write($this->viewBuilder->build('@article/admin/createArticle'));
@@ -65,14 +88,14 @@ class AdminArticleController {
             return $this->responseWithErrors('@article/admin/createArticle',
                 ['errors'=>$response->getErrors(),'article'=>$response->getArticle()]);
         }
-        return $this->redirectToIndex(200);
+        return $this->redirectToIndex(200);*/
     }
     
    
     
-    private function edit(RequestInterface $request) : ResponseInterface
+    protected function edit(RequestInterface $request) : ResponseInterface
     {
-        $post = $request->getParsedBody();
+       /* $post = $request->getParsedBody();
         $id=$request->getAttribute('id');
         $service = $this->container->get(EditArticleApplication::class);
         $response=$service($id,$post);
@@ -80,20 +103,20 @@ class AdminArticleController {
         if($response->isEdited() || $response->isArticleNotFound()){
             return $this->redirectToIndex();
         }
-        return $this->responseWithErrors('@article/admin/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);
+        return $this->responseWithErrors('@article/admin/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);*/
     }
      
     
-    private function delete(RequestInterface $request)
+    protected function delete(RequestInterface $request) : ResponseInterface
     {
-        $service=$this->container->get(DeleteArticleApplication::class);
+     /*   $service=$this->container->get(DeleteArticleApplication::class);
         
         $response=$service($request->getAttribute('id'));
         if($response->hasErrors())
         {
             return $this->redirectToIndex(400);
         }
-        return $this->redirectToIndex();
+        return $this->redirectToIndex();*/
     }
     
     
@@ -104,12 +127,12 @@ class AdminArticleController {
      * @return string
      */
     private function extractPictureFromRequest(RequestInterface $request,string $field): string {
-        try {
+       /* try {
             return $request->getUploadedFiles()[$field]->getStream()->getMetadata('uri');
         } catch (Exception $ex) {
             
         }
-        return '';
+        return '';*/
     }
     
     /**
@@ -120,9 +143,9 @@ class AdminArticleController {
      * @return Response
      */
     private function responseWithErrors(string $view, $errors, int $status = 400,string $cause=''):ResponseInterface {
-        $response = new Response();
+      /*  $response = new Response();
         $response->getBody()->write($this->viewBuilder->build($view,  $errors ));
-        return $response->withStatus($status, $cause);
+        return $response->withStatus($status, $cause);*/
     }
 
     /**
@@ -130,9 +153,21 @@ class AdminArticleController {
      * @param int $code the status code 200 by default
      * @return ResponseInterface
      */
-    private function redirectToIndex(int $code=200) : ResponseInterface
+   /* private function redirectToIndex(int $code=200) : ResponseInterface
     {
         $response = new Response($code);
         return $response->withHeader('Location', '/admin/parking/index');
+    }*/
+
+    
+    
+    
+    protected function read(RequestInterface $request): ResponseInterface{
+        
     }
+
+    protected function udpate(RequestInterface $request): ResponseInterface {
+        
+    }
+
 }

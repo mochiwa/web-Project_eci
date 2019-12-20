@@ -1,6 +1,5 @@
 <?php
-
-namespace App\Article\Application\Service\Response;
+namespace App\Article\Application\Response;
 
 use Framework\Paginator\Pagination;
 

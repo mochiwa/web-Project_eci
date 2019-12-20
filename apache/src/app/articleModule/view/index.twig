@@ -1,6 +1,6 @@
 {% extends "layout.twig" %}
 
-{% block content %}
+{% block maincontent %}
     <h2 class="block__title block__title-center"> Our parking places</h2>
 
     <div class="container container-center container-article_preview">
@@ -36,7 +36,7 @@
     
 
 
-{% endblock content%}
+{% endblock maincontent%}
 
 {% macro pagination(pagination,urlName='#',action='index',slug='page') %}
     <div class="pagination">

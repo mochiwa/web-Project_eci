@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Article\Application\Service\Response;
+namespace App\Article\Application\Response;
 
 /**
  * The abstract Application response that whole app response

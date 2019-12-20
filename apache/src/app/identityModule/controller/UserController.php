@@ -176,4 +176,9 @@ class UserController extends AbstractController implements IUserController{
     {
         
     }
+
+    protected function index(RequestInterface $request): ResponseInterface {
+        $this->redirectTo(self::INDEX);
+    }
+
 }
