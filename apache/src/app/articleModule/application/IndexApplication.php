@@ -29,14 +29,20 @@ class IndexApplication {
     private $repository;
     
     /**
-     *
      * @var IRouter
      */
     private $router;
+    
+    /**
+     *
+     * @var Paginator 
+     */
+    private $paginator;
 
     public function __construct(IArticleRepository $repository, IRouter $router) {
         $this->repository = $repository;
         $this->router=$router;
+        $this->paginator=new Paginator($this->repository,self::DEFAULT_MAX_ARTICLE_PER_PAGE);
     }
 
     /**
@@ -47,26 +53,61 @@ class IndexApplication {
      * @return IndexResponse
      */
     public function __invoke(IndexRequest $request): IndexResponse {
-        $articlePerPage = $request->getArticlePerPage() ?? self::DEFAULT_MAX_ARTICLE_PER_PAGE;
-        $currrentPage = $request->getCurrentPage() ?? 1;
+        $this->paginator->setMaxDataPerPage($this->getArticlePerPage($request));
+        $currentPage = $this->getCurrentPage($request);
 
-        $paginator = new Paginator($this->repository, $articlePerPage);
+        $articles = $this->getArticles($currentPage);
+        $pagination=$this->paginator->getPagination($currentPage);
+        $paginationPoco=$this->buildPaginationPoco($pagination,$request->getIndexURL());
+
+        return IndexResponse::of($paginationPoco, $articles);
+    }
+    
+    /**
+     * 
+     * @param Paginator $paginator
+     * @param int $currentPage
+     * @return type
+     */
+    private function getArticles(int $currentPage){
         $articles = [];
-        foreach ($paginator->getDataForPage($currrentPage) as $article) {
+        foreach ($this->paginator->getDataForPage($currentPage) as $article) {
             $articles[] = ParkingPOCO::of($article);
         }
-        
-        $pagination=$paginator->getPagination($currrentPage);
-        
-        
-        $response = new IndexResponse($this->buildPaginationPoco($pagination,$request->getIndexURL()), $articles);
-        return $response;
+        return $articles;
     }
     
     
-    private function buildPaginationPoco(Pagination $pagination,string $url){
+    /**
+     * set the max article per page which paginator should generate.
+     * if request hasn't it , then return the self::DEFAULT_MAX_ARTICLE_PER_PAGE
+     * @param IndexRequest $request
+     * @return int
+     */
+    private function getArticlePerPage(IndexRequest $request) {
+        return $request->getArticlePerPage() ?? self::DEFAULT_MAX_ARTICLE_PER_PAGE;
+        
+    }
+    
+    /**
+     * Return the current page from the request,
+     * if request hasn't it , then return 1
+     * @param IndexRequest $request
+     * @return int
+     */
+    private function getCurrentPage(IndexRequest $request) : int{
+        return $request->getCurrentPage() ?? 1;
+    }
+    
+    /**
+     * Build a pagination poco.
+     * @param Pagination $pagination
+     * @param string $url
+     * @return type
+     */
+    private function buildPaginationPoco(Pagination $pagination,string $url):PaginationPoco{
         $pageLinks=[];
-        foreach ($pagination->getPages() as $key => $page) {
+        foreach ($pagination->getPages() as $page) {
             $pageLinks[strval($page)]=$this->getPageLink($page,$url);
         }
         return PaginationPoco::of($pagination->getCurrentPage(),
@@ -74,7 +115,12 @@ class IndexApplication {
                 $this->getPageLink($pagination->getPrevious(),$url),
                 $this->getPageLink($pagination->getNext(),$url));
     }
-    
+    /**
+     * Return a link to the page X at url index specified in the request
+     * @param string $page
+     * @param string $url
+     * @return string
+     */
     private function getPageLink(string $page,string $url): string
     {
         return $this->router->generateURL($url, ['action'=>'index','page'=>$page]);

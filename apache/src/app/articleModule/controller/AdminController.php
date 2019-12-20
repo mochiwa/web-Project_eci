@@ -41,28 +41,15 @@ class AdminController extends AbstractCRUDController {
     }
 
     
-    
-    /*
-     * $appRequest=RegisterUserRequest::fromPost($request->getParsedBody());
-        $appService=$this->container->get(RegisterUserApplication::class);
-        $appResponse= call_user_func_array($this->atomicOperator,[$appService,[$appRequest]]);
-        
-        if($appResponse->hasErrors())
-        {
-            $body=$this->viewBuilder->build('@user/register',[
-                'errors'=>$appResponse->getErrors(),
-                'user'=>$appResponse->getUserView()
-            ]);
-            return $this->buildResponse($body, 400);
-        }
-        return $this->requestActivation($appResponse->getUserView()->getUserName());
-     */
-    
-    
+
     protected function index(RequestInterface $request) : ResponseInterface{
         $appRequest= IndexRequest::of($request->getAttribute('articlePerPage'), $request->getAttribute('page'),'parking.admin.page');
         $appService=$this->container->get(IndexApplication::class);
         $appResponse= call_user_func($appService,$appRequest);
+        
+        if($appResponse->hasErrors()){
+            return $this->redirectTo(self::INDEX);
+        }
         
         return $this->buildResponse($this->viewBuilder->build('@article/admin/index',
             ['articles' => $appResponse->getArticles(),
@@ -135,18 +122,7 @@ class AdminController extends AbstractCRUDController {
         return '';*/
     }
     
-    /**
-     * Return a response with one or many errors
-     * @param string $view
-     * @param type $errors
-     * @param int $status
-     * @return Response
-     */
-    private function responseWithErrors(string $view, $errors, int $status = 400,string $cause=''):ResponseInterface {
-      /*  $response = new Response();
-        $response->getBody()->write($this->viewBuilder->build($view,  $errors ));
-        return $response->withStatus($status, $cause);*/
-    }
+
 
     /**
      * Return a response that redirect to the admin index

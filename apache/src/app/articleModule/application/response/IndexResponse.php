@@ -24,12 +24,15 @@ class IndexResponse extends AbstractApplicationResponse{
      */
     private $pagination;
     
-    public function __construct(PaginationPoco $pagination,array $articles=[]) {
+    protected function __construct(PaginationPoco $pagination,array $articles) {
         parent::__construct();
         $this->articles = $articles;
         $this->pagination = $pagination;
     }
-
+    
+    public static function of(PaginationPoco $pagination,array $articles=[]): self{
+        return new self($pagination,$articles);
+    }
     
     public function getArticles() : array {
         return $this->articles;

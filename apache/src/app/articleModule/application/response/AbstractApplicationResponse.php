@@ -15,7 +15,7 @@ abstract class AbstractApplicationResponse {
     private $errors=[];
     
     
-    public function __construct($errors=[]) {
+    protected function __construct($errors=[]) {
         $this->errors = $errors;
     }
     /**
