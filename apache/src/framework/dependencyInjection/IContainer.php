@@ -9,6 +9,8 @@ namespace Framework\DependencyInjection;
  * @author mochiwa
  */
 interface IContainer extends \Psr\Container\ContainerInterface{
+    const ADD='APPEND_ITEM_TO_CONTAINER';
+    
     /**
      * Append a set of rule , a 'definition'
      * @param array $definitions

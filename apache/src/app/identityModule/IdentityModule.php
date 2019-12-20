@@ -4,6 +4,7 @@ namespace App\Identity;
 
 use App\Identity\Controller\AdminController;
 use App\Identity\Controller\UserController;
+use Framework\DependencyInjection\IContainer;
 use Framework\Module\AbstractModule;
 use Framework\Renderer\IViewBuilder;
 use Framework\Router\IRouter;

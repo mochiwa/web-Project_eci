@@ -23,12 +23,39 @@ class Container  implements IContainer{
     
     
     /**
-     * Append a class reference in the container.
+     * Append a class reference in the container,
+     * if the instances array contain an instance of the older value then unset it
      * @param string   $key   the key to found class ,(recommended to use ::class)
-     * @param callable|string $closure function or string  that call the class with your own parameter
+     * @param callable|string|array $content function or string  that call the class with your own parameter
      */
-    public function set(string $key,  $closure) {
-        $this->container[$key] = $closure;
+    public function set(string $key,  $content) {
+        $this->container[$key] = $content;
+        
+        if(key_exists($key, $this->instances)){
+            unset($this->instances[$key]);
+        }
+        
+    }
+    
+    /**
+     * Append an content to the container,
+     * if the container hasn't the key then set it,
+     * if the container has the key ant it's an array then append content to the array
+     * else throw exception when container has key and it's not an array (use set instead)
+     * @param string $key
+     * @param array $content
+     * @throws ContainerException
+     */
+    public function add(string $key, array $content){
+        if(!$this->has($key)){
+            $this->set($key, $content);
+        }elseif(is_array($this->container[$key])){
+            foreach ( $content as $item){
+                array_push($this->container[$key],$item);
+            } 
+        }else{
+           throw new ContainerException('The container not contain array on this key : '.$key);
+        }
     }
 
     /**
@@ -37,8 +64,14 @@ class Container  implements IContainer{
      */
     public function appendDefinition(array $definitions){
         foreach ($definitions as $key => $value){
-            $this->set($key, $value);
+            if(is_array($value) && key_exists(IContainer::ADD, $value)){
+                $this->add($key, $value[IContainer::ADD]);
+            }else{
+                $this->set($key, $value);
+            }
         }
+        
+        
     }
     /**
      * Return an instance linked to the key, it use lazy loading

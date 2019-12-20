@@ -24,12 +24,12 @@ $container->appendDefinition(require_once(dirname(__DIR__).'/config/config.php')
 $app = new Application($container);
 
 $app->addModule(WebPageModule::class)
-    ->addModule(ArticleModule::class)
-    ->addModule(IdentityModule::class);
+    ->addModule(IdentityModule::class)
+    ->addModule(ArticleModule::class);
         
 $app->pipe(LastSlashRemoverMiddleware::class)
     ->pipe(RouterMiddleware::class)
-    ->pipe(ACLMiddleware::class)
+    //->pipe(ACLMiddleware::class)
     ->pipe(RouteDispatcherMiddleware::class)
     ->pipe(ErrorMiddleware::class);
 

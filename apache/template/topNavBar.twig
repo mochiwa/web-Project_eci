@@ -27,14 +27,11 @@
     </section>
 {% endblock header %}
 
-    {% macro navItem(text,href ,action={}) %}
+    {% macro navItem(text,href ,action={}, style='') %}
         {% set url = router(href,action) %}
-        {% set style = url is currentLink ? 'nav__item--selected'  %}
-        <a class="nav__item {{ style }}" href="{{ url }}">{{ text|capitalize }}</a>
+        <a class="nav__item {{ url is currentLink ? 'nav__item--selected'}}  {{ style }}" href="{{ url }}">{{ text|capitalize }}</a>
     {% endmacro navItem %}
 
     {% macro lastnavItem(text,href ,action={}) %}
-        {% set url = router(href,action) %}
-        {% set style = url is currentLink ? 'nav__item--selected'  %}
-        <a class="nav__item {{ style }} nav__item--last" href="{{ url }}">{{ text|capitalize }}</a>
+        {{  _self.navItem(text,href ,action,'nav__item--last') }}
     {% endmacro lastnavItem %}

@@ -1,0 +1,28 @@
+.contact{
+}
+
+.contact-map iframe{
+	height: 70vh;
+	border: none;
+
+	width: 100%;
+}
+
+.contact-information{
+	margin-top: 15px;
+	margin-bottom: 15px;
+
+	text-align: center;
+	line-height: 1.4em;
+}
+
+@media only screen and (min-width: 1000px){
+	.contact{
+		text-align: left;
+	}
+	.contact-map{
+	}
+	.contact-information{
+		margin: auto;
+	}
+}

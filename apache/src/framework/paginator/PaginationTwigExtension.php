@@ -36,8 +36,6 @@ class PaginationTwigExtension extends AbstractExtension{
         ];
     }
 
-    
-    
     public function pages(Pagination $pagination){
         return $pagination->getLinks();
     }

@@ -4,7 +4,6 @@ namespace App\Identity\Infrastructure\Service;
 
 use App\Identity\Model\User\IUserActivation;
 use App\Identity\Model\User\User;
-use Framework\Html\Link;
 use Framework\Router\IRouter;
 use Framework\Session\FlashMessage;
 use Framework\Session\SessionManager;
@@ -25,10 +24,9 @@ class ActivationByLink implements IUserActivation{
     public function sendActivationRequest(User $user) {
         $userId=$user->id()->idToString();
         $url=$this->router->generateURL('user.selected',['action'=>'activation','id'=>$userId]);
-        $htmlLink=new Link($url,'here');
         
         $this->sessionManager->setFlash(FlashMessage::success(''
-                . 'For validate your account please click '.$htmlLink->toHtml()));
+                . 'For validate your account please click <a href="'.$url.'" >here</a> '));
     }
 
     
