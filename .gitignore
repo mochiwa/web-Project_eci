@@ -3,9 +3,5 @@ node_modules/
 apache/public/dist/
 apache/vendor/
 nbproject/
-./apache/public/inMemory/*
-./apache/public/upload/*
-apache/public/inMemory/
-apache/public/upload/
-apache/public/*
-!apache/public/index.php
+apache/public/
+apache/public/index.php
