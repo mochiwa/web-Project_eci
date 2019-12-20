@@ -16,7 +16,7 @@
     {% endif %}
     
     {% if sessionHasFlashMessage()  %}
-        {{  flashBox.flashBox(flashMessage()) }}
+        {{  flashBox.build(flashMessage()) }}
     {% endif %}
     
     <form class="form" action="{{ router('user' , {'action': 'register' }) }}" method="post">
