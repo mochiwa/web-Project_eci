@@ -45,7 +45,6 @@ return [
         
     ],
             
-            
-    //TwigFactory::class => function($di){return new TwigFactory($di,new FilesystemLoader(dirname(__DIR__).'/template'));},
+      
     IViewBuilder::class => function ($di){return $di->get(TwigFactory::class)($di->get('twig.extension'));},  
 ];

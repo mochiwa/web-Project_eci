@@ -1,0 +1,10 @@
+{% extends "@user/signIn.twig" %}
+{% block head_title %} Administrator sign in {% endblock head_title %}
+
+{% block content_title %}
+    <h1 class="block__title form__title">Administrator sign in </h1>
+{% endblock content_title %}
+
+{% block formAction %}
+    {{ router('admin' , {'action': 'signIn' }) }}
+{% endblock formAction %}

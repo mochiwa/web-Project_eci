@@ -17,7 +17,7 @@
         {{  flashBox.build(flashMessage()) }}
     {% endif %}
     
-    <form class="form" action="{{ router('user' , {'action': 'signIn' }) }}" method="post">
+    <form class="form" action="{% block formAction %} {{ router('user' , {'action': 'signIn' }) }} {% endblock formAction %}" method="post">
         <div class="form-section form-section-fields"> 
             {{  userForm.input('username','Your username',user.username,'text') }}
             {{  userForm.input('password','Your password',user.password,'password') }}

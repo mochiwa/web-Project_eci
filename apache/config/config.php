@@ -33,17 +33,7 @@ return [
             
     TwigFactory::class => function($di){return new TwigFactory($di,new FilesystemLoader(dirname(__DIR__).'/template'));},
     IViewBuilder::class => function ($di){return $di->get(TwigFactory::class)($di->get('twig.extension'));},        
-                   
-   /* IViewBuilder::class => function ($di){
-        $loader=new FilesystemLoader(dirname(__DIR__).'/template');
-        $twig=new Environment($loader);
-        $twig->addExtension($di->get(RouterTwigExtension::class));
-        $twig->addExtension($di->get(SessionTwigExtension::class));
-        $twig->addExtension($di->get(PaginationTwigExtension::class));
-        
-        return new TwigViewBuilder($loader, $twig);
-    },*/
-        
+
     ACLMiddleware::class=>function($di){ return new ACLMiddleware(
             $di->get(SessionManager::class),
             ACL::fromArray(include_once 'acl.php')
