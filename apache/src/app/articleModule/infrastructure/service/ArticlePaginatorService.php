@@ -11,7 +11,7 @@ use InvalidArgumentException;
  *
  * @author mochiwa
  */
-class ParkingPaginatorService implements IPaginatorService{
+class ArticlePaginatorService implements IPaginatorService{
     /**
      *
      * @var IArticleRepository
@@ -24,14 +24,12 @@ class ParkingPaginatorService implements IPaginatorService{
     }
     
     public function getDataForPage(int $currentPage, int $articlePerPage): array {
-        if($articlePerPage<=0){
-            throw new InvalidArgumentException('The count of article per page must be supperior thant 0');
-        }
-        if($currentPage<=0 || $this->pageCount($articlePerPage)<$currentPage){
+        if($articlePerPage<=0 || $currentPage<=0 || $this->pageCount($articlePerPage)<$currentPage){
             return [];
         }
         
-        return $this->articleRepository->getASetOfArticles($currentPage, $articlePerPage);
+        $firstIndex= ($currentPage-1) * $articlePerPage;
+        return $this->articleRepository->setOfArticles($firstIndex, $articlePerPage);
                 
     }
     

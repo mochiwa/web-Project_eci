@@ -5,6 +5,7 @@ use App\Article\Application\Poco\PaginationPoco;
 use App\Article\Application\Poco\ParkingPOCO;
 use App\Article\Application\Request\IndexRequest;
 use App\Article\Application\Response\IndexResponse;
+use App\Article\Infrastructure\Service\ArticlePaginatorService;
 use App\Article\Model\Article\IArticleRepository;
 use Framework\Paginator\Pagination;
 use Framework\Paginator\Paginator;
@@ -35,15 +36,14 @@ class IndexApplication {
     
     /**
      *
-     * @var Paginator 
+     * @var ArticlePaginatorService 
      */
     private $paginator;
 
     public function __construct(IArticleRepository $repository, IRouter $router) {
         $this->repository = $repository;
         $this->router=$router;
-        $this->paginator=new \App\Article\Infrastructure\Service\ParkingPaginatorService($this->repository);
-        //$this->paginator=new Paginator($this->repository,self::DEFAULT_MAX_ARTICLE_PER_PAGE);
+        $this->paginator=new ArticlePaginatorService($this->repository);
     }
 
     /**
@@ -54,7 +54,6 @@ class IndexApplication {
      * @return IndexResponse
      */
     public function __invoke(IndexRequest $request): IndexResponse {
-        //$this->paginator->setMaxDataPerPage($this->getArticlePerPage($request));
         $currentPage = $this->getCurrentPage($request);
         $maxArticlePerPage=$this->getArticlePerPage($request);
         

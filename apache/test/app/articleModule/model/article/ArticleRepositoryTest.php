@@ -3,6 +3,7 @@ namespace Test\App\Article\Model\Article;
 
 use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\EntityNotFoundException;
+use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Title;
 use PHPUnit\Framework\TestCase;
 use Test\App\TestHelper;
@@ -18,6 +19,10 @@ use Test\App\TestHelper;
  * @author mochiwa
  */
 abstract class ArticleRepositoryTest extends TestCase{
+    /**
+     *
+     * @var IArticleRepository
+     */
     protected $repository;
     
     function test_nextId_shouldGenerateNewId_whenItCalled(){
@@ -112,40 +117,40 @@ abstract class ArticleRepositoryTest extends TestCase{
     }
     
     
-    function test_Paginable_dataCount_shouldReturn0_whenThereAreNoArticle()
+    function test_sizeof_shouldReturn0_whenThereAreNoArticle()
     {
-        $this->assertEquals(0, $this->repository->dataCount());
+        $this->assertEquals(0, $this->repository->sizeof());
     }
-    function test_Paginable_dataCount_shouldReturn1_whenThereAreOneArticle()
+    function test_sizeof_shouldReturn1_whenThereAreOneArticle()
     {
         $this->repository->addArticle(TestHelper::get()->makeArticle('aaa'));
-        $this->assertEquals(1, $this->repository->dataCount());
+        $this->assertEquals(1, $this->repository->sizeof());
     }
-    function test_Paginable_getForPagination_shouldReturnArrayWith3Article_whenMaxIs3AndCurrentIs0()
+    function test_getASetOfArticles_shouldReturnArrayWith3Article_whenMaxIs3AndCurrentIs0()
     {
         $this->repository->addArticle(TestHelper::get()->makeArticle('aaa'));
         $this->repository->addArticle(TestHelper::get()->makeArticle('bbb'));
         $this->repository->addArticle(TestHelper::get()->makeArticle('ccc'));
-        $this->assertEquals(3, sizeof($this->repository->getForPagination(0,3)));
+        $this->assertEquals(3, sizeof($this->repository->setOfArticles(0,3)));
     }
-    function test_Paginable_getForPagination_shouldReturnEmptyArray_whenCurrentIsSupperiorThanSizeOfData()
+    function test_getASetOfArticles_shouldReturnEmptyArray_whenCurrentIsSupperiorThanSizeOfData()
     {
         $this->repository->addArticle(TestHelper::get()->makeArticle('aaa'));
-        $this->assertEquals(0, sizeof($this->repository->getForPagination(3,3)));
+        $this->assertEquals(0, sizeof($this->repository->setOfArticles(3,3)));
     }
-    function test_Paginable_getForPagination_shouldReturnEmptyArray_whenTheyAreNoData()
+    function test_getASetOfArticles_shouldReturnEmptyArray_whenTheyAreNoData()
     {
-        $this->assertEquals(0, sizeof($this->repository->getForPagination(0,3)));
+        $this->assertEquals(0, sizeof($this->repository->setOfArticles(0,3)));
     }
     
-    function test_Paginable_getForPagination_shouldReturn2Article_whenTheyAre5DataAndCurrentEquals3AndMaxEquals5()
+    function test_getASetOfArticles_shouldReturn2Article_whenTheyAre5DataAndCurrentEquals3AndMaxEquals5()
     {
         $this->repository->addArticle(TestHelper::get()->makeArticle('aaa'));
         $this->repository->addArticle(TestHelper::get()->makeArticle('bbb'));
         $this->repository->addArticle(TestHelper::get()->makeArticle('ccc'));
         $this->repository->addArticle(TestHelper::get()->makeArticle('ddd'));
         $this->repository->addArticle(TestHelper::get()->makeArticle('eee'));
-        $this->assertEquals(2, sizeof($this->repository->getForPagination(3,5)));
+        $this->assertEquals(2, sizeof($this->repository->setOfArticles(3,5)));
     }
     
 }

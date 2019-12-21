@@ -72,12 +72,12 @@ interface IArticleRepository {
     public function update(Article $article): void;
     
     /**
-     * Should return a set of article from [beginning,...,ending]
+     * Should return a set of article from [beginning,...,(beginning+articleCount)]
      * @param int $beginningIndex
-     * @param int $endingIndex
+     * @param int $articleCount
      * @return array
      */
-    public function getASetOfArticles(int $beginningIndex,int $endingIndex):array;
+    public function setOfArticles(int $beginningIndex,int $articleCount):array;
     
     /**
      * should return the count of article  stored in repository
