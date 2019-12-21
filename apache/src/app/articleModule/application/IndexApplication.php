@@ -22,7 +22,7 @@ class IndexApplication {
      * WHen the IndexRequest not specified the count of article per page
      * this value is used
      */
-    const DEFAULT_MAX_ARTICLE_PER_PAGE = 2;
+    const DEFAULT_MAX_ARTICLE_PER_PAGE = 8;
 
     /**
      * @var IArticleRepository 

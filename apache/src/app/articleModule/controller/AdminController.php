@@ -43,7 +43,7 @@ class AdminController extends AbstractCRUDController {
     
 
     protected function index(RequestInterface $request) : ResponseInterface{
-        $appRequest= IndexRequest::of($request->getAttribute('articlePerPage'), $request->getAttribute('page'),'parking.admin.page');
+        $appRequest= IndexRequest::of($request->getAttribute('articlePerPage'), $request->getAttribute('page'),'admin.parking.page');
         $appService=$this->container->get(IndexApplication::class);
         $appResponse= call_user_func($appService,$appRequest);
         
