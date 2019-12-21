@@ -1,0 +1,63 @@
+
+{#
+    The macro are responsible to create base input component for a form
+#}
+
+
+{#
+    Create an input with :
+    @name   text    :   the input name
+    @label  text    :   the label value
+    @value  text    :   the value to insert into the field
+    @type   text    :   the input type , 'text' by default
+    @styles array   :   Array of style { div , label , input }
+#}
+{% macro input(name,label,value='',type='text') %}
+    {% from "input.macro.twig" import input %}
+    {{ input(name,label,value,type) }}
+{% endmacro input%}
+
+{#
+    Create a textArea with :
+    @name   text    :   the input name
+    @label  text    :   the label value
+    @value  text    :   the value to insert into the field
+    @type   text    :   the input type , 'text' by default
+    @styles array   :   Array of style { div , label , input }
+#}
+{% macro textArea(name,label,value='') %}
+    {% from "input.macro.twig" import textArea %}
+    {{ textArea(name,label,value) }}
+{% endmacro %}
+
+{#
+    Create a submit button with :
+    @value  text    :   the value to printed
+    @name   text    :   the input name
+    @styles text    :   css style     
+#}
+{% macro submit(value,name) %}
+    {% from "input.macro.twig" import submit %}
+    {{ submit(value,name) }}
+{% endmacro %}
+
+{#
+    Create a link for form with :
+    @value  text    :   the value printed
+    @href   text    :   the href
+    @styles text    :   css style
+#}
+{% macro link(value,href) %}
+    {% from "input.macro.twig" import link %}
+    {{ link(value,href) }}
+{% endmacro %}
+
+{#
+    Create a section error with a <p> for each error:
+    @errors   :  array of errors like => {errors : {error1: lorem,...}} or {errors : an error } 
+    @styles text    :   css style {section , message}
+#}
+{% macro errorSection(errors) %}
+    {% from "input.macro.twig" import errorSection %}
+    {{ errorSection(errors) }}
+{% endmacro %}

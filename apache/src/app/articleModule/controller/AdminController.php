@@ -4,14 +4,9 @@ namespace App\Article\Controller;
 
 use App\Article\Application\IndexApplication;
 use App\Article\Application\Request\IndexRequest;
-use App\Article\Application\Service\CreateArticleApplication;
-use App\Article\Application\Service\DeleteArticleApplication;
-use App\Article\Application\Service\EditArticleApplication;
-use Exception;
 use Framework\Controller\AbstractCRUDController;
 use Framework\DependencyInjection\IContainer;
 use Framework\Renderer\IViewBuilder;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -21,9 +16,11 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class AdminController extends AbstractCRUDController {
-    const INDEX="/admin/parking/";
+    const INDEX="/admin/parking/index";
     
-    
+    /**
+     * @var IViewBuilder
+     */
     private $viewBuilder;
     
     function __construct(IContainer $container) {
@@ -58,6 +55,11 @@ class AdminController extends AbstractCRUDController {
     
     
     protected function create(RequestInterface $request): ResponseInterface{
+        
+       if(!$this->isPostRequest($request)){
+           return $this->buildResponse($this->viewBuilder->build('@article/admin/create'));
+       } 
+        
        /* if($request->getMethod()!=='POST')
         {
             $response = new Response(200);

@@ -1,0 +1,85 @@
+{#
+    The macro are responsible to create base input component for a form
+#}
+
+
+{#
+    Create an input with :
+    @name   text    :   the input name
+    @label  text    :   the label value
+    @value  text    :   the value to insert into the field
+    @type   text    :   the input type , 'text' by default
+    @styles array   :   Array of style { div , label , input }
+#}
+{% macro input(name,label,value='',type='text',styles={}) %}
+<div id="div-section-{{ name }}" class="form-section {{styles.div}} ">
+    <label id="label-{{ name }}" class="form__item {{ styles.label }}" for="{{ name }}"> {{ label }} </label>
+    <input id="input-{{ name }}" class="form__input {{ styles.input}}"  name="{{ name }}" type="{{ type }}" value="{{ value }}" />
+</div>
+{% endmacro input %}
+
+{#
+    Create a textArea with :
+    @name   text    :   the input name
+    @label  text    :   the label value
+    @value  text    :   the value to insert into the field
+    @type   text    :   the input type , 'text' by default
+    @styles array   :   Array of style { div , label , input }
+#}
+{% macro textArea(name,label,value='',styles={}) %}
+    <div id="div-{{ name }}" class="form-section {{styles.div}} ">
+        <label id="label-{{ name }}" class="form__item {{ styles.label }}" for="{{ name }}"> {{ label }} </label>
+        <textarea id="input-{{ name }}" class="form__input {{ styles.input}}"  name="{{ name }}" value="{{ value }}" ></textarea>
+    </div>
+{% endmacro %}
+
+{#
+    Create a submit button with :
+    @value  text    :   the value to printed
+    @name   text    :   the input name
+    @styles text    :   css style     
+#}
+{% macro submit(value,name,style) %}
+    <input id="button-{{ name }}" class="button form__button {{ style }}" type="submit" value="{{ value }}" />
+{% endmacro %}
+
+{#
+    Create a link for form with :
+    @value  text    :   the value printed
+    @href   text    :   the href
+    @styles text    :   css style
+#}
+{% macro link(value,href,style) %}
+    <a  href="{{ href }}" class="{{ style }}">{{ value }}</a>
+{% endmacro %}
+
+{#
+    Create a section error with a <p> for each error:
+    @errors   :  array of errors like => {errors : {error1: lorem,...}} or {errors : an error } 
+    @styles text    :   css style {section , message}
+#}
+{% macro errorSection(errors,styles={}) %}
+    <div class="form-section-errors {{ styles.section }}">
+        {% for error in errors %}
+            {{ _self.errorMessage(error,styles.message) }}
+        {% endfor %}
+    </div>
+{% endmacro %}
+{#
+    Create <p> for each error:
+    @errors   :  array of errors
+#}
+{% macro errorMessage(errors={},style='') %}
+    {% if errors is not iterable %}
+        <p class="form-field-error-message {{ style }}"> {{ errors }}</p>   
+    {% else %}
+        {% for error in errors %}
+            {% if error is iterable %}
+                {{ _self.errorMessage(error) }}
+            {% else %}
+                <p class="form-field-error-message {{ style }}"> {{ error }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+{% endmacro %}
