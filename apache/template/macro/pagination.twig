@@ -1,0 +1,9 @@
+{% macro build(pagination) %}
+    <div class="pagination">
+        <a class="pagination__item" href="{{ pagination.previousPage }}"> {{ '<<'|escape }} </a>
+        {% for key,page in pagination.setOfPage %}
+            <a class="pagination__item" href="{{ page }}"> {{ key }}  </a>
+        {% endfor %}
+        <a class="pagination__item" href="{{ pagination.nextPage }}"> {{ '>>'|escape }} </a>
+    </div>
+{% endmacro %}

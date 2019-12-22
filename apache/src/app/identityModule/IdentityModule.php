@@ -4,6 +4,7 @@ namespace App\Identity;
 
 use App\Identity\Controller\AdminController;
 use App\Identity\Controller\UserController;
+use Framework\DependencyInjection\IContainer;
 use Framework\Module\AbstractModule;
 use Framework\Renderer\IViewBuilder;
 use Framework\Router\IRouter;
@@ -22,7 +23,7 @@ class IdentityModule extends AbstractModule{
         $router->map('GET|POST', '/user/[a:action]-[a:id]', UserController::class,'user.selected');
         
         
-        $router->map('GET|POST', '/admin/[a:action]', AdminController::class,'user.admin');
+        $router->map('GET|POST', '/admin/user/[a:action]', AdminController::class,'user.admin');
         
         $viewBuilder->addPath('user', __DIR__.'/view');
     }

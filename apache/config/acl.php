@@ -18,7 +18,7 @@ return[
             ],
             ACL::DENY_INDEX=>[
                 AbstractTarget::ControllerAction(UserController::class,'register'),
-                AbstractTarget::ControllerAction(App\Article\Controller\AdminArticleController::class,'register')
+                AbstractTarget::ControllerAction(App\Article\Controller\AdminController::class,'register')
             ]
         ],
         'user'=>[

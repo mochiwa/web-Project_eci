@@ -1,0 +1,22 @@
+{% macro build(flashMessage) %}
+    
+    {{ flashMessage.isError ? _self.error(flashMessage) : _self.success(flashMessage)   }}
+   
+{% endmacro %}
+
+
+
+{% macro flashBox(message='', style='' , isRaw=false) %}
+    <div class="flashBox {{ style }}">
+        <p class="flashBox__message">{{ isRaw ? message|raw : message }}</p>
+    </div>
+{% endmacro flashBox %}
+
+
+{% macro error(flashMessage) %}
+    {{ _self.flashBox(flashMessage.message , 'flashBox-error',true) }}
+{% endmacro error %}
+
+{% macro success(flashMessage) %}
+    {{ _self.flashBox(flashMessage.message , 'flashBox-success',true) }}
+{% endmacro success %}

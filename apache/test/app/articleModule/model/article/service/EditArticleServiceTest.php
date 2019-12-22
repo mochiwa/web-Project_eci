@@ -1,10 +1,15 @@
 <?php
 namespace Test\Article\Model\Article\Service;
+
 use App\Article\Model\Article\ArticleException;
+use App\Article\Model\Article\ArticleId;
+use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\EntityNotFoundException;
 use App\Article\Model\Article\IArticleRepository;
+use App\Article\Model\Article\Picture;
 use App\Article\Model\Article\Service\EditArticleService;
 use App\Article\Model\Article\Service\Request\EditArticleRequest;
+use App\Article\Model\Article\Title;
 use PHPUnit\Framework\TestCase;
 use Test\App\TestHelper;
 
@@ -24,19 +29,19 @@ class EditArticleServiceTest extends TestCase{
     {
         $this->repository=$this->createMock(IArticleRepository::class);
         $this->service=new EditArticleService($this->repository);
-        $this->request=new EditArticleRequest('aaa','ArticleTitle',['att'=>"value"],"Description");
+        $this->request=EditArticleRequest::of(ArticleId::of('aaa'),Title::of('ArticleTitle'), Picture::of(''),[Attribute::of('key', 'value')],"Description");
         
     }
     
-    function test_execute_shouldThrowEntityNotFoundException_whenArticleNotFoundInRepository()
+    function test_invoke_shouldThrowEntityNotFoundException_whenArticleNotFoundInRepository()
     {
         $this->repository->method('isArticleIdExist')->willReturn(false);
         
         $this->expectException(EntityNotFoundException::class);
-        $this->service->execute($this->request);
+        call_user_func($this->service,$this->request);
     }
     
-    function test_execute_shouldThrowArticleException_whenArticleTitleIsAlreadyUsedByAnotherArticle()
+    function test_invoke_shouldThrowArticleException_whenArticleTitleIsAlreadyUsedByAnotherArticle()
     {
         $original= TestHelper::get()->makeArticle('aaa','ArticleTitle');
         $this->repository->method('isArticleIdExist')->willReturn(true);
@@ -45,10 +50,10 @@ class EditArticleServiceTest extends TestCase{
         $this->repository->method('findByTitle')->willReturn(TestHelper::get()->makeArticle('bbb','ArticleTitle'));
         
         $this->expectException(ArticleException::class);
-        $this->service->execute($this->request);
+        call_user_func($this->service,$this->request);
     }
     
-    function test_execute_shouldCommitChange_whenArticleTitleItIsSameAsOriginal()
+    function test_invoke_shouldCommitChange_whenArticleTitleItIsSameAsOriginal()
     {
         $original= TestHelper::get()->makeArticle('aaa','ArticleTitle');
         $this->repository->method('isArticleIdExist')->willReturn(true);
@@ -57,10 +62,10 @@ class EditArticleServiceTest extends TestCase{
         $this->repository->method('findByTitle')->willReturn($original);
         
         $this->repository->expects($this->once())->method('update');
-        $this->service->execute($this->request);
+        call_user_func($this->service,$this->request);
     }
     
-     function test_execute_shouldCommitChange_whenArticleTitleIsNotUsed()
+     function test_invoke_shouldCommitChange_whenArticleTitleIsNotUsed()
     {
         $original= TestHelper::get()->makeArticle('aaa','ArticleTitle');
         $this->repository->method('isArticleIdExist')->willReturn(true);
@@ -68,10 +73,10 @@ class EditArticleServiceTest extends TestCase{
         $this->repository->method('isArticleTitleExist')->willReturn(false);
         
         $this->repository->expects($this->once())->method('update');
-        $this->service->execute($this->request);
+        call_user_func($this->service,$this->request);
     }
     
-    function test_execute_shouldNotUpdateThePicture_whenItIsEmpty()
+    function test_invoke_shouldNotUpdateThePicture_whenItIsEmpty()
     {
         $original= TestHelper::get()->makeArticle('aaa','ArticleTitle','my/picture');
         $this->repository->method('isArticleIdExist')->willReturn(true);
@@ -80,10 +85,10 @@ class EditArticleServiceTest extends TestCase{
         
         $this->repository->expects($this->once())->method('update')->
                 with($this->callback(function($article) use($original) {return $article->picture()==$original->picture();}));
-        $this->service->execute($this->request);
+        call_user_func($this->service,$this->request);
     }
     
-    function test_execute_shouldUpdateThePicture_whenItIsNotEmpty()
+    function test_invoke_shouldUpdateThePicture_whenItIsNotEmpty()
     {
         $original= TestHelper::get()->makeArticle('aaa','ArticleTitle','my/picture');
         $this->repository->method('isArticleIdExist')->willReturn(true);
@@ -92,6 +97,6 @@ class EditArticleServiceTest extends TestCase{
         
         $this->repository->expects($this->once())->method('update')->
                 with($this->callback(function($article) use($original) {return $article->picture()==$original->picture();}));
-        $this->service->execute($this->request);
+        call_user_func($this->service,$this->request);
     }
 }

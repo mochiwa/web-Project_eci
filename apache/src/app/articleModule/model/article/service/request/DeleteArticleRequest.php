@@ -8,19 +8,30 @@
 
 namespace App\Article\Model\Article\Service\Request;
 
+use App\Article\Model\Article\ArticleId;
+
 /**
  * Description of DeleteArticleRequest
  *
  * @author mochiwa
  */
 class DeleteArticleRequest {
+    
+    /**
+     *
+     * @var ArticleId 
+     */
     private $articleId;
     
-    public function __construct(string $articleId) {
+    private function __construct(ArticleId $articleId) {
         $this->articleId=$articleId;
     }
     
-    public function getArticleId():string
+    public static function of(ArticleId $id):self{
+        return new self($id);
+    }
+    
+    public function getArticleId(): ArticleId
     {
         return $this->articleId;
     }

@@ -1,0 +1,39 @@
+{% extends "layout_block.twig" %}
+{% import '@user/macro/formInput.twig' as form %}
+{% import 'macro/flashbox.twig' as flashBox %}
+
+{% block head_title %} Register {% endblock head_title %}
+
+
+
+{% block content_title %}
+    <h1 class="block__title form__title">Register</h1>
+{% endblock content_title %}
+
+{% block content %}
+    {% if errors is not empty %}
+        {{ form.errorSection(errors) }}
+    {% endif %}
+    
+    {% if sessionHasFlashMessage()  %}
+        {{  flashBox.build(flashMessage()) }}
+    {% endif %}
+    
+    <form class="form" action="{{ router('user' , {'action': 'register' }) }}" method="post">
+        <div class="form-section form-section-fields"> 
+            {{  form.input('email','Your email',user.email,'email') }}
+            {{  form.input('username','Your username',user.username,'text') }}
+            {{  form.input('password','Your password','','password') }}
+            {{  form.input('passwordConfirmation','Password confirmation','','password') }}
+        </div>
+        <div class="form-section form-section-buttons"> 
+            {{  form.submit('register','Register','submit','button') }}
+            {{  form.link('cancel',  router('webpage.home') , 'form__button form__cancel' ) }}
+        </div> 
+        <div class="form-section form-section-links">
+            <nav class='nav'>
+                {{  form.link('Do you alreay have an account ?',  router('user',{'action':'signIn'}),'nav__item' ) }}
+            </nav>
+        </div> 
+    </form>
+{% endblock content %}

@@ -13,10 +13,14 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 abstract class AbstractController {
+    const BAD_REQUEST = 400;
+    const FORBIDDEN = 403;
+    const OK=200;
+    
     /**
      * This constant should be the default action of the controller
      */
-    const INDEX="";
+    const INDEX="/index";
     
     /**
      * the dependency injector
@@ -29,6 +33,7 @@ abstract class AbstractController {
         $this->container=$container;
     }
     
+    
     /**
      * This method dispatch the action from the URL , if a method name match
      * with the action then return its result ,
@@ -38,6 +43,12 @@ abstract class AbstractController {
      */
     public abstract function __invoke(RequestInterface $request) : ResponseInterface;
     
+    
+    
+    /**
+     * This method is the default route that every controller must implement.
+     */
+    protected abstract function index(RequestInterface $request) : ResponseInterface;
     
     /**
      * Return an Response interface built with the body

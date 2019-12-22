@@ -12,6 +12,7 @@
 @import url("layout/l-form.css");
 @import url("layout/l-table.css");
 @import url("layout/l-article.css");
+@import url("layout/l-contact.css");
 
 /***********************************\
 			   Module
@@ -30,6 +31,7 @@
 @import url('module/pagination.css');
 
 @import url('module/article.css');
+@import url('module/contact.css');
 
 /***********************************\
 			   State

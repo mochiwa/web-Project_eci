@@ -12,7 +12,17 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/framework/renderer/IViewBuilder.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/response/ArticleApplicationResponse.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/model/article/service/CreateArticleService.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/request/CreateArticleRequest.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/app/articleModule/model/article/service/CreateArticleServiceTest.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/model/article/Title.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/poco/ParkingPOCO.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/model/article/Article.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/CreateArticleApplication.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/view/viewFactory/FormBuilder.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/src/app/articleModule/application/service/CreateArticleApplication.php</file>
+            <file>file:/home/mochiwa/Laboratory/programming/web/lab/apache/test/app/articleModule/application/CreateArticleApplicationTest.php</file>
         </group>
     </open-files>
 </project-private>

@@ -1,6 +1,5 @@
 .form{
 }
-
 	.form-section{
 		display: flex; 
 
@@ -11,9 +10,9 @@
 			padding: 0 15px;
 		}
 		.form-section-buttons{
-			flex-direction: column-reverse;
-			
+			flex-direction: column;
 			padding: 5px 15px;
+                        margin: 10px;
 		}
 		.form-section-links{
 		
@@ -37,7 +36,7 @@
 		justify-content: space-between;
 	}
 	.form-section-buttons{
-		flex-direction: row;
+		flex-direction: row-reverse;
 			
 		padding: 5px 15px;
 	}

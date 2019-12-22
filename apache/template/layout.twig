@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+            <title>{% block head_title %}{% endblock head_title %} - JohnCar</title>
+            <meta name="description" content="sightseeing the most beautiful parkings from belgium">
+            <meta charset="utf-8">
+            <link rel="stylesheet" type="text/css" href="/dist/app.css">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container container-main">
+            <header class="container container-header">
+                {% block header %}
+                    {% include 'topNavBar.twig' %}
+                    <section class="main-header">
+                        <div class="main-header-textArea">
+                            <h2 class="main-header-textArea__title">John car</h2>
+                            <p class="main-header-textArea__subtitle">sightseeing the most beautiful parking from Belgium</p>
+                        </div>
+                    </section>
+                {% endblock %}
+            </header>
+            <main class="container container-content">
+                {% block mainContent %}{% endblock mainContent%}
+            </main>
+            
+            <footer  class="container container-footer">
+                <footer  class="container container-footer">
+                    <section class="main-footer">
+                        <p class="main-footer__text"> Reproduction of site is authorized only for informative purposes and strictly for personal, private use. © 2019  JohnCar.be</p>	
+                    </section>
+                    {% block javascript %}<script type="text/javascript" src="/dist/app.js"></script>{% endblock javascript %}
+                </footer>
+            </footer>
+            <script type="text/javascript" src="/dist/app.js"></script>
+        </div>
+    </body>
+</html>
+
+

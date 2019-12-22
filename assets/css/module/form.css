@@ -4,10 +4,8 @@
 		margin-bottom: 10px;
 
 		background-color: var(--black);
-
-		text-align: center;
-		font-size: 1.6em;
 		color: var(--white);
+                text-align:center;
 	}
 	.form__item{
 		margin: 15px 0;
@@ -30,33 +28,35 @@
 
 	}
 	.form__button{
-		width: 100%;
-		padding: 5px;
-		font-size: 1.1em;
-		margin: 0;
+            width: 100%;
+            padding: 5px ;
+            font-size: 1.1em;
+            margin: 0;
 	}
 	.form__cancel{
+            margin-top: 10px;
+            text-align: center;
 	}
 
 	.form-section-links{
-		text-align: center;
+            text-align: center;
 		
 	}
 	.form-section-links .nav__item{
-		font-size: 1em;
-		margin: 0;
-		line-height: 1.2em;
+            font-size: 1em;
+            margin: 0;
+            line-height: 1.2em;
 
-		color: #2b66c4;
+            color: #2b66c4;
 	}
 	.form-section-links .nav__item:hover{
-		color:#3879e0
+            color:#3879e0
 	}
 	.form-section-links p{
-		color: black !important;
+            color: black !important;
 	}
 	.form-section-links p:hover{
-		color: inherit;
+            color: inherit;
 	}
 
 .form-section-errors{
@@ -79,12 +79,15 @@
 	}
 	.form-field-error-message:before{content: "# ";}
 
-@media only screen and (min-width: 1000px){
+@media only screen and (min-width: 700px){
 	.form__button{
-		width: auto;
+            width: auto;
+            padding: 2px 50px;
 	}
 
 	.form__cancel{
+            margin: auto 30px;
+            padding: 0;
 	}
 
 	.form-section-links .nav__item{

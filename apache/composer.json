@@ -42,6 +42,10 @@
             "App\\Article\\Controller\\" : "./src/app/articleModule/controller",
             
             "App\\Article\\Application\\" : "./src/app/articleModule/application",
+            "App\\Article\\Application\\Request\\" : "./src/app/articleModule/application/request",
+            "App\\Article\\Application\\Response\\" : "./src/app/articleModule/application/response",
+            "App\\Article\\Application\\Poco\\" : "./src/app/articleModule/application/poco",
+            
             "App\\Article\\Application\\Service\\" : "./src/app/articleModule/application/service",
             "App\\Article\\Application\\Service\\Response\\" : "./src/app/articleModule/application/service/response",
             "App\\Article\\Application\\Service\\Request\\" : "./src/app/articleModule/application/service/request",
@@ -57,8 +61,13 @@
             "App\\Article\\View\\" : "./src/app/articleModule/view",
             "App\\Article\\view\\ViewFactory\\" : "./src/app/articleModule/view/viewFactory",
 
-            "App\\Article\\Validation\\" : "./src/app/articleModule/validation",
             "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory",
+            "App\\Article\\Infrastructure\\Service\\" : "./src/app/articleModule/infrastructure/service",
+            "App\\Article\\Infrastructure\\Validation\\" : "./src/app/articleModule/infrastructure/validation",
+            
+            
+            
+            
             
             "App\\Identity\\": "./src/app/identityModule",
             "App\\Identity\\Controller\\": "./src/app/identityModule/controller",
@@ -93,7 +102,8 @@
         "altorouter/altorouter": "^2.0.1",
         "http-interop/response-sender": "^1.0",
         "psr/container": "^1.0",
-        "vlucas/valitron": "^1.4"
+        "vlucas/valitron": "^1.4",
+        "twig/twig":"^2.0"
     },
     
     

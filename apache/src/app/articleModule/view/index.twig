@@ -1,0 +1,41 @@
+{% extends "layout.twig" %}
+{% import 'macro/pagination.twig' as paginator %}
+
+{% block mainContent %}
+    <h2 class="block__title block__title-center"> Our parking places</h2>
+
+    <div class="container container-center container-article_preview">
+        
+        {% for article in articles %}
+            <article class="block article article_preview">
+                <header class="article_preview-header">
+                    <h2 class="article__title"><a href="{{ router('article.selected',{'action':'show','id': article.id} ) }}">{{ article.title }}</a></h2>
+                    <img class="article__picture" src="{{ article.picture  }}">
+                </header>
+
+                <div class="article_preview-main">
+                    <table class="attribute_map">
+                        {% for key,value in article.attributes %}
+                            <tr class="attribute_map-element">
+                                <td class="attribute_map-element__key">{{ key }}</td>
+                                <td class="attribute_map-element__value">{{ value  }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <p class="article__description">{{ article.description }}</p>
+                </div>
+            
+                <footer class="article_preview-footer">
+                    <a class="button" href="{{ router('article.selected',{'action':'show','id': article.id} ) }}"> more </a>
+                </footer>
+            </article>
+            {% endfor %}
+    </div>
+    
+    <div class="container container-center">
+        {{ paginator.build(pagination) }}
+    </div>
+    
+
+
+{% endblock mainContent%}

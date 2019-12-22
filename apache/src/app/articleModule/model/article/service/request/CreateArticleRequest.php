@@ -1,6 +1,10 @@
 <?php
 namespace App\Article\Model\Article\Service\Request;
 
+use App\Article\Model\Article\Attribute;
+use App\Article\Model\Article\Picture;
+use App\Article\Model\Article\Title;
+
 
 /**
  * The input DTO responsible to convert
@@ -12,17 +16,17 @@ namespace App\Article\Model\Article\Service\Request;
 class CreateArticleRequest {
     /**
      *
-     * @var string the article title
+     * @var Title the article title
      */
     private $title;
     /**
      *
-     * @var string the picture path
+     * @var Picture the picture path
      */
     private $picture;
     /**
-     *
-     * @var array that contain key=>value in string format 
+     * that contain array of Attribute
+     * @var array
      */
     private $attributes;
     /**
@@ -31,28 +35,22 @@ class CreateArticleRequest {
      */
     private $description;
     
-    function __construct(string $title ,string $picture,Array $attributes,string $description) {
+    
+    private function __construct(Title $title ,Picture $picture,Array $attributes,string $description) {
         $this->title=$title;
         $this->picture=$picture;
-        foreach ($attributes as $key=>$value) {
-            $this->attributes[$key]= $value;
-        }
+        $this->attributes=$attributes;
         $this->description=$description;
     }
     
-    public static function fromArray(array $postData)
-    {
-        return new self($postData['title'],
-                $postData['picture'],
-                ['city'=>$postData['city'],'name'=>$postData['name'],'place'=>$postData['place']],
-                $postData['description']);
+    public static function of(Title $title ,Picture $picture,Array $attributes,string $description):self{
+        return new self($title,$picture,$attributes,$description);
     }
-    
     /**
      * 
      * @return string
      */
-    function getTitle() : string {
+    function getTitle() : Title {
         return $this->title;
     }
     
@@ -60,7 +58,7 @@ class CreateArticleRequest {
      * 
      * @return string
      */
-    function getPicture() : string{
+    function getPicture() : Picture{
         return $this->picture;
     }
     /**

@@ -63,7 +63,7 @@ class PaginationTest extends TestCase {
 
     function test_getLinks_shouldReturnArrayWithOneElement_whenPaginationHasNotLink() {
         $pagination = new Pagination();
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals(1, sizeof($links));
         $this->assertEquals([1], $links);
     }
@@ -73,7 +73,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(4);
         $pagination->setLimitToGenerate(10);
         $pagination->setCurrent(1);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
 
         $this->assertEquals(4, sizeof($links));
         $this->assertEquals([1, 2, 3, 4], $links);
@@ -83,7 +83,7 @@ class PaginationTest extends TestCase {
         $pagination = new Pagination();
         $pagination->setTotalPageCount(10);
         $pagination->setLimitToGenerate(6);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals(6, sizeof($links));
     }
 
@@ -92,7 +92,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(10);
         $pagination->setLimitToGenerate(3);
         $pagination->setCurrent(3);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals([3, 4, 5], $links);
     }
 
@@ -101,7 +101,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(10);
         $pagination->setLimitToGenerate(3);
         $pagination->setCurrent(2);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals([1, 2, 3], $links);
     }
 
@@ -110,7 +110,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(10);
         $pagination->setLimitToGenerate(3);
         $pagination->setCurrent(4);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals([3, 4, 5], $links);
     }
 
@@ -119,7 +119,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(6);
         $pagination->setLimitToGenerate(3);
         $pagination->setCurrent(6);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals([4, 5, 6], $links);
     }
 
@@ -128,7 +128,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(6);
         $pagination->setLimitToGenerate(3);
         $pagination->setCurrent(99);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals([1, 2, 3], $links);
     }
 
@@ -158,7 +158,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(10);
         $pagination->setLimitToGenerate(5);
         $pagination->setCurrent(2);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals([1, 2, 3, 4, 5], $links);
         $this->assertEquals(1, $pagination->getPrevious());
         $this->assertEquals(3, $pagination->getNext());
@@ -176,7 +176,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(10);
         $pagination->setLimitToGenerate(6);
         $pagination->setCurrent(8);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals([5, 6, 7, 8, 9, 10], $links);
         $this->assertEquals(7, $pagination->getPrevious());
         $this->assertEquals(9, $pagination->getNext());
@@ -194,7 +194,7 @@ class PaginationTest extends TestCase {
         $pagination->setTotalPageCount(0);
         $pagination->setLimitToGenerate(6);
         $pagination->setCurrent(0);
-        $links = $pagination->getLinks();
+        $links = $pagination->getPages();
         $this->assertEquals([1], $links);
         $this->assertEquals(1, $pagination->getPrevious());
         $this->assertEquals(1, $pagination->getNext());

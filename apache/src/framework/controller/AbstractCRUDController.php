@@ -1,9 +1,10 @@
 <?php
 
 namespace Framework\Controller;
-use Framework\Controller\AbstractController;
+
 use Psr\Http\Message\RequestInterface;
-use Swoole\Http\Response;
+use Psr\Http\Message\ResponseInterface;
+
 
 
 /**
@@ -13,8 +14,9 @@ use Swoole\Http\Response;
  */
 abstract class AbstractCRUDController extends AbstractController{
     
-    protected abstract function create(RequestInterface $request) : Response;
-    protected abstract function read(RequestInterface $request) :Response ;
-    protected abstract function udpate(RequestInterface $request): Response;
-    protected abstract function delete(RequestInterface $request) : Response;
+    //protected abstract function index(RequestInterface $request) : ResponseInterface;
+    protected abstract function create(RequestInterface $request) : ResponseInterface;
+    protected abstract function read(RequestInterface $request) :ResponseInterface ;
+    protected abstract function update(RequestInterface $request): ResponseInterface;
+    protected abstract function delete(RequestInterface $request) : ResponseInterface;
 }

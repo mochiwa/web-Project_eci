@@ -1,0 +1,29 @@
+{% extends "layout_block.twig" %}
+{% import 'macro/flashbox.twig' as flashBox %}
+{% import '@article/macro/formInput.twig' as form %}
+
+
+{% block head_title %}Edit a parking{% endblock head_title %}
+    {% block content_title %}Edit Article {{ article.title }}{% endblock content_title %}
+
+{% block content %}
+    
+    {% if errors is not empty %}
+        {{ form.errorSection(errors) }}
+    {% endif %}
+
+    <form class="form" action="{{ router('admin.parking.selected', {'action': 'update','id':article.id }) }}" method="post" enctype="multipart/form-data" >
+        <div class="form-section form-section-fields"> 
+            {{  form.input('title','The article title',article.title) }}
+            {#{{  form.input('picture','article picture',article.picture,'file') }}#}
+            {{  form.input('city','Parking location(city)',article.getAttributes.city) }}
+            {{  form.input('place','count of place',article.getAttributes.place) }}
+            {{  form.input('name','parking name',article.getAttributes.name) }}
+            {{  form.textArea('description','parking description',article.description) }}
+        </div>
+        <div class="form-section form-section-buttons"> 
+            {{  form.submit('Update article','submit') }}
+            {{  form.link('cancel',  router('admin.parking') , 'form__button form__cancel' ) }}
+        </div> 
+    </form>
+{% endblock content %}

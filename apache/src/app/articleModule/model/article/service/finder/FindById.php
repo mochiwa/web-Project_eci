@@ -17,7 +17,7 @@ class FindById implements IFinder{
      */
     private $articleId;
     
-    private function __construct(ArticleId $articleId) {
+    private function __construct(?ArticleId $articleId=null) {
         $this->articleId=$articleId;
     }
     
@@ -54,6 +54,15 @@ class FindById implements IFinder{
             
         }   
         return $articles;
+    }
+
+    /**
+     * Set the value to search
+     * @param type $value
+     */
+    public function setSearchValue($value) : IFinder{
+        $this->articleId=$value;
+        return $this;
     }
 
 }

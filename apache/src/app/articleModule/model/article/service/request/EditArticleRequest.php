@@ -2,6 +2,10 @@
 
 namespace App\Article\Model\Article\Service\Request;
 
+use App\Article\Model\Article\ArticleId;
+use App\Article\Model\Article\Picture;
+use App\Article\Model\Article\Title;
+
 /**
  * Description of EditArticleRequest
  *
@@ -10,23 +14,23 @@ namespace App\Article\Model\Article\Service\Request;
 class EditArticleRequest {
     /**
      *
-     * @var string the article Id 
+     * @var ArticleId the article Id 
      */
     private $articleId;
     
     /**
      *
-     * @var string the article title
+     * @var Title the article title
      */
     private $title;
     /**
      *
-     * @var string the picture path
+     * @var Picture the picture path
      */
     private $picture;
     /**
      *
-     * @var array that contain key=>value in string format 
+     * @var array that contain Attribute 
      */
     private $attributes;
     /**
@@ -35,41 +39,38 @@ class EditArticleRequest {
      */
     private $description;
     
-    function __construct(string $articleId,string $title ,Array $attributes,string $description,string $picture='') {
-        $this->articleId=$articleId;
-        $this->title=$title;
-        $this->picture=$picture;
-        foreach ($attributes as $key=>$value) {
-            $this->attributes[$key]= $value;
-        }
-        $this->description=$description;
+    private function __construct(ArticleId $articleId, Title $title, Picture $picture,array $attributes, string $description) {
+        $this->articleId = $articleId;
+        $this->title = $title;
+        $this->picture = $picture;
+        $this->attributes = $attributes;
+        $this->description = $description;
     }
+
     
-    public static function fromArray(string $articleId,array $postData) : self
+    public static function of(ArticleId $articleId, Title $title, Picture $picture,array $attributes, string $description) : self
     {
-        return new self($articleId,$postData['title'],
-                ['city'=>$postData['city'],'name'=>$postData['name'],'place'=>$postData['place']],
-                $postData['description']);
+        return new self($articleId,$title,$picture,$attributes,$description);
     }
  
     
-    public function getArticleId() {
+    public function getArticleId() : ArticleId {
         return $this->articleId;
     }
 
-    public function getTitle() {
+    public function getTitle() : Title {
         return $this->title;
     }
 
-    public function getPicture() {
+    public function getPicture() : Picture {
         return $this->picture;
     }
 
-    public function getAttributes() {
+    public function getAttributes() : array {
         return $this->attributes;
     }
 
-    public function getDescription() {
+    public function getDescription() :string {
         return $this->description;
     }
 

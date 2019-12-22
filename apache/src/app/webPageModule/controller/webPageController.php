@@ -40,4 +40,8 @@ class webPageController extends AbstractController implements IWebPageController
         return $this->buildResponse($this->viewBuilder->build('@webPage/home'), 200);
     }
 
+    protected function index(RequestInterface $request): ResponseInterface {
+        return $this->home($request);
+    }
+
 }

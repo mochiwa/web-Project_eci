@@ -63,7 +63,7 @@ class UserController extends AbstractController implements IUserController{
     public function register(RequestInterface $request): ResponseInterface
     {
         if(!$this->isPostRequest($request)){
-            return $this->buildResponse($this->viewBuilder->build('@user/userRegister'));
+            return $this->buildResponse($this->viewBuilder->build('@user/register'));
         }
         return $this->registrationProcess($request);
     }
@@ -82,7 +82,7 @@ class UserController extends AbstractController implements IUserController{
         
         if($appResponse->hasErrors())
         {
-            $body=$this->viewBuilder->build('@user/userRegister',[
+            $body=$this->viewBuilder->build('@user/register',[
                 'errors'=>$appResponse->getErrors(),
                 'user'=>$appResponse->getUserView()
             ]);
@@ -108,10 +108,10 @@ class UserController extends AbstractController implements IUserController{
         
         if($appResponse->hasErrors())
         {
-            $body=$this->viewBuilder->build('@user/userRegister',['errors'=>$appResponse->getErrors()]);
+            $body=$this->viewBuilder->build('@user/register',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
-        return $this->buildResponse($this->viewBuilder->build('@user/userRegister'), 200);
+        return $this->buildResponse($this->viewBuilder->build('@user/register'), 200);
     }
     
     
@@ -130,7 +130,7 @@ class UserController extends AbstractController implements IUserController{
         
         if($appResponse->hasErrors())
         {
-            $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
+            $body=$this->viewBuilder->build('@user/signIn',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
         return $this->redirectTo('/user/signIn');
@@ -145,7 +145,7 @@ class UserController extends AbstractController implements IUserController{
     {
         if(!$this->isPostRequest($request))
         {
-            return $this->buildResponse($this->viewBuilder->build('@user/login'), 200);
+            return $this->buildResponse($this->viewBuilder->build('@user/signIn'), 200);
         }
         
         $appRequest= SignInRequest::fromPost($request->getParsedBody());
@@ -153,7 +153,7 @@ class UserController extends AbstractController implements IUserController{
         $appResponse= $appService($appRequest);
         if($appResponse->hasErrors())
         {
-            $body=$this->viewBuilder->build('@user/login',['errors'=>$appResponse->getErrors()]);
+            $body=$this->viewBuilder->build('@user/signIn',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
         return $this->redirectTo(self::INDEX, 200);
@@ -176,4 +176,9 @@ class UserController extends AbstractController implements IUserController{
     {
         
     }
+
+    protected function index(RequestInterface $request): ResponseInterface {
+        $this->redirectTo(self::INDEX);
+    }
+
 }

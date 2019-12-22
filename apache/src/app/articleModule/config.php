@@ -1,49 +1,44 @@
 <?php
 
-use App\Article\Application\Service\CreateArticleApplication;
-use App\Article\Application\Service\DeleteArticleApplication;
-use App\Article\Application\Service\EditArticleApplication;
+use App\Article\Application\CreateArticleApplication;
 use App\Article\Application\Service\IndexArticleApplication;
+use App\Article\Application\UpdateArticleApplication;
 use App\Article\Infrastructure\Persistance\InMemory\InMemoryArticleRepository;
+use App\Article\Infrastructure\Validation\ParkingEditFormValidator;
+use App\Article\Infrastructure\Validation\ParkingFormValidator;
 use App\Article\Model\Article\IArticleRepository;
-use App\Article\Model\Article\Service\ArticleFinder;
 use App\Article\Model\Article\Service\CreateArticleService;
-use App\Article\Model\Article\Service\DeleteArticleService;
 use App\Article\Model\Article\Service\EditArticleService;
-use App\Article\Validation\ParkingEditFormValidator;
-use App\Article\Validation\ParkingFormValidator;
+use Framework\DependencyInjection\IContainer;
 use Framework\FileManager\FileUploader;
 use Framework\FileManager\PostUploader;
-use Framework\Session\ISession;
-use Framework\Session\PhpSession;
+use Framework\Paginator\PaginationTwigExtension;
+use Framework\Renderer\IViewBuilder;
+use Framework\Renderer\TwigFactory;
 use Framework\Session\SessionManager;
 
 return [
+    'twig.extension' => [IContainer::ADD => [PaginationTwigExtension::class]] ,
+    IViewBuilder::class => function ($di){return $di->get(TwigFactory::class)($di->get('twig.extension'));},
+    
     IArticleRepository::class => function(){return new InMemoryArticleRepository();},
-    FileUploader::class => function (){return new FileUploader(new PostUploader(), getcwd().DIRECTORY_SEPARATOR.'upload/article');},
+            
+    FileUploader::class => function (){return new FileUploader(new PostUploader(), 'upload/article');},
     IndexArticleApplication::class => function($di){return new IndexArticleApplication($di->get(IArticleRepository::class));},
             
     CreateArticleApplication::class => function($di){
         return new CreateArticleApplication(
-                $di->get(CreateArticleService::class),
                 $di->get(ParkingFormValidator::class),
+                $di->get(CreateArticleService::class),
                 $di->get(FileUploader::class),
                 $di->get(SessionManager::class));},
-                        
-    EditArticleApplication::class => function($di){
-        return new EditArticleApplication(
-            $di->get(ArticleFinder::class),
-            $di->get(EditArticleService::class),
+    
+    UpdateArticleApplication::class => function($di){
+        return new UpdateArticleApplication(
             $di->get(ParkingEditFormValidator::class),
-            $di->get(SessionManager::class));},
-                    
-    DeleteArticleApplication::class => function($di){
-        return new DeleteArticleApplication(
-            $di->get(DeleteArticleService::class),
-            $di->get(SessionManager::class));},
-    
-
-                
-    
-                
+            $di->get(EditArticleService::class),
+            $di->get(SessionManager::class));}                    
+                        
+   
+                         
 ];
