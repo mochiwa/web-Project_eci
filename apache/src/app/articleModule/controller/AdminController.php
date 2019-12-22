@@ -25,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class AdminController extends AbstractCRUDController {
-    const INDEX="index";
+    const INDEX="/admin/parking/index";
     
     /**
      * @var IViewBuilder
@@ -39,7 +39,6 @@ class AdminController extends AbstractCRUDController {
 
     public function __invoke(RequestInterface $request) : ResponseInterface{
         $action=$request->getAttribute('action');
-        
         if(method_exists(AbstractCRUDController::class, $action) && is_callable([$this,$action])){
                 return call_user_func([$this,$action],$request);
         }
