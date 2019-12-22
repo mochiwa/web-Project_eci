@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Article\Validation;
+namespace App\Article\Infrastructure\Validation;
 
 use Framework\Validator\AbstractFormValidator;
 

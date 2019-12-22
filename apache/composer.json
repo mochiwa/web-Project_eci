@@ -61,9 +61,13 @@
             "App\\Article\\View\\" : "./src/app/articleModule/view",
             "App\\Article\\view\\ViewFactory\\" : "./src/app/articleModule/view/viewFactory",
 
-            "App\\Article\\Validation\\" : "./src/app/articleModule/validation",
             "App\\Article\\Infrastructure\\Persistance\\InMemory\\" : "./src/app/articleModule/infrastructure/persistance/inMemory",
             "App\\Article\\Infrastructure\\Service\\" : "./src/app/articleModule/infrastructure/service",
+            "App\\Article\\Infrastructure\\Validation\\" : "./src/app/articleModule/infrastructure/validation",
+            
+            
+            
+            
             
             "App\\Identity\\": "./src/app/identityModule",
             "App\\Identity\\Controller\\": "./src/app/identityModule/controller",
