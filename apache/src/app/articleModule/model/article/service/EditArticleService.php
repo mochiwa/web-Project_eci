@@ -5,10 +5,8 @@ namespace App\Article\Model\Article\Service;
 use App\Article\Model\Article\Article;
 use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\ArticleId;
-use App\Article\Model\Article\Attribute;
 use App\Article\Model\Article\EntityNotFoundException;
 use App\Article\Model\Article\IArticleRepository;
-use App\Article\Model\Article\Picture;
 use App\Article\Model\Article\Service\Request\EditArticleRequest;
 use App\Article\Model\Article\Title;
 
@@ -30,11 +28,8 @@ class EditArticleService {
      * @throws EntityNotFoundException
      * @throws ArticleException
      */
-    public function execute(EditArticleRequest $request) : Response\ArticleDomainResponse
-    {
-        $articleId=ArticleId::of($request->getArticleId());
-        
-           
+    public function __invoke(EditArticleRequest $request) : Article{
+        $articleId=$request->getArticleId();
         if(!$this->repository->isArticleIdExist($articleId)){
             throw new EntityNotFoundException("The article with id=".$articleId->idToString().' not found in repository');
         }
@@ -45,7 +40,7 @@ class EditArticleService {
             throw new ArticleException('The title "'.$editedArticle->title()->valueToString().'" is already used');
         }
         $this->repository->update($editedArticle);
-        return new Response\ArticleDomainResponse($editedArticle);
+        return $editedArticle;
     }
     
     /**
@@ -73,17 +68,15 @@ class EditArticleService {
      */    
     private function builEditedArticle(EditArticleRequest $request): Article
     {
-        $articleId= ArticleId::of($request->getArticleId());
+        $articleId= $request->getArticleId();
         $orignal=$this->repository->findById($articleId);
         
-        $title= Title::of($request->getTitle());
-        $picture= $request->getPicture() === '' ? $orignal->picture() :Picture::of($request->getPicture() ); 
-        $attributes=[];
-        foreach ($request->getAttributes() as $key=>$value) {
-            $attributes[$key]= Attribute::of($key,$value);
-        }
-        $description=$request->getDescription();
-        return Article::fromUpdate($articleId, $title, $picture, $attributes, $description, $orignal->creationDate());
+        return Article::fromUpdate($articleId,
+                $request->getTitle() ,
+                $request->getPicture()->path() === '' ? $orignal->picture() :$request->getPicture(),
+                $request->getAttributes(),
+                $request->getDescription(),
+                $orignal->creationDate());
     }
     
     

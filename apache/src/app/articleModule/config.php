@@ -1,15 +1,12 @@
 <?php
 
 use App\Article\Application\CreateArticleApplication;
-use App\Article\Application\ReadArticleApplication;
-use App\Article\Application\Service\EditArticleApplication;
 use App\Article\Application\Service\IndexArticleApplication;
+use App\Article\Application\UpdateArticleApplication;
 use App\Article\Infrastructure\Persistance\InMemory\InMemoryArticleRepository;
 use App\Article\Model\Article\IArticleRepository;
-use App\Article\Model\Article\Service\ArticleFinder;
 use App\Article\Model\Article\Service\CreateArticleService;
 use App\Article\Model\Article\Service\EditArticleService;
-use App\Article\Model\Article\Service\Finder\FindById;
 use App\Article\Validation\ParkingEditFormValidator;
 use App\Article\Validation\ParkingFormValidator;
 use Framework\DependencyInjection\IContainer;
@@ -35,12 +32,13 @@ return [
                 $di->get(CreateArticleService::class),
                 $di->get(FileUploader::class),
                 $di->get(SessionManager::class));},
-                        
-    EditArticleApplication::class => function($di){
-        return new EditArticleApplication(
-            $di->get(ArticleFinder::class),
-            $di->get(EditArticleService::class),
+    
+    UpdateArticleApplication::class => function($di){
+        return new UpdateArticleApplication(
             $di->get(ParkingEditFormValidator::class),
-            $di->get(SessionManager::class));},
+            $di->get(EditArticleService::class),
+            $di->get(SessionManager::class));}                    
+                        
+   
                          
 ];

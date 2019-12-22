@@ -1,9 +1,11 @@
 {% extends "layout.twig" %}
+{% import 'pagination.twig' as paginator %}
 
-{% block maincontent %}
+{% block mainContent %}
     <h2 class="block__title block__title-center"> Our parking places</h2>
 
     <div class="container container-center container-article_preview">
+        
         {% for article in articles %}
             <article class="block article article_preview">
                 <header class="article_preview-header">
@@ -31,19 +33,9 @@
     </div>
     
     <div class="container container-center">
-        {{  _self.pagination(pagination,'parking.page','index','page') }}
+        {{ paginator.build(pagination) }}
     </div>
     
 
 
-{% endblock maincontent%}
-
-{% macro pagination(pagination,urlName='#',action='index',slug='page') %}
-    <div class="pagination">
-        <a class="pagination__item" href="{{ previousLink(pagination,urlName,action,slug) }}"> {{ '<<'|escape }} </a>
-        {% for page in pagination.links %}
-            <a class="pagination__item {{ page == pagination.currentPage ? 'pagination__item--current' }}" href="{{ pageLink(pagination,urlName,action,slug) }}"> {{ page }}  </a>
-        {% endfor %}
-        <a class="pagination__item" href="{{ nextLink(pagination,urlName,action,slug) }}"> {{ '>>'|escape }} </a>
-    </div>
-{% endmacro %}
+{% endblock mainContent%}

@@ -1,0 +1,40 @@
+{% extends "layout_block.twig" %}
+
+
+{% block head_title %}Parkings {{ article.name }} {% endblock head_title %}
+
+
+{%  block content_header %}
+    <header class="article-header">
+        {% block content_title %} <h2 class="article__title"> {{ article.title }} </h2>  {% endblock content_title %}
+        <img class="article__picture" src="../upload/article/{{ article.picture }}">
+    </header>
+{% endblock content_header %}
+
+{% block content %}
+    <div class="article-main">
+        <section class="article-section article-section-information">
+            <h3 class="article-section__title"> Informations </h3>
+            <table class="attribute_map">
+                {% for key,attribute in article.attributes %}
+                <tr class="attribute_map-element">
+                    <td class="attribute_map-element__key">{{ key }}</td>
+                    <td class="attribute_map-element__value">{{ attribute }}</td>
+                </tr>
+                
+                {% endfor %}
+           </table>
+        </section>
+        <section class="article-section article-section-description">
+            <h3 class="article-section__title"> Description </h3>
+            <p class="article__description">{{ article.description }}</p>
+        </section>
+    </div>
+    
+    <div class="article-footer">
+        
+    </div>
+    
+   
+  
+{% endblock content %}

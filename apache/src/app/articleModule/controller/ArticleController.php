@@ -2,14 +2,14 @@
 
 namespace App\Article\Controller;
 
-use App\Article\Application\Service\IndexArticleApplication;
-use App\Article\Application\Service\Request\ShowArticleRequest;
-use App\Article\Application\Service\ShowArticleApplication;
+use App\Article\Application\IndexApplication;
+use App\Article\Application\ReadArticleApplication;
+use App\Article\Application\Request\IndexRequest;
+use App\Article\Application\Request\ReadArticleRequest;
 use App\Article\Controller\IArticleController;
 use Framework\Controller\AbstractController;
 use Framework\DependencyInjection\IContainer;
 use Framework\Renderer\IViewBuilder;
-use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 /**
@@ -42,24 +42,38 @@ class ArticleController extends AbstractController implements IArticleController
     }
 
     public function index(RequestInterface $request): ResponseInterface {
-        $appService=$this->container->get(IndexArticleApplication::class);
-        $appResponse=$appService->execute($request->getAttribute('page') ?? '1',2);
+        $appRequest= IndexRequest::of($request->getAttribute('articlePerPage'), $request->getAttribute('page'),'parking.page');
+        $appService=$this->container->get(IndexApplication::class);
+        $appResponse= call_user_func($appService,$appRequest);
         
-        $httpResponse=new Response(200);
-        $httpResponse->getBody()->write($this->viewBuilder->build('@article/index',
+        if($appResponse->hasErrors()){
+            return $this->redirectTo(self::INDEX,self::BAD_REQUEST);
+        }
+        
+        return $this->buildResponse($this->viewBuilder->build('@article/index',
             ['articles' => $appResponse->getArticles(),
             'pagination'=>$appResponse->getPagination()]));
-        return $httpResponse;
     }
 
     public function show(RequestInterface $request): ResponseInterface{
-        $appRequest=new ShowArticleRequest($request->getAttribute('id'));
+        $appRequest= ReadArticleRequest::fromId($request->getAttribute('id'));
+        $appService = $this->container->get(ReadArticleApplication::class);
+        $appResponse = call_user_func($appService, $appRequest);
+
+        if ($appResponse->hasErrors()) {
+            $this->redirectTo(self::INDEX, self::BAD_REQUEST);
+        }
+        return $this->buildResponse($this->viewBuilder->build('@article/article', [
+            'article' => $appResponse->getArticle()]));
+
+
+        /*$appRequest=new ShowArticleRequest($request->getAttribute('id'));
         $appService=$this->container->get(ShowArticleApplication::class);
         $appResponse=$appService($appRequest);
         
         if($appResponse->hasErrors()){
             return $this->redirectTo(self::INDEX);
         }
-        return $this->buildResponse($this->viewBuilder->build('@article/article',['article'=>$appResponse->getArticle()]));
+        return $this->buildResponse($this->viewBuilder->build('@article/article',['article'=>$appResponse->getArticle()]));*/
     }
 }

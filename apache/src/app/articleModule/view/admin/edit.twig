@@ -12,7 +12,7 @@
         {{ form.errorSection(errors) }}
     {% endif %}
 
-    <form class="form" action="{{ router('admin.parking', {'action': 'update' }) }}" method="post" enctype="multipart/form-data" >
+    <form class="form" action="{{ router('admin.parking.selected', {'action': 'update','id':article.id }) }}" method="post" enctype="multipart/form-data" >
         <div class="form-section form-section-fields"> 
             {{  form.input('title','The article title',article.title) }}
             {#{{  form.input('picture','article picture',article.picture,'file') }}#}
