@@ -47,9 +47,9 @@
     @href   text    :   the href
     @styles text    :   css style
 #}
-{% macro link(value,href) %}
+{% macro link(value,href,style={}) %}
     {% from "input.macro.twig" import link %}
-    {{ link(value,href) }}
+    {{ link(value,href,style) }}
 {% endmacro %}
 
 {#

@@ -29,7 +29,7 @@
 {% macro textArea(name,label,value='',styles={}) %}
     <div id="div-{{ name }}" class="form-section {{styles.div}} ">
         <label id="label-{{ name }}" class="form__item {{ styles.label }}" for="{{ name }}"> {{ label }} </label>
-        <textarea id="input-{{ name }}" class="form__input {{ styles.input}}"  name="{{ name }}" value="{{ value }}" ></textarea>
+        <textarea id="input-{{ name }}" class="form__input {{ styles.input}}"  name="{{ name }}"  >{{ value }}</textarea>
     </div>
 {% endmacro %}
 

@@ -2,10 +2,13 @@
 
 namespace App\Article\Controller;
 
+use App\Article\Application\CreateArticleApplication;
 use App\Article\Application\IndexApplication;
+use App\Article\Application\Request\CreateArticleRequest;
 use App\Article\Application\Request\IndexRequest;
 use Framework\Controller\AbstractCRUDController;
 use Framework\DependencyInjection\IContainer;
+use Framework\FileManager\FileUploadFormater;
 use Framework\Renderer\IViewBuilder;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -45,7 +48,7 @@ class AdminController extends AbstractCRUDController {
         $appResponse= call_user_func($appService,$appRequest);
         
         if($appResponse->hasErrors()){
-            return $this->redirectTo(self::INDEX);
+            return $this->redirectTo(self::INDEX,self::BAD_REQUEST);
         }
         
         return $this->buildResponse($this->viewBuilder->build('@article/admin/index',
@@ -59,27 +62,25 @@ class AdminController extends AbstractCRUDController {
        if(!$this->isPostRequest($request)){
            return $this->buildResponse($this->viewBuilder->build('@article/admin/create'));
        } 
-        
-       /* if($request->getMethod()!=='POST')
-        {
-            $response = new Response(200);
-            $response->getBody()->write($this->viewBuilder->build('@article/admin/createArticle'));
-            return $response;
-        }
-        
-        $post = $request->getParsedBody();
-        $post['picture'] = $this->extractPictureFromRequest($request,'picture');
-        $service = $this->container->get(CreateArticleApplication::class);
-        $response = $service($post);
-        
-        if($response->hasErrors())
-        {
-            return $this->responseWithErrors('@article/admin/createArticle',
-                ['errors'=>$response->getErrors(),'article'=>$response->getArticle()]);
-        }
-        return $this->redirectToIndex(200);*/
+       return $this->createArticleProcess($request);
     }
     
+    private function createArticleProcess(RequestInterface $request): ResponseInterface{
+        $postData=$request->getParsedBody();
+        $postData['picture']=FileUploadFormater::of($request->getUploadedFiles())->pathOf('picture');
+        
+        $appRequest= CreateArticleRequest::fromPostRequest($postData);
+        $appService= $this->container->get(CreateArticleApplication::class);
+        $appResponse= call_user_func($appService,$appRequest);
+        
+        if($appResponse->hasErrors())
+        {
+            return $this->buildResponse($this->viewBuilder->build('@article/admin/create',[
+                'errors'=>$appResponse->getErrors(),
+                'article'=>$appResponse->getArticle()]), self::BAD_REQUEST);
+        }
+        return $this->redirectTo(self::INDEX);
+    }
    
     
     protected function edit(RequestInterface $request) : ResponseInterface

@@ -7,9 +7,6 @@
 {% block content_title %}Create a parking{% endblock content_title %}
 
 {% block content %}
-    {% if sessionHasFlashMessage()  %}
-        {{  flashBox.build(flashMessage()) }}
-    {% endif %}
     
     {% if errors is not empty %}
         {{ form.errorSection(errors) }}
@@ -19,9 +16,9 @@
         <div class="form-section form-section-fields"> 
             {{  form.input('title','The article title',article.title) }}
             {{  form.input('picture','article picture',article.picture,'file') }}
-            {{  form.input('city','Parking location(city)',article.city) }}
-            {{  form.input('place','count of place',article.place) }}
-            {{  form.input('name','parking name',article.name) }}
+            {{  form.input('city','Parking location(city)',article.getAttributes.city) }}
+            {{  form.input('place','count of place',article.getAttributes.place) }}
+            {{  form.input('name','parking name',article.getAttributes.name) }}
             {{  form.textArea('description','parking description',article.description) }}
         </div>
         <div class="form-section form-section-buttons"> 
