@@ -36,7 +36,7 @@ class CreateArticleApplication extends AbstractArticleApplication{
     /**
      * @var CreateArticleService 
      */
-private $articleProvider;
+    private $articleProvider;
     
     /**
      * @var type FileUploader

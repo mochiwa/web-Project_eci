@@ -99,44 +99,17 @@ class AdminController extends AbstractCRUDController {
     
     protected function delete(RequestInterface $request) : ResponseInterface
     {
-     /*   $service=$this->container->get(DeleteArticleApplication::class);
+        $appRequest= \App\Article\Application\Request\DeleteArticleRequest::of($request->getAttribute('id'));
+        $appService= $this->container->get(\App\Article\Application\DeleteArticleApplication::class);
+        $appResponse= call_user_func($appService,$appRequest);
         
-        $response=$service($request->getAttribute('id'));
-        if($response->hasErrors())
-        {
-            return $this->redirectToIndex(400);
-        }
-        return $this->redirectToIndex();*/
-    }
-    
-    
+        return $this->redirectTo(self::INDEX, $appResponse->hasErrors() ? self::BAD_REQUEST : self::OK);
 
-     /**
-     * Extract a file path from a request, if file not found then return empty string
-     * @param RequestInterface $request
-     * @return string
-     */
-    private function extractPictureFromRequest(RequestInterface $request,string $field): string {
-       /* try {
-            return $request->getUploadedFiles()[$field]->getStream()->getMetadata('uri');
-        } catch (Exception $ex) {
-            
-        }
-        return '';*/
     }
     
 
+    
 
-    /**
-     * Return a response that redirect to the admin index
-     * @param int $code the status code 200 by default
-     * @return ResponseInterface
-     */
-   /* private function redirectToIndex(int $code=200) : ResponseInterface
-    {
-        $response = new Response($code);
-        return $response->withHeader('Location', '/admin/parking/index');
-    }*/
 
     
     

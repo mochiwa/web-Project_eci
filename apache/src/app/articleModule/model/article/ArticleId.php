@@ -26,7 +26,7 @@ class ArticleId {
     private function setId(string $id)
     {
         if(empty($id)){
-            throw new InvalidArgumentException("The id of an article cannot be empty !");
+            throw new \InvalidArgumentException("The id of an article cannot be empty !");
         }
         $this->id=$id;
     }

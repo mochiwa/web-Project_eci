@@ -1,14 +1,12 @@
 <?php
 
 use App\Article\Application\CreateArticleApplication;
-use App\Article\Application\Service\DeleteArticleApplication;
 use App\Article\Application\Service\EditArticleApplication;
 use App\Article\Application\Service\IndexArticleApplication;
 use App\Article\Infrastructure\Persistance\InMemory\InMemoryArticleRepository;
 use App\Article\Model\Article\IArticleRepository;
 use App\Article\Model\Article\Service\ArticleFinder;
 use App\Article\Model\Article\Service\CreateArticleService;
-use App\Article\Model\Article\Service\DeleteArticleService;
 use App\Article\Model\Article\Service\EditArticleService;
 use App\Article\Validation\ParkingEditFormValidator;
 use App\Article\Validation\ParkingFormValidator;
@@ -43,10 +41,7 @@ return [
             $di->get(ParkingEditFormValidator::class),
             $di->get(SessionManager::class));},
                     
-    DeleteArticleApplication::class => function($di){
-        return new DeleteArticleApplication(
-            $di->get(DeleteArticleService::class),
-            $di->get(SessionManager::class));},
+    
     
                             
     

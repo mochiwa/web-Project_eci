@@ -26,6 +26,8 @@ class AbstractArticleApplication {
         $this->parkingPOCO = null;
         $this->errors = [];
     }
+    
+    
 
         /**
      * Return a ArticleApplicationResponse with error if error application
