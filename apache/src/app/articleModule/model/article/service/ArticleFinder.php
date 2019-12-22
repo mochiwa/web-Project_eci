@@ -1,7 +1,9 @@
 <?php
 namespace App\Article\Model\Article\Service;
 
+use App\Article\Model\Article\Article;
 use App\Article\Model\Article\IArticleRepository;
+use App\Article\Model\Article\Service\Finder\ArticleFinderException;
 use App\Article\Model\Article\Service\Finder\IFinder;
 use App\Article\Model\Article\Service\Response\ArticleDomainResponse;
 
@@ -45,20 +47,38 @@ class ArticleFinder {
      * Return the first element found from finder
      * @return mixed
      */
-    public function getFirst(): ?ArticleDomainResponse
+    public function getFirst(): ?Article
     {
-        if(isset($this->articleFound[0]))
-            return new ArticleDomainResponse($this->articleFound[0]);
+        if(isset($this->articleFound[0])){
+            return $this->articleFound[0];
+        }
         return null;
     }
+    
+    /**
+     * Try to get the first article found , if no article foudn throw
+     * ArticleFinderException
+     * @return Article
+     * @throws ArticleFinderException
+     */
+    public function getFirstOrThrow():Article{
+        $article=$this->getFirst();
+        if($article===null){
+            throw new ArticleFinderException('No article found');
+        }
+        return $article;
+    }
+
+
     /**
      * Return the last element found from finder
      * @return mixed
      */
-    public function getLast(): ?ArticleDomainResponse
+    public function getLast(): ?Article
     {
-        if(!empty($this->articleFound))
-            return  new ArticleDomainResponse(end($this->articleFound));
+        if(!empty($this->articleFound)){
+            return end($this->articleFound);
+        }
         return null;
     }
     
@@ -68,7 +88,7 @@ class ArticleFinder {
      */
     public function getArticles():array
     {
-        return array_map(function($article){return new ArticleDomainResponse($article);},$this->articleFound);
+        return array_map(function($article){return $article;},$this->articleFound);
     }
     
 }

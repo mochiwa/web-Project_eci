@@ -3,9 +3,13 @@
 namespace App\Article\Controller;
 
 use App\Article\Application\CreateArticleApplication;
+use App\Article\Application\DeleteArticleApplication;
 use App\Article\Application\IndexApplication;
+use App\Article\Application\ReadArticleApplication;
 use App\Article\Application\Request\CreateArticleRequest;
+use App\Article\Application\Request\DeleteArticleRequest;
 use App\Article\Application\Request\IndexRequest;
+use App\Article\Application\Request\ReadArticleRequest;
 use Framework\Controller\AbstractCRUDController;
 use Framework\DependencyInjection\IContainer;
 use Framework\FileManager\FileUploadFormater;
@@ -95,12 +99,43 @@ class AdminController extends AbstractCRUDController {
         }
         return $this->responseWithErrors('@article/admin/editArticle', ['errors' => $response->getErrors(),'article'=>$response->getArticle()]);*/
     }
-     
     
-    protected function delete(RequestInterface $request) : ResponseInterface
-    {
-        $appRequest= \App\Article\Application\Request\DeleteArticleRequest::of($request->getAttribute('id'));
-        $appService= $this->container->get(\App\Article\Application\DeleteArticleApplication::class);
+    protected function update(RequestInterface $request): ResponseInterface {
+        if(!$this->isPostRequest($request)){
+            $appRequest= ReadArticleRequest::fromId($request->getAttribute('id'));
+            $appService= $this->container->get(ReadArticleApplication::class);
+            $appResponse= call_user_func($appService,$appRequest);
+            
+            if($appResponse->hasErrors()){
+                $this->redirectTo(self::INDEX, self::BAD_REQUEST);
+            }
+            return $this->buildResponse($this->viewBuilder->build('@article/admin/edit',[
+                'article'=>$appResponse->getArticle()
+            ]));
+        } 
+        return $this->udpateProcess($request);
+    }
+    
+    private function udpateProcess(RequestInterface $request): ResponseInterface{
+        
+        $appRequest= UpdateArticleRequest::of($request->getParsedBody());
+        $appService= $this->container->get(ReadArticleApplication::class);
+        $appResponse= call_user_func($appService,$appRequest);
+        
+        
+        if($appResponse->hasErrors()){   
+            return $this->buildResponse($this->viewBuilder->build('@article/admin/edit',[
+                'article'=>$appResponse->getArticle(),
+                'errors' =>$appResponse->getErrors();
+            ]));
+        }
+        
+        $this->redirectTo(self::INDEX, self::OK);
+    }
+    
+    protected function delete(RequestInterface $request) : ResponseInterface {
+        $appRequest= DeleteArticleRequest::of($request->getAttribute('id'));
+        $appService= $this->container->get(DeleteArticleApplication::class);
         $appResponse= call_user_func($appService,$appRequest);
         
         return $this->redirectTo(self::INDEX, $appResponse->hasErrors() ? self::BAD_REQUEST : self::OK);
@@ -118,8 +153,6 @@ class AdminController extends AbstractCRUDController {
         
     }
 
-    protected function udpate(RequestInterface $request): ResponseInterface {
-        
-    }
+    
 
 }

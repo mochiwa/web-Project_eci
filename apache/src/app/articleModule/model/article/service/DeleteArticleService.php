@@ -27,8 +27,8 @@ class DeleteArticleService {
      * @return Article The Article deleted
      */
     public function __invoke(DeleteArticleRequest $request){
+        $articleId=$request->getArticleId();
         try{
-            $articleId=$request->getArticleId();
             $article=$this->repository->findById($articleId);
             $this->repository->removeArticle($articleId);
             return $article;

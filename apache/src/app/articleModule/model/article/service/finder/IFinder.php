@@ -10,6 +10,7 @@ use App\Article\Model\Article\IArticleRepository;
  * @author mochiwa
  */
 interface IFinder {
+    function setSearchValue($value) : self;
     
     function __invoke(IArticleRepository $repository) : array;
 }
