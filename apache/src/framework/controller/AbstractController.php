@@ -13,6 +13,10 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 abstract class AbstractController {
+    const BAD_REQUEST = 400;
+    const FORBIDDEN = 403;
+    const OK=200;
+    
     /**
      * This constant should be the default action of the controller
      */

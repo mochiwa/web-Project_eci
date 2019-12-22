@@ -5,6 +5,7 @@ use App\Article\Application\Poco\PaginationPoco;
 use App\Article\Application\Poco\ParkingPOCO;
 use App\Article\Application\Request\IndexRequest;
 use App\Article\Application\Response\IndexResponse;
+use App\Article\Infrastructure\Service\ArticlePaginatorService;
 use App\Article\Model\Article\IArticleRepository;
 use Framework\Paginator\Pagination;
 use Framework\Paginator\Paginator;
@@ -21,7 +22,7 @@ class IndexApplication {
      * WHen the IndexRequest not specified the count of article per page
      * this value is used
      */
-    const DEFAULT_MAX_ARTICLE_PER_PAGE = 2;
+    const DEFAULT_MAX_ARTICLE_PER_PAGE = 8;
 
     /**
      * @var IArticleRepository 
@@ -35,14 +36,14 @@ class IndexApplication {
     
     /**
      *
-     * @var Paginator 
+     * @var ArticlePaginatorService 
      */
     private $paginator;
 
     public function __construct(IArticleRepository $repository, IRouter $router) {
         $this->repository = $repository;
         $this->router=$router;
-        $this->paginator=new Paginator($this->repository,self::DEFAULT_MAX_ARTICLE_PER_PAGE);
+        $this->paginator=new ArticlePaginatorService($this->repository);
     }
 
     /**
@@ -53,11 +54,11 @@ class IndexApplication {
      * @return IndexResponse
      */
     public function __invoke(IndexRequest $request): IndexResponse {
-        $this->paginator->setMaxDataPerPage($this->getArticlePerPage($request));
         $currentPage = $this->getCurrentPage($request);
-
-        $articles = $this->getArticles($currentPage);
-        $pagination=$this->paginator->getPagination($currentPage);
+        $maxArticlePerPage=$this->getArticlePerPage($request);
+        
+        $articles = $this->getArticles($currentPage,$maxArticlePerPage);
+        $pagination=$this->paginator->getPagination($currentPage,$maxArticlePerPage);
         $paginationPoco=$this->buildPaginationPoco($pagination,$request->getIndexURL());
 
         return IndexResponse::of($paginationPoco, $articles);
@@ -69,9 +70,9 @@ class IndexApplication {
      * @param int $currentPage
      * @return type
      */
-    private function getArticles(int $currentPage){
+    private function getArticles(int $currentPage,int $maxArticlePerPage){
         $articles = [];
-        foreach ($this->paginator->getDataForPage($currentPage) as $article) {
+        foreach ($this->paginator->getDataForPage($currentPage,$maxArticlePerPage) as $article) {
             $articles[] = ParkingPOCO::of($article);
         }
         return $articles;

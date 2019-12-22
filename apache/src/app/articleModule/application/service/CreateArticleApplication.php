@@ -47,6 +47,5 @@ class CreateArticleApplication {
         
         $this->session->setFlash(FlashMessage::success('The article "'.$domainresponse->title()->valueToString().'" has been created !'));
         return CreatedResponse::success(ParkingView::fromPost($post));
-        
     }
 }

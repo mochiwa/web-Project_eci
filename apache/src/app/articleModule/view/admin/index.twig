@@ -1,13 +1,24 @@
 {% extends "layout_block.twig" %}
+{% import 'flashbox.twig' as flashBox %}
 {% import 'pagination.twig' as paginator %}
 
 
 
 {% block head_title %}Parkings management{% endblock head_title %}
-{% block content_title %}<h1 class="block__title block__title-center"></h1>{% endblock content_title %}
+
+{% block content_title %}Parkings management{% endblock content_title %}
+{%  block content_header %}
+    {% if sessionHasFlashMessage()  %}
+        {{  flashBox.build(flashMessage()) }}
+    {% endif %}
+    {{ parent() }}
+{% endblock content_header %}
 
 {% block content %}
-    <a class="button button table__button" href="{{ router('parking.admin',{'action':'create'}) }}">Create a new article</a>
+    
+    
+    
+    <a class="button button table__button" href="{{ router('admin.parking',{'action':'create'}) }}">Create a new article</a>
     <table class="table">
         <thead>
             <tr class="table-header">
@@ -24,8 +35,8 @@
                 <td class="table-article__item table-article__item-date ">{{ article.creationDate }}</td>
                 <td class="table-article__item table-article__item-date ">{{ article.lastUpdateDate }}</td>
                 <td lass="table-article__item">
-                    <a class="button table__button" href="{{ router('parking.admin.selected',{'action':'edit','id':article.id}) }}">Edit</a>
-                    <a class="button table__button" href="{{ router('parking.admin.selected',{'action':'delete','id':article.id}) }}">Delete</a>
+                    <a class="button table__button" href="{{ router('admin.parking.selected',{'action':'edit','id':article.id}) }}">Edit</a>
+                    <a class="button table__button" href="{{ router('admin.parking.selected',{'action':'delete','id':article.id}) }}">Delete</a>
                 </td>
                 </tr>
             {% endfor %}

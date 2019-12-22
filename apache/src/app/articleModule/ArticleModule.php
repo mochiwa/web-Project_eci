@@ -17,9 +17,9 @@ class ArticleModule extends AbstractModule {
     
     public function __construct(IRouter $router, IViewBuilder $viewBuilder) {
         
-        $router->map('GET|POST', '/admin/parking/[a:action]', AdminController::class, 'parking.admin');
-        $router->map('GET|POST', '/admin/parking/[a:action]-[a:id]', AdminController::class, 'parking.admin.selected');
-        $router->map('GET', '/admin/parking/[a:action]-page-[a:page]?', AdminController::class, 'parking.admin.page');
+        $router->map('GET|POST', '/admin/parking/[a:action]?', AdminController::class, 'admin.parking');
+        $router->map('GET|POST', '/admin/parking/[a:action]-[a:id]', AdminController::class, 'admin.parking.selected');
+        $router->map('GET', '/admin/parking/[a:action]-page-[a:page]?', AdminController::class, 'admin.parking.page');
         
         
         

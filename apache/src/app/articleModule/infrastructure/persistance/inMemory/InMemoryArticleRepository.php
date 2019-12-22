@@ -37,8 +37,9 @@ class InMemoryArticleRepository extends AbstractInMemoryRepository implements IA
     public function findById(ArticleId $id): Article {
         foreach ($this->data as $article)
         {
-            if($article->id()==$id)
+            if($article->id()==$id){
                 return $article;
+            }
         }
         throw new EntityNotFoundException("The Article with id=".$id->idToString()." not found in repository");
     }
@@ -96,8 +97,9 @@ class InMemoryArticleRepository extends AbstractInMemoryRepository implements IA
      * @throws EntityNotFoundException
      */
     public function removeArticle(ArticleId $id): void {
-        if(!$this->isArticleIdExist($id))
+        if(!$this->isArticleIdExist($id)){
             throw new EntityNotFoundException("Cannot remove the article with id=" . $id->idToString() . " not found in repository");
+        }
         unset($this->data[$id->idToString()]);
         $this->commit();
     }
@@ -127,16 +129,23 @@ class InMemoryArticleRepository extends AbstractInMemoryRepository implements IA
         $this->data[$article->id()->idToString()]=$article;
         $this->commit();
     }
+   
+
     /**
-     * Return the size of data[]
+     * return an array on data like [begin , ... ,begin+articleCount]
+     * @param int $beginningIndex
+     * @param int $endingIndex
+     * @return array
+     */
+    public function setOfArticles(int $beginningIndex, int $articleCount): array {
+        return array_slice($this->data, $beginningIndex,$articleCount);
+    }
+    /**
+     * Return count of article in datas
      * @return int
      */
-    public function dataCount(): int {
-       return sizeof($this->data);
-    }
-
-    public function getForPagination(int $current, int $max): array {
-        return array_slice($this->data, $current,$max);
+    public function sizeof(): int {
+        return sizeof($this->data);
     }
 
 }

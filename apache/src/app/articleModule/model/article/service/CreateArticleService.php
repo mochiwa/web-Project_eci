@@ -33,13 +33,10 @@ class CreateArticleService {
      * 
      * @throws ArticleException when an article with the same title already exist
      */
-    public function execute(CreateArticleRequest $request) : Response\ArticleDomainResponse
+    public function __invoke(CreateArticleRequest $request) : Article
     {
-        $title= Title::of($request->getTitle());
-        $attributes=[];
-        foreach ($request->getAttributes() as $key=>$value) {
-            $attributes[$key]=Attribute::of($key,$value);
-        }
+        $title=$request->getTitle();
+        $attributes=$request->getAttributes();
         $description=$request->getDescription();
         
         
@@ -53,7 +50,7 @@ class CreateArticleService {
         $articleCreated=Article::newArticle($articleId,$title,$picture,$attributes,$description);
         
         $this->repository->addArticle($articleCreated);
-        return new Response\ArticleDomainResponse($articleCreated);
+        return $articleCreated;
     }
     
     private function generatePictureName(ArticleId $articleId,Title $title):Picture

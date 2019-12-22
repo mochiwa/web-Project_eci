@@ -1,6 +1,6 @@
 <?php
 
-use App\Article\Application\Service\CreateArticleApplication;
+use App\Article\Application\CreateArticleApplication;
 use App\Article\Application\Service\DeleteArticleApplication;
 use App\Article\Application\Service\EditArticleApplication;
 use App\Article\Application\Service\IndexArticleApplication;
@@ -31,8 +31,8 @@ return [
             
     CreateArticleApplication::class => function($di){
         return new CreateArticleApplication(
-                $di->get(CreateArticleService::class),
                 $di->get(ParkingFormValidator::class),
+                $di->get(CreateArticleService::class),
                 $di->get(FileUploader::class),
                 $di->get(SessionManager::class));},
                         
