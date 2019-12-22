@@ -71,7 +71,7 @@ class UpdateArticleApplication extends AbstractArticleApplication{
         return EditArticleRequest::of(
             ArticleId::of($request->getArticleId()),
             Title::of($request->getTitle()),
-            Picture::of($request->getPictureTmpPath()),
+            Picture::of($request->getPictureTmpPath(),''),
             [Attribute::of('city',$request->getCity()),
                 Attribute::of('place',$request->getPlace()),
                 Attribute::of('name',$request->getName())],

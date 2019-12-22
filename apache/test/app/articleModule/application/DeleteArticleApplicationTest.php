@@ -19,10 +19,12 @@ class DeleteArticleApplicationTest extends TestCase{
     private $app;
     private $domainService;
     private $sessionManager;
+    private $fileUploader;
     protected function setUp() {
         $this->domainService=$this->createMock(DeleteArticleService::class);
         $this->sessionManager=$this->createMock(SessionManager::class);
-        $this->app=new DeleteArticleApplication($this->domainService,$this->sessionManager);
+        $this->fileUploader=$this->createMock(Framework\FileManager\FileUploader::class);
+        $this->app=new DeleteArticleApplication($this->domainService,$this->sessionManager,$this->fileUploader);
     }
     
     public function test_invoke_shouldReturnApplicationResponseWithError_whenArticleIdIsEmpty(){
@@ -57,7 +59,7 @@ class DeleteArticleApplicationTest extends TestCase{
         $request=$this->createMock(DeleteArticleRequest::class);
         $request->expects($this->once())->method('getArticleId')->willReturn('xxx');
         $this->domainService->expects($this->once())->method('__invoke')->willReturn(TestHelper::get()->makeArticle('xxx','myArticleTitle'));
-        $this->sessionManager->expects($this->once())->method('setFlash')->with(FlashMessage::success('Article myArticleTitle has been successfuly deleted'));
+        $this->sessionManager->expects($this->once())->method('setFlash')->with(FlashMessage::success('Article myArticleTitle has been successfuly deleted <a href="#">undo</a>'));
         
         $appResponse=call_user_func($this->app,$request);
     }
@@ -68,6 +70,15 @@ class DeleteArticleApplicationTest extends TestCase{
         $request->expects($this->once())->method('getArticleId')->willReturn('xxx');
         $this->domainService->expects($this->once())->method('__invoke')->willThrowException(new ArticleException('id','an error occur'));
         $this->sessionManager->expects($this->once())->method('setFlash')->with(FlashMessage::error('an error occur'));
+        
+        $appResponse=call_user_func($this->app,$request);
+    }
+    
+    function test_invoke_shouldDeletePictureLinkedToTheArticle_whenArticleHasBeenDeleted(){
+        $request=$this->createMock(DeleteArticleRequest::class);
+        $request->expects($this->once())->method('getArticleId')->willReturn('xxx');
+        $this->domainService->expects($this->once())->method('__invoke')->willReturn(TestHelper::get()->makeArticle('xxx','myArticleTitle'));
+        $this->fileUploader->expects($this->once())->method('isDefaultDirectoryContains')->willReturn(true);
         
         $appResponse=call_user_func($this->app,$request);
     }

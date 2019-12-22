@@ -29,7 +29,7 @@ class EditArticleServiceTest extends TestCase{
     {
         $this->repository=$this->createMock(IArticleRepository::class);
         $this->service=new EditArticleService($this->repository);
-        $this->request=EditArticleRequest::of(ArticleId::of('aaa'),Title::of('ArticleTitle'), Picture::of(''),[Attribute::of('key', 'value')],"Description");
+        $this->request=EditArticleRequest::of(ArticleId::of('aaa'),Title::of('ArticleTitle'), Picture::of('',''),[Attribute::of('key', 'value')],"Description");
         
     }
     

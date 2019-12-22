@@ -71,6 +71,15 @@ class FileUploader {
     public function defaultDirectoryLocalPath():string{
         return '/'.$this->defaultDirectory;
     }
+    
+    /**
+     * Return true when the default directory contains the file
+     * @param string $filename
+     * @return bool
+     */
+    public function isDefaultDirectoryContains(string $filename):bool{
+        return file_exists($this->defaultDirectory().'/'.$filename);
+    }
 }
 
 

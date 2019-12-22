@@ -30,7 +30,7 @@ class TestHelper {
     {
         return Article::newArticle(ArticleId::of($id),
                 Title::of($title),
-                Picture::of($picture),
+                Picture::of('/path',$picture),
                 $attributes, $description);
     }
 }

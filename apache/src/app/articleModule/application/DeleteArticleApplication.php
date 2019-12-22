@@ -55,11 +55,7 @@ class DeleteArticleApplication extends AbstractArticleApplication {
         try{
             $articleId=ArticleId::of($request->getArticleId());
             $articleDeleted=call_user_func($this->domainService, DomainRequest::of($articleId));
-            
-            if(file_exists($this->uploader->defaultDirectory().'/'.$articleDeleted->picture()->name())){
-                unlink($this->uploader->defaultDirectory().'/'.$articleDeleted->picture()->name());
-            }
-            
+            $this->deleteArticlePicture($articleDeleted->picture());
             $this->parkingPOCO= ParkingPOCO::of($articleDeleted);
             $this->session->setFlash(FlashMessage::success('Article '.$this->parkingPOCO->getTitle().' has been successfuly deleted <a href="#">undo</a>'));
         } catch (InvalidArgumentException $ex) {
@@ -70,6 +66,12 @@ class DeleteArticleApplication extends AbstractArticleApplication {
             $this->errors=['domain'=>'The article is already deleted'];
         }finally{
             return $this->buildResponse();
+        }
+    }
+    
+    private function deleteArticlePicture(\App\Article\Model\Article\Picture $picture){
+        if($this->uploader->isDefaultDirectoryContains($picture->name())){
+           unlink($this->uploader->defaultDirectory().'/'.$picture->name());
         }
     }
 }
