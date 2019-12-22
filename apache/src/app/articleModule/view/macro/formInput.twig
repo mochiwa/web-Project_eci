@@ -13,7 +13,7 @@
     @styles array   :   Array of style { div , label , input }
 #}
 {% macro input(name,label,value='',type='text') %}
-    {% from "input.macro.twig" import input %}
+    {% from "macro/input.macro.twig" import input %}
     {{ input(name,label,value,type) }}
 {% endmacro input%}
 
@@ -26,7 +26,7 @@
     @styles array   :   Array of style { div , label , input }
 #}
 {% macro textArea(name,label,value='') %}
-    {% from "input.macro.twig" import textArea %}
+    {% from "macro/input.macro.twig" import textArea %}
     {{ textArea(name,label,value) }}
 {% endmacro %}
 
@@ -37,7 +37,7 @@
     @styles text    :   css style     
 #}
 {% macro submit(value,name) %}
-    {% from "input.macro.twig" import submit %}
+    {% from "macro/input.macro.twig" import submit %}
     {{ submit(value,name) }}
 {% endmacro %}
 
@@ -48,7 +48,7 @@
     @styles text    :   css style
 #}
 {% macro link(value,href,style={}) %}
-    {% from "input.macro.twig" import link %}
+    {% from "macro/input.macro.twig" import link %}
     {{ link(value,href,style) }}
 {% endmacro %}
 
@@ -58,6 +58,6 @@
     @styles text    :   css style {section , message}
 #}
 {% macro errorSection(errors) %}
-    {% from "input.macro.twig" import errorSection %}
+    {% from "macro/input.macro.twig" import errorSection %}
     {{ errorSection(errors) }}
 {% endmacro %}

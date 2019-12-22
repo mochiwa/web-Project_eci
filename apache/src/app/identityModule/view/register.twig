@@ -1,6 +1,6 @@
 {% extends "layout_block.twig" %}
-{% import '@user/factory/userFormFactory.twig' as userForm %}
-{% import 'flashbox.twig' as flashBox %}
+{% import '@user/macro/formInput.twig' as form %}
+{% import 'macro/flashbox.twig' as flashBox %}
 
 {% block head_title %} Register {% endblock head_title %}
 
@@ -12,7 +12,7 @@
 
 {% block content %}
     {% if errors is not empty %}
-        {{ userForm.errorSection(errors) }}
+        {{ form.errorSection(errors) }}
     {% endif %}
     
     {% if sessionHasFlashMessage()  %}
@@ -21,18 +21,18 @@
     
     <form class="form" action="{{ router('user' , {'action': 'register' }) }}" method="post">
         <div class="form-section form-section-fields"> 
-            {{  userForm.input('email','Your email',user.email,'email') }}
-            {{  userForm.input('username','Your username',user.username,'text') }}
-            {{  userForm.input('password','Your password','','password') }}
-            {{  userForm.input('passwordConfirmation','Password confirmation','','password') }}
+            {{  form.input('email','Your email',user.email,'email') }}
+            {{  form.input('username','Your username',user.username,'text') }}
+            {{  form.input('password','Your password','','password') }}
+            {{  form.input('passwordConfirmation','Password confirmation','','password') }}
         </div>
         <div class="form-section form-section-buttons"> 
-            {{  userForm.button('register','Register','submit','button') }}
-            {{  userForm.link('cancel',  router('webpage.home') , 'form__button form__cancel' ) }}
+            {{  form.submit('register','Register','submit','button') }}
+            {{  form.link('cancel',  router('webpage.home') , 'form__button form__cancel' ) }}
         </div> 
         <div class="form-section form-section-links">
             <nav class='nav'>
-                {{  userForm.link('Do you alreay have an account ?',  router('user',{'action':'signIn'}),'nav__item' ) }}
+                {{  form.link('Do you alreay have an account ?',  router('user',{'action':'signIn'}),'nav__item' ) }}
             </nav>
         </div> 
     </form>

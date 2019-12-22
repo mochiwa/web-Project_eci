@@ -53,7 +53,7 @@ class AdminController extends AbstractController implements IAdminController {
      */
     public function signIn(RequestInterface $request): ResponseInterface {
         if (!$this->isPostRequest($request)) {
-            return $this->buildResponse($this->viewBuilder->build('@user/adminSignIn'), 200);
+            return $this->buildResponse($this->viewBuilder->build('@user/admin/signIn'), 200);
         }
         
         $appRequest= SignInRequest::fromPost($request->getParsedBody());
@@ -61,7 +61,7 @@ class AdminController extends AbstractController implements IAdminController {
         $appResponse= $appService($appRequest);
         if($appResponse->hasErrors())
         {
-            $body=$this->viewBuilder->build('@user/adminSignIn',['errors'=>$appResponse->getErrors()]);
+            $body=$this->viewBuilder->build('@user/admin/signIn',['errors'=>$appResponse->getErrors()]);
             return $this->buildResponse($body, 400);
         }
         return $this->redirectTo(self::INDEX, 200);
@@ -70,6 +70,10 @@ class AdminController extends AbstractController implements IAdminController {
     
     public function adminPanel(RequestInterface $request): ResponseInterface {
         return $this->buildResponse($this->viewBuilder->build('@user/adminPanel'));
+    }
+
+    protected function index(RequestInterface $request): ResponseInterface {
+        
     }
 
 }

@@ -9,6 +9,7 @@ use App\Article\Model\Article\ArticleException;
 use App\Article\Model\Article\ArticleId;
 use App\Article\Model\Article\Service\DeleteArticleService;
 use App\Article\Model\Article\Service\Request\DeleteArticleRequest as DomainRequest;
+use Framework\FileManager\FileUploader;
 use Framework\Session\FlashMessage;
 use Framework\Session\SessionManager;
 use InvalidArgumentException;
@@ -29,9 +30,16 @@ class DeleteArticleApplication extends AbstractArticleApplication {
      */
     private $session;
     
-    public function __construct(DeleteArticleService $domainService, SessionManager $session) {
+    /**
+     *
+     * @var FileUploader 
+     */
+    private $uploader;
+    
+    public function __construct(DeleteArticleService $domainService, SessionManager $session, FileUploader $uploader) {
         $this->domainService = $domainService;
         $this->session=$session;
+        $this->uploader=$uploader;
     }
     
     
@@ -47,6 +55,11 @@ class DeleteArticleApplication extends AbstractArticleApplication {
         try{
             $articleId=ArticleId::of($request->getArticleId());
             $articleDeleted=call_user_func($this->domainService, DomainRequest::of($articleId));
+            
+            if(file_exists($this->uploader->defaultDirectory().'/'.$articleDeleted->picture()->name())){
+                unlink($this->uploader->defaultDirectory().'/'.$articleDeleted->picture()->name());
+            }
+            
             $this->parkingPOCO= ParkingPOCO::of($articleDeleted);
             $this->session->setFlash(FlashMessage::success('Article '.$this->parkingPOCO->getTitle().' has been successfuly deleted <a href="#">undo</a>'));
         } catch (InvalidArgumentException $ex) {

@@ -25,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class AdminController extends AbstractCRUDController {
-    const INDEX="/admin/parking/index";
+    const INDEX="index";
     
     /**
      * @var IViewBuilder

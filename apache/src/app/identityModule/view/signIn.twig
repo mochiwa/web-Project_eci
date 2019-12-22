@@ -1,6 +1,6 @@
 {% extends "layout_block.twig" %}
-{% import '@user/factory/userFormFactory.twig' as userForm %}
-{% import 'flashbox.twig' as flashBox %}
+{% import '@user/macro/formInput.twig' as form %}
+{% import 'macro/flashbox.twig' as flashBox %}
 {% block head_title %} Sign in {% endblock head_title %}
 
 
@@ -10,7 +10,7 @@
 {% endblock content_title %}
 {% block content %}
     {% if errors is not empty %}
-        {{ userForm.errorSection(errors) }}
+        {{ form.errorSection(errors) }}
     {% endif %}
     
     {% if sessionHasFlashMessage()  %}
@@ -19,17 +19,17 @@
     
     <form class="form" action="{% block formAction %} {{ router('user' , {'action': 'signIn' }) }} {% endblock formAction %}" method="post">
         <div class="form-section form-section-fields"> 
-            {{  userForm.input('username','Your username',user.username,'text') }}
-            {{  userForm.input('password','Your password',user.password,'password') }}
+            {{  form.input('username','Your username',user.username,'text') }}
+            {{  form.input('password','Your password',user.password,'password') }}
         </div>
         <div class="form-section form-section-buttons"> 
-            {{  userForm.button('sign in','Sign In','submit','button') }}
-            {{  userForm.link('cancel',  router('webPage.home') , 'form__button form__cancel' ) }}
+            {{  form.submit('sign in','Sign In','submit','button') }}
+            {{  form.link('cancel',  router('webPage.home') , 'form__button form__cancel' ) }}
         </div> 
         <div class="form-section form-section-links">
             <nav class='nav'>
-                {{  userForm.link('Password forgotten ?',  router('user',{'action':'register'}),'nav__item' ) }}
-                {{  userForm.link('Do you need an account ?',  router('user',{'action':'register'}),'nav__item' ) }}
+                {{  form.link('Password forgotten ?',  router('user',{'action':'register'}),'nav__item' ) }}
+                {{  form.link('Do you need an account ?',  router('user',{'action':'register'}),'nav__item' ) }}
             </nav>
         </div> 
     </form>
