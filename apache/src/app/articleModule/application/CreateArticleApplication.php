@@ -67,7 +67,7 @@ class CreateArticleApplication extends AbstractArticleApplication{
         try{
             $this->validator->validateOrThrow($dataFromForm);
             $article=call_user_func($this->articleProvider,$this->buildDomainRequest($dataFromForm));
-            $this->fileUploader->uploadToDefault($dataFromForm['picture'], $article->picture()->path());
+            $this->fileUploader->uploadToDefault($dataFromForm['picture'], $article->picture()->name());
             $this->parkingPOCO= ParkingPOCO::of($article);
             $this->sessionManager->setFlash(FlashMessage::success('The Article '.$this->parkingPOCO->getTitle().' has been created successfully'));
             
@@ -79,10 +79,7 @@ class CreateArticleApplication extends AbstractArticleApplication{
             $this->errors=['domain'=>$ex->getMessage()];
         }catch (FileException $ex){
             $this->errors=['file'=>$ex->getMessage()];
-        }catch (\Exception $ex){
-            $this->errors=['General'=>$ex->getMessage()];
-        }
-        finally{
+        }finally{
             return $this->buildResponse();
         }
     }
@@ -90,7 +87,7 @@ class CreateArticleApplication extends AbstractArticleApplication{
     
     private function buildDomainRequest(array $form) : DomainRequest{
         return DomainRequest::of(Title::of($form['title']),
-            Picture::of($form['picture']),
+            Picture::of($this->fileUploader->defaultDirectoryLocalPath(),$form['picture']),
             [Attribute::of('city', $form['city']),
             Attribute::of('place', $form['place']),
             Attribute::of('name', $form['name'])],

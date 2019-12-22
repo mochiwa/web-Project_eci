@@ -45,7 +45,7 @@ class CreateArticleService {
         }
         
         $articleId=$this->repository->nextId();
-        $picture=$this->generatePictureName($articleId,$title);
+        $picture=$this->generatePictureName($request->getPicture()->path(),$articleId,$title);
         
         $articleCreated=Article::newArticle($articleId,$title,$picture,$attributes,$description);
         
@@ -53,9 +53,9 @@ class CreateArticleService {
         return $articleCreated;
     }
     
-    private function generatePictureName(ArticleId $articleId,Title $title):Picture
+    private function generatePictureName(string $path,ArticleId $articleId,Title $title):Picture
     {
-        return Picture::of('article-'.$articleId->idToString());
+        return Picture::of($path,'article-'.$articleId->idToString());
     }
     
 }

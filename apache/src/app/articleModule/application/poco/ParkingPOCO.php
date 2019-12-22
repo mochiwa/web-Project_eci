@@ -73,7 +73,7 @@ class ParkingPOCO {
         return new self(
                 $article->id()->idToString(),
                 $article->title()->valueToString(),
-                $article->picture()->path(),
+                $article->picture()->fullPath(),
                 $attributes,
                 $article->description(),
                 $article->creationDate()->toHumainReadable(),

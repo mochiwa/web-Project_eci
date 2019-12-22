@@ -7,7 +7,7 @@
 {%  block content_header %}
     <header class="article-header">
         {% block content_title %} <h2 class="article__title"> {{ article.title }} </h2>  {% endblock content_title %}
-        <img class="article__picture" src="../upload/article/{{ article.picture }}">
+        <img class="article__picture" src="{{ article.picture }}">
     </header>
 {% endblock content_header %}
 

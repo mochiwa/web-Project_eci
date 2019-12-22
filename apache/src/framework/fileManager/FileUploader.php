@@ -60,9 +60,16 @@ class FileUploader {
         $this->upload($sourceFile, $filename, $this->defaultDirectory);
     }
     
-    
+    /**
+     * Return the full path of the default directory
+     * @return string
+     */
     public function defaultDirectory():string{
         return realpath($this->defaultDirectory);
+    }
+    
+    public function defaultDirectoryLocalPath():string{
+        return '/'.$this->defaultDirectory;
     }
 }
 

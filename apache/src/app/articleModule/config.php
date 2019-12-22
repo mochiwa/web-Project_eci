@@ -23,7 +23,7 @@ return [
     
     IArticleRepository::class => function(){return new InMemoryArticleRepository();},
             
-    FileUploader::class => function (){return new FileUploader(new PostUploader(), getcwd().DIRECTORY_SEPARATOR.'upload/article');},
+    FileUploader::class => function (){return new FileUploader(new PostUploader(), 'upload/article');},
     IndexArticleApplication::class => function($di){return new IndexArticleApplication($di->get(IArticleRepository::class));},
             
     CreateArticleApplication::class => function($di){
