@@ -20,6 +20,9 @@
                     {{  _self.navItem('sign in','user',{'action':'signIn'}) }} 
                     {{  _self.lastnavItem('register','user',{'action':'register'}) }}
                 {% else %}
+                    {% if user is admin %}
+                        {{  _self.navItem('control Panel','user.admin',{'action':'index'}) }} 
+                    {% endif %}
                     {{  _self.lastnavItem('logout','user',{'action':'logout'}) }} 
                 {% endif %}
             </nav>

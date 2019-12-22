@@ -24,8 +24,13 @@ class PaginationTwigExtension extends AbstractExtension{
     {
         $this->router=$router;
     }
+    
+    
 
- 
+    public function getTests() {
+        return [new \Twig\TwigTest('current',[$this,'isCurrentPage'])];
+    }
+
     
     public function getFunctions() {
         return [
@@ -55,7 +60,9 @@ class PaginationTwigExtension extends AbstractExtension{
         return $this->router->generateURL($urlName,['action'=>$action,$slug=>$pagination->getNext()]);
     }
     
-  
+    public function isCurrentPage(string $page){
+        return ($_SERVER['REQUEST_URI']===$page) || $_SERVER['REQUEST_URI'] === '/parking/index';
+    }
     
     
    

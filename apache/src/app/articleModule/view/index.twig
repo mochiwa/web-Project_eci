@@ -22,7 +22,7 @@
                             </tr>
                         {% endfor %}
                     </table>
-                    <p class="article__description">{{ article.description }}</p>
+                    <p class="article__description">{{ article.description[:100]~'...' }}</p>
                 </div>
             
                 <footer class="article_preview-footer">

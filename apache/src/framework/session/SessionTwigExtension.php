@@ -20,18 +20,12 @@ class SessionTwigExtension extends AbstractExtension{
 
 
     public function getTests() {
-        return [new \Twig\TwigTest('connected', [$this,'isUserConnected'])];
+        return [];
     }
     
     public function getFunctions() {
         return [new TwigFunction('sessionHasFlashMessage', [$this,'hasFlashMessage']),
             new TwigFunction('flashMessage', [$this,'flashMessage'])];
-    }
-
-    
-    public function isUserConnected()
-    {
-        return $this->session->has(SessionManager::CURRENT_USER_KEY);
     }
     
     /**

@@ -85,7 +85,6 @@
 	}
 		.attribute_map-element__key{
 			font-weight: 600;
-			border-bottom: 1px solid black;
 		}
 		.attribute_map-element__key:after{
 			content: ':';
@@ -103,21 +102,24 @@
 }
 
 .article_preview{
-	margin :  10px;
 }
 
 	.article_preview-header{
-
+            margin-bottom: 10px;
 	}
 		.article_preview-header .article__title{
 			font-size: 2em;
 			padding-left: 15px;
-			text-align: left;
 			text-decoration: none;
 		}
 	.article_preview-main{
 
 	}
+        .article_preview-footer{
+            display: flex;
+            flex-direction: row-reverse;
+            margin: 10px;
+        }
 
 
 
@@ -126,4 +128,12 @@
 	.container-article_preview{
 		flex-direction: row;
 	}
+        .article_preview{
+            margin: 10px;
+            max-width: 300px;
+        }
+        .article_preview .article__picture{
+            min-height: 200px;
+            max-height: 200px;
+        }
 }

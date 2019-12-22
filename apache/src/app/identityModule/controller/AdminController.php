@@ -18,7 +18,7 @@ use Psr\Http\Message\ResponseInterface;
  * @author mochiwa
  */
 class AdminController extends AbstractController implements IAdminController {
-    const INDEX = "/home";
+    const INDEX = "/admin/user/adminPanel";
     /**
      * @var IViewBuilder 
      */
@@ -69,11 +69,11 @@ class AdminController extends AbstractController implements IAdminController {
     
     
     public function adminPanel(RequestInterface $request): ResponseInterface {
-        return $this->buildResponse($this->viewBuilder->build('@user/adminPanel'));
+        return $this->buildResponse($this->viewBuilder->build('@user/admin/controlPanel'));
     }
 
     protected function index(RequestInterface $request): ResponseInterface {
-        
+        return $this->adminPanel($request);
     }
 
 }

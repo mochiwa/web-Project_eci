@@ -1,0 +1,31 @@
+{% extends "layout.twig" %}
+{% import 'macro/flashbox.twig' as flashBox %}
+{% import 'macro/pagination.twig' as paginator %}
+
+
+
+{% block head_title %}Admin control panel{% endblock head_title %}
+
+
+
+{% block mainContent %}
+    
+    
+   <article class="block article article_preview">
+           <h2 class="block__title block__title-center"><a href="{{ router('admin.parking',{'action':'index'}) }}">Article management</a></h2>
+           <img class="article__picture" src="">
+   </article>
+           
+   <article class="block article article_preview">
+           <h2 class="block__title block__title-center"><a href="{{ router('admin.parking',{'action':'index'}) }}">User management</a></h2>
+           <img class="article__picture" src="">
+    
+   </article>
+
+    
+    
+    
+    
+{% endblock mainContent %}
+
+

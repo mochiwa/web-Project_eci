@@ -1,8 +1,14 @@
+{# Use pagination extention twig from framework pagination #}
+
 {% macro build(pagination) %}
     <div class="pagination">
         <a class="pagination__item" href="{{ pagination.previousPage }}"> {{ '<<'|escape }} </a>
         {% for key,page in pagination.setOfPage %}
+            {% if page is current %}
+            <p class="pagination__item pagination__item--current"> {{ key }}  </p>
+            {% else %}
             <a class="pagination__item" href="{{ page }}"> {{ key }}  </a>
+            {% endif %}
         {% endfor %}
         <a class="pagination__item" href="{{ pagination.nextPage }}"> {{ '>>'|escape }} </a>
     </div>

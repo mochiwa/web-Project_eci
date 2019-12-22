@@ -7,17 +7,14 @@ use App\Identity\Application\UserActivationApplication;
 use App\Identity\Infrastructure\Persistance\InMemoryUserRepository;
 use App\Identity\Infrastructure\Service\ActivationByLink;
 use App\Identity\Infrastructure\Service\PasswordEncryptionService;
+use App\Identity\Infrastructure\Service\UserTwigExtension;
 use App\Identity\Infrastructure\Validation\UserRegisterValidation;
 use App\Identity\Model\User\IUserRepository;
 use App\Identity\Model\User\Service\UserProviderService;
 use App\Shared\Infrastructure\InMemoryTransaction;
 use Framework\Connection\AtomicRemoteOperation;
 use Framework\DependencyInjection\IContainer;
-use Framework\Paginator\PaginationTwigExtension;
-use Framework\Renderer\IViewBuilder;
-use Framework\Renderer\TwigFactory;
 use Framework\Session\SessionManager;
-use Twig\Loader\FilesystemLoader;
 
 
 return [
@@ -39,4 +36,6 @@ return [
                 $di->get(ActivationByLink::class),
                 $di->get(SessionManager::class));
     },
+            
+    'twig.extension' => [IContainer::ADD=>[UserTwigExtension::class]],
 ];
